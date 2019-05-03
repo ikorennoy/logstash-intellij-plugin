@@ -1,0 +1,68 @@
+{
+ parserClass="com.github.redfoos.logstash.LogstashParser"
+
+
+
+ extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+ psiClassPrefix="Logstash"
+ psiImplClassSuffix="Impl"
+ psiPackage="com.github.redfoos.logstash.psi"
+ psiImplPackage="com.github.redfoos.logstash.psi.impl"
+ elementTypeHolderClass="com.github.redfoos.logstash.psi.LogstashTypes"
+ elementTypeClass="com.github.redfoos.logstash.psi.LogstashElementType"
+ tokenTypeClass="com.github.redfoos.logstash.psi.LogstashTokenType"
+
+tokens= [
+    NEWLINE='regexp:(\R( \t)*)'
+    WHITE_SPACE='regexp:[ \t\x0B\f]+'
+    SINGLE_QUOTE="'"
+    IDENTIFIER='regexp:[a-zA-Z][a-zA-Z0-9_]*'
+    NUMBER='regexp:-?[0-9]+(.[0-9]+)?'
+    BAREWORD='regexp:([A-Za-z_] [A-Za-z0-9_]+)'
+    STRING="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
+
+    LBRACE='{'
+    RBRACE='}'
+    RIGHTARROW='=>'
+    LBRACKET='['
+    RBRACKET=']'
+    COMMA=','
+]
+
+}
+
+logstashConfig ::= (element*)
+
+private ident ::= 'regexp:[a-zA-Z][a-zA-Z0-9_]*'
+
+private element ::= COMMENT | plugin_block
+
+plugin_block ::= block_name '{' branch_or_plugin '}' {pin=1}
+
+private branch_or_plugin ::= plugin
+
+plugin ::= ident '{' attributes '}'
+
+private block_name ::= ('input' | 'filter' | 'output')
+
+private attributes ::= ((attribute) (attribute)*)
+
+attribute ::= ident "=>" value
+
+private value ::= plugin | bareword | STRING | number | array | hash
+
+private bareword ::= ident
+
+private number ::= 'regexp:-?[0-9]+(.[0-9]+)?'
+
+private array ::= "[" value ("," value)* "]"
+
+private hash ::= "{" hashentries? "}"
+
+private hashentries ::= hashentry (hashentry)?
+
+private hashentry ::= (number | bareword | STRING) "=>" value
+
+
+
