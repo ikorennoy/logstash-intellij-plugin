@@ -55,7 +55,6 @@ private element ::= COMMENT | plugin_block
 
 plugin_block ::= block_name '{' branch_or_plugin '}' {pin=1}
 
-
 private branch_or_plugin ::= plugin | branch
 
 plugin ::= ident '{' attributes '}'
@@ -109,7 +108,7 @@ private in_operator ::= 'in'
 
 private not_in_operator ::= 'not' 'in'
 
-private rvalue ::= STRING | number | selector | array | method_call | regexp
+private rvalue ::= STRING | number | selector | array | method_call | REGEXP
 
 private method_call ::= method '(' ( rvalue (',' rvalue)* )? ')'
 
@@ -119,7 +118,7 @@ private compare_expression ::= rvalue compare_operator rvalue
 
 private compare_operator ::= ('==' | '!=' | '<=' | '>=' | '<' | '>')
 
-private regexp_expression ::= rvalue regexp_operator (STRING | regexp)
+private regexp_expression ::= rvalue regexp_operator (STRING | REGEXP)
 
 private regexp_operator ::= ('=~' | '!~')
 

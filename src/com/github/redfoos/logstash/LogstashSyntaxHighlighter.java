@@ -25,6 +25,8 @@ public class LogstashSyntaxHighlighter extends SyntaxHighlighterBase {
             createTextAttributesKey("LOGSTASH_DECLARATION", DefaultLanguageHighlighterColors.KEYWORD);
     private static final TextAttributesKey STRING =
             createTextAttributesKey("LOGSTASH_STATIC_FIELD", DefaultLanguageHighlighterColors.STRING);
+    private static final TextAttributesKey REGEXP =
+            createTextAttributesKey("LOGSTASH_REGEX", DefaultLanguageHighlighterColors.STRING);
 
     private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
     private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[]{IDENTIFIER};
@@ -32,6 +34,7 @@ public class LogstashSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
     private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[]{KEYWORD};
     private static final TextAttributesKey[] NUM_KEYS = new TextAttributesKey[]{NUM};
+    private static final TextAttributesKey[] REGEXP_KEYS = new TextAttributesKey[]{REGEXP};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
     @NotNull
@@ -51,10 +54,12 @@ public class LogstashSyntaxHighlighter extends SyntaxHighlighterBase {
             return IDENTIFIER_KEYS;
         } else if (tokenType.equals(LogstashTypes.PLUGIN_BLOCK)) {
             return KEYWORD_KEYS;
-        } else if (tokenType.equals(LogstashTypes.STRING ) || tokenType.equals(LogstashTypes.REGEXP)) {
+        } else if (tokenType.equals(LogstashTypes.STRING)) {
             return STRING_KEYS;
         } else if (tokenType.equals(LogstashTypes.NUMBER)) {
             return NUM_KEYS;
+        } else if (tokenType.equals(LogstashTypes.REGEXP)) {
+            return REGEXP_KEYS;
         } else if (tokenType.equals(LogstashTypes.IF)    ||
                     tokenType.equals(LogstashTypes.ELSE) ||
                     tokenType.equals(LogstashTypes.AND)  ||
