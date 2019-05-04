@@ -1,0 +1,28 @@
+language: java
+sudo: false
+
+jdk:
+  - oraclejdk8
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+env:
+  - IDEA_VERSION=LATEST-EAP-SNAPSHOT
+  - IDEA_VERSION=2019.1.1
+  - IDEA_VERSION=2019.1
+  - IDEA_VERSION=2018.3
+  - IDEA_VERSION=2018.2
+  - IDEA_VERSION=2018.1
+
+before_install:
+  - chmod +x gradlew
+  - pip install --user codecov
+
+after_success:
+  - codecov
