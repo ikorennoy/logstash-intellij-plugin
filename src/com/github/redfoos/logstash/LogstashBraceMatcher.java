@@ -8,9 +8,6 @@ import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class LogstashBraceMatcher implements PairedBraceMatcher {
     private static BracePair[] pairs = new BracePair[3];
 
