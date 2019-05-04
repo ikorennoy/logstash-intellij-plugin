@@ -14,6 +14,7 @@
         <fileTypeFactory implementation="com.github.redfoos.logstash.LogstashFileTypeFactory"/>
         <lang.parserDefinition language="Logstash" implementationClass="com.github.redfoos.logstash.LogstashPareserDefinition"/>
         <lang.syntaxHighlighterFactory language="Logstash" implementationClass="com.github.redfoos.logstash.LogstashSyntaxHighlighterFactory"/>
+        <completion.contributor language="Logstash" implementationClass="com.github.redfoos.logstash.completion.LogstashKeywordCompletionContributor"/>
     </extensions>
 
 </idea-plugin>
