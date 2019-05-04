@@ -42,7 +42,7 @@ intellij {
     version ideaVersion
     println "Building for IntelliJ version: ${version}"
     sandboxDirectory = "${rootProject.projectDir}/idea-sandbox/idea-${ideaVersion}"
-    plugins 'coverage'
+//    plugins 'coverage'
 }
 
 task generateLogstashConfigParser(type: org.jetbrains.grammarkit.tasks.GenerateParser) {
@@ -63,10 +63,6 @@ task generateLogstashConfigLexer(type: org.jetbrains.grammarkit.tasks.GenerateLe
     targetClass = "LogstashLexer"
 }
 
-task applicationCodeCoverageReport(type:JacocoReport) {
-    sourceSets sourceSets.main
-}
-
 jacocoTestReport {
     reports {
         xml.enabled = true
@@ -77,9 +73,12 @@ jacocoTestReport {
 compileJava.dependsOn generateLogstashConfigLexer
 check.dependsOn jacocoTestReport
 
-
 clean.doFirst {
     delete 'gen', 'out'
+}
+
+task applicationCodeCoverageReport(type:JacocoReport) {
+    sourceSets sourceSets.main
 }
 
 //patchPluginXml {
