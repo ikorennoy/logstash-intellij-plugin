@@ -28,6 +28,21 @@ tokens= [
     LBRACKET='['
     RBRACKET=']'
     COMMA=','
+    AND='and'
+    IN='in'
+    NOT='not'
+    OR='or'
+    XOR='xor'
+    NAND='nand'
+    EQUAL='=='
+    NEQUAL='!='
+    LESS_OR_EQUAL='<='
+    MORE_OR_EQUAL='>='
+    LESS='<'
+    MORE='>'
+    REGEXPEQUAL='=~'
+    REGEXPNEQUAL='!~'
+    ELSE='else'
 ]
 
 }
@@ -40,7 +55,8 @@ private element ::= COMMENT | plugin_block
 
 plugin_block ::= block_name '{' branch_or_plugin '}' {pin=1}
 
-private branch_or_plugin ::= plugin
+
+private branch_or_plugin ::= plugin | branch
 
 plugin ::= ident '{' attributes '}'
 
@@ -56,13 +72,59 @@ private bareword ::= ident
 
 private number ::= 'regexp:-?[0-9]+(.[0-9]+)?'
 
-private array ::= "[" value ("," value)* "]"
+private array ::= '[' value (',' value)* ']'
 
-private hash ::= "{" hashentries? "}"
+private hash ::= '{' hashentries? '}'
 
 private hashentries ::= hashentry (hashentry)?
 
-private hashentry ::= (number | bareword | STRING) "=>" value
+private hashentry ::= (number | bareword | STRING) '=>' value
 
+branch ::= if (else_if)* (else)?
 
+if ::= 'if' condition '{' (branch_or_plugin)* '}' {pin=1}
 
+private else_if ::= 'else' if
+
+private else ::= 'else' '{' (branch_or_plugin)* '}'
+
+private condition ::= expression (boolean_operator expression)*
+
+expression ::= '(' condition ')'    |
+                negative_expression |
+                in_expression       |
+                not_in_expression   |
+                compare_expression  |
+                regexp_expression   |
+                rvalue
+
+private negative_expression ::= ('!' '(' condition ')') |
+                                ('!' selector)
+
+private in_expression ::= rvalue in_operator rvalue
+
+private not_in_expression ::= rvalue not_in_operator rvalue
+
+private in_operator ::= 'in'
+
+private not_in_operator ::= 'not' 'in'
+
+private rvalue ::= STRING | number | selector | array | method_call | regexp
+
+private method_call ::= method '(' ( rvalue (',' rvalue)* )? ')'
+
+private method ::= bareword
+
+private compare_expression ::= rvalue compare_operator rvalue
+
+private compare_operator ::= ('==' | '!=' | '<=' | '>=' | '<' | '>')
+
+private regexp_expression ::= rvalue regexp_operator (STRING | regexp)
+
+private regexp_operator ::= ('=~' | '!~')
+
+private boolean_operator ::= ('and' | 'or' | 'xor' | 'nand')
+
+private selector ::= selector_element+
+
+private selector_element ::= '[' 'regexp:[^\],]+' ']'

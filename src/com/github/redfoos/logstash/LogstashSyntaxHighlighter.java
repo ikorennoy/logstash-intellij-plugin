@@ -13,32 +13,26 @@ import org.jetbrains.annotations.NotNull;
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
 public class LogstashSyntaxHighlighter extends SyntaxHighlighterBase {
-    public static final TextAttributesKey SEPARATOR =
-            createTextAttributesKey("LOGSTASH_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
-    public static final TextAttributesKey IDENTIFIER =
+    private static final TextAttributesKey IDENTIFIER =
             createTextAttributesKey("LOGSTASH_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER);
-    public static final TextAttributesKey NUM =
+    private static final TextAttributesKey NUM =
             createTextAttributesKey("LOGSTASH_VALUE", DefaultLanguageHighlighterColors.NUMBER);
-    public static final TextAttributesKey COMMENT =
+    private static final TextAttributesKey COMMENT =
             createTextAttributesKey("LOGSTASH_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
-    public static final TextAttributesKey BAD_CHARACTER =
+    private static final TextAttributesKey BAD_CHARACTER =
             createTextAttributesKey("LOGSTASH_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
-    public static final TextAttributesKey KEYWORD =
+    private static final TextAttributesKey KEYWORD =
             createTextAttributesKey("LOGSTASH_DECLARATION", DefaultLanguageHighlighterColors.KEYWORD);
-    public static final TextAttributesKey STRING =
+    private static final TextAttributesKey STRING =
             createTextAttributesKey("LOGSTASH_STATIC_FIELD", DefaultLanguageHighlighterColors.STRING);
-    public static final TextAttributesKey DEFAULT_COMMA =
-            createTextAttributesKey("LOGSTASH_COMMA", DefaultLanguageHighlighterColors.COMMA);
 
     private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
-    private static final TextAttributesKey[] SEPARATOR_KEYS = new TextAttributesKey[]{SEPARATOR};
     private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[]{IDENTIFIER};
     private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[]{STRING};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
     private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[]{KEYWORD};
-    private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
     private static final TextAttributesKey[] NUM_KEYS = new TextAttributesKey[]{NUM};
-    private static final TextAttributesKey[] COMMA_KEYS = new TextAttributesKey[]{DEFAULT_COMMA};
+    private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
     @NotNull
     @Override
@@ -57,14 +51,19 @@ public class LogstashSyntaxHighlighter extends SyntaxHighlighterBase {
             return IDENTIFIER_KEYS;
         } else if (tokenType.equals(LogstashTypes.PLUGIN_BLOCK)) {
             return KEYWORD_KEYS;
-        } else if (tokenType.equals(LogstashTypes.STRING)) {
+        } else if (tokenType.equals(LogstashTypes.STRING ) || tokenType.equals(LogstashTypes.REGEXP)) {
             return STRING_KEYS;
         } else if (tokenType.equals(LogstashTypes.NUMBER)) {
             return NUM_KEYS;
-        } else if (tokenType.equals(LogstashTypes.COMMA)) {
-            return COMMA_KEYS;
-        } else if ( (tokenType.equals(LogstashTypes.LBRACE)) || (tokenType.equals(LogstashTypes.RBRACE)) || (tokenType.equals(LogstashTypes.RIGHTARROW)) ) {
-            return SEPARATOR_KEYS;
+        } else if (tokenType.equals(LogstashTypes.IF)    ||
+                    tokenType.equals(LogstashTypes.ELSE) ||
+                    tokenType.equals(LogstashTypes.AND)  ||
+                    tokenType.equals(LogstashTypes.IN)   ||
+                    tokenType.equals(LogstashTypes.NOT)  ||
+                    tokenType.equals(LogstashTypes.OR)   ||
+                    tokenType.equals(LogstashTypes.XOR)  ||
+                    tokenType.equals(LogstashTypes.NAND)) {
+            return KEYWORD_KEYS;
         } else {
             return EMPTY_KEYS;
         }

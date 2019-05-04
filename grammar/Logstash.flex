@@ -27,6 +27,7 @@ NUMBER=-?[0-9]+(.[0-9]+)?
 
 STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
 LOGSTASH_BLOCK_NAME=("input" | "filter" | "output")
+REGEXP=\/.*\/
 
 %state WS_MATTERS
 %state LOOK_FOR_CTRANS
@@ -42,7 +43,23 @@ LOGSTASH_BLOCK_NAME=("input" | "filter" | "output")
 "]"                                     { yybegin(YYINITIAL); return RBRACKET; }
 ","                                     { yybegin(YYINITIAL); return COMMA; }
 "=>"                                    { yybegin(YYINITIAL); return RIGHTARROW; }
-
+if                                      { yybegin(YYINITIAL); return IF; }
+else                                    { yybegin(YYINITIAL); return ELSE; }
+and                                     { yybegin(YYINITIAL); return AND; }
+in                                      { yybegin(YYINITIAL); return IN; }
+not                                     { yybegin(YYINITIAL); return NOT; }
+or                                      { yybegin(YYINITIAL); return OR; }
+xor                                     { yybegin(YYINITIAL); return XOR; }
+nand                                    { yybegin(YYINITIAL); return NAND; }
+"=="                                    { yybegin(YYINITIAL); return EQUAL; }
+"!="                                    { yybegin(YYINITIAL); return NEQUAL; }
+"<="                                    { yybegin(YYINITIAL); return LESS_OR_EQUAL; }
+">="                                    { yybegin(YYINITIAL); return MORE_OR_EQUAL; }
+"<"                                     { yybegin(YYINITIAL); return LESS; }
+">"                                     { yybegin(YYINITIAL); return MORE; }
+"=~"                                    { yybegin(YYINITIAL); return REGEXPEQUAL; }
+"!~"                                    { yybegin(YYINITIAL); return REGEXPNEQUAL; }
+{REGEXP}                                { yybegin(YYINITIAL); return REGEXP; }
 {STRING}                                { yybegin(YYINITIAL); return STRING; }
 {LOGSTASH_BLOCK_NAME}                   { yybegin(YYINITIAL); return PLUGIN_BLOCK; }
 {IDENTIFIER}                            { yybegin(YYINITIAL); return IDENTIFIER; }
