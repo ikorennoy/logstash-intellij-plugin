@@ -71,10 +71,6 @@ jacocoTestReport {
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '5.4.1'
-}
-
 compileJava.dependsOn generateLogstashConfigLexer
 check.dependsOn jacocoTestReport
 
