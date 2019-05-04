@@ -1,0 +1,7 @@
+Logstash File(0,10)
+  LogstashPluginBlockImpl(PLUGIN_BLOCK)(0,10)
+    PsiElement(PLUGIN_BLOCK)('filter')(0,6)
+    PsiWhiteSpace(' ')(6,7)
+    PsiElement(Logstash token type.{)('{')(7,8)
+    PsiWhiteSpace('\n')(8,9)
+    PsiElement(Logstash token type.})('}')(9,10)

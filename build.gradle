@@ -21,6 +21,10 @@ sourceSets {
         java.srcDirs 'src', 'gen'
         resources.srcDirs 'resources'
     }
+    test {
+        java.srcDirs 'tests'
+        resources.srcDirs 'testData'
+    }
 }
 
 intellij {

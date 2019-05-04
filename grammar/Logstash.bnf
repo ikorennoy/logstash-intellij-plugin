@@ -75,7 +75,7 @@ private array ::= '[' value (',' value)* ']'
 
 private hash ::= '{' hashentries? '}'
 
-private hashentries ::= hashentry (hashentry)?
+private hashentries ::= hashentry (hashentry)*
 
 private hashentry ::= (number | bareword | STRING) '=>' value
 
