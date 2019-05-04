@@ -64,6 +64,10 @@ task generateLogstashConfigLexer(type: org.jetbrains.grammarkit.tasks.GenerateLe
     targetClass = "LogstashLexer"
 }
 
+task applicationCodeCoverageReport(type:JacocoReport) {
+    sourceSets sourceSets.main
+}
+
 jacocoTestReport {
     reports {
         xml.enabled = true
@@ -75,9 +79,9 @@ compileJava.dependsOn generateLogstashConfigLexer
 check.dependsOn jacocoTestReport
 
 
-//clean.doFirst {
-//    delete 'gen', 'out'
-//}
+clean.doFirst {
+    delete 'gen', 'out'
+}
 
 //patchPluginXml {
 //    changeNotes """
