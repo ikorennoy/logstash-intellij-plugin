@@ -47,13 +47,13 @@ tokens= [
 
 }
 
-logstashConfig ::= (element*)
+logstashConfig ::= element (element)*
 
 private ident ::= 'regexp:[a-zA-Z][a-zA-Z0-9_]*'
 
 private element ::= COMMENT | plugin_block
 
-plugin_block ::= block_name '{' branch_or_plugin '}' {pin=1}
+plugin_block ::= block_name '{' (branch_or_plugin)* '}' {pin=1}
 
 private branch_or_plugin ::= plugin | branch
 
@@ -61,7 +61,7 @@ plugin ::= ident '{' attributes '}'
 
 private block_name ::= ('input' | 'filter' | 'output')
 
-private attributes ::= ((attribute) (attribute)*)
+private attributes ::= (attribute (attribute)*)?
 
 attribute ::= ident "=>" value
 
