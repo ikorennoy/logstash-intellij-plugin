@@ -16,6 +16,7 @@ repositories {
 
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'jacoco'
 apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'org.jetbrains.grammarkit'
 
@@ -62,6 +63,21 @@ task generateLogstashConfigLexer(type: org.jetbrains.grammarkit.tasks.GenerateLe
     targetDir = "gen/com/github/redfoos/logstash"
     targetClass = "LogstashLexer"
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '5.4.1'
+}
+
+compileJava.dependsOn generateLogstashConfigLexer
+check.dependsOn jacocoTestReport
+
 
 //clean.doFirst {
 //    delete 'gen', 'out'
