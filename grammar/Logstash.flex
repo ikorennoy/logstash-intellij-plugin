@@ -37,6 +37,8 @@ REGEXP=\/.*\/
 <YYINITIAL>    {END_OF_LINE_COMMENT}    { yybegin(YYINITIAL); return COMMENT; }
 
 
+"("                                     { yybegin(YYINITIAL); return LPARENTH; }
+")"                                     { yybegin(YYINITIAL); return RPARENTH; }
 "{"                                     { yybegin(YYINITIAL); return LBRACE; }
 "}"                                     { yybegin(YYINITIAL); return RBRACE; }
 "["                                     { yybegin(YYINITIAL); return LBRACKET; }

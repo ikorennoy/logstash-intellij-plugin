@@ -15,6 +15,7 @@
         <lang.parserDefinition language="Logstash" implementationClass="com.github.redfoos.logstash.LogstashPareserDefinition"/>
         <lang.syntaxHighlighterFactory language="Logstash" implementationClass="com.github.redfoos.logstash.LogstashSyntaxHighlighterFactory"/>
         <completion.contributor language="Logstash" implementationClass="com.github.redfoos.logstash.completion.LogstashKeywordCompletionContributor"/>
+        <lang.braceMatcher language="Logstash" implementationClass="com.github.redfoos.logstash.LogstashPairedBraceMatcher"/>
     </extensions>
 
 </idea-plugin>

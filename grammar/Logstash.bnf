@@ -27,6 +27,8 @@ tokens= [
     RIGHTARROW='=>'
     LBRACKET='['
     RBRACKET=']'
+    LPARENTH='('
+    RPARENTH=')'
     COMMA=','
     AND='and'
     IN='in'
@@ -89,16 +91,16 @@ private else ::= 'else' '{' (branch_or_plugin)* '}'
 
 private condition ::= expression (boolean_operator expression)*
 
-expression ::= '(' condition ')'    |
-                negative_expression |
-                in_expression       |
-                not_in_expression   |
-                compare_expression  |
-                regexp_expression   |
-                rvalue
+expression ::= '(' condition ')'
+   | negative_expression
+   | in_expression
+   | not_in_expression
+   | compare_expression
+   | regexp_expression
+   | rvalue
 
-private negative_expression ::= ('!' '(' condition ')') |
-                                ('!' selector)
+private negative_expression ::= ('!' '(' condition ')')
+   | ('!' selector)
 
 private in_expression ::= rvalue in_operator rvalue
 
