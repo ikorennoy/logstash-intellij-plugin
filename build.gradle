@@ -1,17 +1,26 @@
 plugins {
     id 'java'
     id 'org.jetbrains.intellij' version '0.4.8'
+    id "org.jetbrains.grammarkit" version "2018.3"
 }
 
 group 'com.github.redfoos'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.jetbrains.intellij'
+apply plugin: 'org.jetbrains.grammarkit'
+
+def ideaVersionExternDefinition = System.getenv("IDEA_VERSION")
+def ideaVersion = '2018.1.5'
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
@@ -29,8 +38,35 @@ sourceSets {
 
 intellij {
     pluginName 'logstash-intellij-plugin'
-    version '2018.1.5'
+    version ideaVersion
+    println "Building for IntelliJ version: ${version}"
+    sandboxDirectory = "${rootProject.projectDir}/idea-sandbox/idea-${ideaVersion}"
+
+    plugins 'coverage'
 }
+
+task generateLogstashConfigParser(type: org.jetbrains.grammarkit.tasks.GenerateParser) {
+    println "Generating Parser for GrammerKit: ${grammarKit.grammarKitRelease}"
+
+    source "grammar/Logstash.bnf"
+    targetRoot = "gen"
+    pathToParser "com/github/redfoos/logstash/LogstashParser.java"
+    pathToPsiRoot "com/github/redfoos/logstash/psi"
+}
+
+task generateLogstashConfigLexer(type: org.jetbrains.grammarkit.tasks.GenerateLexer) {
+    dependsOn generateLogstashConfigParser
+    println "Generating Lexer for JFlexRelease: ${grammarKit.jflexRelease}"
+
+    source = "grammar/Logstash.flex"
+    targetDir = "gen/com/github/redfoos/logstash"
+    targetClass = "LogstashLexer"
+}
+
+//clean.doFirst {
+//    delete 'gen', 'out'
+//}
+
 //patchPluginXml {
 //    changeNotes """
 //      Add change notes here.<br>
