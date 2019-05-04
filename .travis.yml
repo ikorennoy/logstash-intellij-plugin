@@ -19,6 +19,8 @@ before_install:
   - chmod +x gradlew
   - pip install --user codecov
 
+script:
+  - ./gradlew build
 
 after_success:
   - codecov

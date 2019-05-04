@@ -42,7 +42,6 @@ intellij {
     version ideaVersion
     println "Building for IntelliJ version: ${version}"
     sandboxDirectory = "${rootProject.projectDir}/idea-sandbox/idea-${ideaVersion}"
-
     plugins 'coverage'
 }
 
