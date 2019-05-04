@@ -7,10 +7,4 @@ Project is in early development
 
 ![Screenshot of currently progress](screenshots/screen1.png)
 
-
-**In the near future:**
-1. Branch syntax
-2. Parser and Lexer tests
-
-`
-Until 05.05.2019`
+[![Build Status](https://travis-ci.com/redfoos/logstash-intellij-plugin.svg?branch=master)](https://travis-ci.com/redfoos/logstash-intellij-plugin)
