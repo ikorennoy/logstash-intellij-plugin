@@ -22,4 +22,4 @@ before_install:
 
 
 after_success:
-  - codecov
+  - bash <(curl -s https://codecov.io/bash)
