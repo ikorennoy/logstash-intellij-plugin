@@ -21,7 +21,6 @@ before_install:
 
 after_success:
   - codecov
-  - 8931129603a43cc637f69405e1328354170a570a
 
 deploy:
   provider: releases
