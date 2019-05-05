@@ -22,12 +22,12 @@ before_install:
 after_success:
   - codecov
 
-deploy:
-  provider: releases
-  api_key:
-    secure: ${GIT_KEY}
-  skip_cleanup: true
-  file: "build/distributions/logstash-intellij-plugin-*.zip
-
-  after_deploy:
-    - ./gradlew publishPlugin
+#deploy:
+#  provider: releases
+#  api_key:
+#    secure: ${GIT_KEY}
+#  skip_cleanup: true
+#  file: "build/distributions/logstash-intellij-plugin-*.zip
+#
+#  after_deploy:
+#    - ./gradlew publishPlugin
