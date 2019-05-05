@@ -1,4 +1,4 @@
-package com.github.redfoos.logstash;
+package com.github.redfoos.logstash.highlighting;
 
 import com.github.redfoos.logstash.psi.LogstashTypes;
 import com.intellij.lang.BracePair;
