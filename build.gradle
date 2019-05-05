@@ -4,9 +4,6 @@ plugins {
     id "org.jetbrains.grammarkit" version "2018.3"
 }
 
-group 'com.github.redfoos'
-version '1.0-SNAPSHOT'
-
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
@@ -24,6 +21,9 @@ def ideaVersionExternDefinition = System.getenv("IDEA_VERSION")
 ideaVersion = ideaVersionExternDefinition ? ideaVersionExternDefinition : ideaVersion
 def isEAP = ideaVersion.contains("LATEST-EAP-SNAPSHOT") || ideaVersion.take(4).contains(".")
 def artifactVersion = pluginVersion + "-" + (isEAP ? "EAP" : ideaVersion)
+
+version artifactVersion
+group pluginGroup
 
 println "IdeaVersion is : ${ideaVersion}"
 println "ArtifactVersion is : ${artifactVersion}"
@@ -90,16 +90,14 @@ clean.doFirst {
 
 patchPluginXml {
     version artifactVersion
-    // use open until build for last release and EAP-Build
+}
 
-    test {
-        // show standard out and standard error of the test JVM(s) on the console
-        testLogging.showStandardStreams = true
+test {
+    // show standard out and standard error of the test JVM(s) on the console
+    testLogging.showStandardStreams = true
 
-        // listen to events in the test execution lifecycle
-        beforeTest { descriptor ->
-            logger.lifecycle("Running test: " + descriptor)
-        }
+    // listen to events in the test execution lifecycle
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
     }
-
 }
