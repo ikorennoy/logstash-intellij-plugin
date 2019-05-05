@@ -48,8 +48,6 @@ intellij {
     version ideaVersion
     println "Building for IntelliJ version: ${version}"
     sandboxDirectory = "${rootProject.projectDir}/idea-sandbox/idea-${ideaVersion}"
-    intellij.updateSinceUntilBuild false
-//    plugins 'coverage'
 }
 
 task generateLogstashConfigParser(type: org.jetbrains.grammarkit.tasks.GenerateParser) {
