@@ -21,7 +21,13 @@ apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'org.jetbrains.grammarkit'
 
 def ideaVersionExternDefinition = System.getenv("IDEA_VERSION")
-def ideaVersion = '2018.1.5'
+ideaVersion = ideaVersionExternDefinition ? ideaVersionExternDefinition : ideaVersion
+def isEAP = ideaVersion.contains("LATEST-EAP-SNAPSHOT") || ideaVersion.take(4).contains(".")
+def artifactVersion = pluginVersion + "-" + (isEAP ? "EAP" : ideaVersion)
+
+println "IdeaVersion is : ${ideaVersion}"
+println "ArtifactVersion is : ${artifactVersion}"
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
@@ -38,7 +44,7 @@ sourceSets {
 }
 
 intellij {
-    pluginName 'logstash-intellij-plugin'
+    pluginName pluginName
     version ideaVersion
     println "Building for IntelliJ version: ${version}"
     sandboxDirectory = "${rootProject.projectDir}/idea-sandbox/idea-${ideaVersion}"
@@ -71,6 +77,10 @@ jacocoTestReport {
     }
 }
 
+publishPlugin {
+    token System.getenv('IJ_REPO_TOKEN')
+}
+
 compileJava.dependsOn generateLogstashConfigLexer
 check.dependsOn jacocoTestReport
 
@@ -78,18 +88,18 @@ clean.doFirst {
     delete 'gen', 'out'
 }
 
-test {
-    // show standard out and standard error of the test JVM(s) on the console
-    testLogging.showStandardStreams = true
+patchPluginXml {
+    version artifactVersion
+    // use open until build for last release and EAP-Build
 
-    // listen to events in the test execution lifecycle
-    beforeTest { descriptor ->
-        logger.lifecycle("Running test: " + descriptor)
+    test {
+        // show standard out and standard error of the test JVM(s) on the console
+        testLogging.showStandardStreams = true
+
+        // listen to events in the test execution lifecycle
+        beforeTest { descriptor ->
+            logger.lifecycle("Running test: " + descriptor)
+        }
     }
-}
 
-//patchPluginXml {
-//    changeNotes """
-//      Add change notes here.<br>
-//      <em>most HTML tags may be used</em>"""
-//}
+}

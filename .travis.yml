@@ -21,3 +21,18 @@ before_install:
 
 after_success:
   - codecov
+  - 8931129603a43cc637f69405e1328354170a570a
+
+deploy:
+  provider: releases
+  api_key:
+    secure: ${GIT_KEY}
+  skip_cleanup: true
+  file: "build/distributions/logstash-intellij-plugin-*.zip
+
+  on:
+    tags: true
+    condition: "$TRAVIS_TAG" =~ ^releasebuild_[0-9]+.*$"
+
+  after_deploy:
+    - ./gradlew publishPlugin
