@@ -29,9 +29,5 @@ deploy:
   skip_cleanup: true
   file: "build/distributions/logstash-intellij-plugin-*.zip
 
-  on:
-    tags: true
-    condition: "$TRAVIS_TAG" =~ ^releasebuild_[0-9]+.*$"
-
   after_deploy:
     - ./gradlew publishPlugin
