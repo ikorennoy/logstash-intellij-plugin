@@ -25,13 +25,7 @@ public class LogstashFormattingModelBuilder implements FormattingModelBuilder {
     }
 
     private static SpacingBuilder createSpaceBuilder(CodeStyleSettings settings) {
-        return new SpacingBuilder(settings, LogstashLanguage.INSTANCE)
-                .after(LogstashTypes.PLUGIN_BLOCK)
-                .spaces(1)
-                .after(LogstashTypes.IDENTIFIER)
-                .spaces(1)
-                .around(getOneSpaceTokenSet())
-                .spaces(1);
+        return new SpacingBuilder(settings, LogstashLanguage.INSTANCE);
     }
 
     private static TokenSet getOneSpaceTokenSet() {

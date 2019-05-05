@@ -14,14 +14,9 @@
  tokenTypeClass="com.github.redfoos.logstash.psi.LogstashTokenType"
 
 tokens= [
-    NEWLINE='regexp:(\R( \t)*)'
-    WHITE_SPACE='regexp:[ \t\x0B\f]+'
+    IF_TOK='if'
+    ELSE='else'
     SINGLE_QUOTE="'"
-    IDENTIFIER='regexp:[a-zA-Z][a-zA-Z0-9_]*'
-    NUMBER='regexp:-?[0-9]+(.[0-9]+)?'
-    BAREWORD='regexp:([A-Za-z_] [A-Za-z0-9_]+)'
-    STRING="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
-
     LBRACE='{'
     RBRACE='}'
     RIGHTARROW='=>'
@@ -30,12 +25,6 @@ tokens= [
     LPARENTH='('
     RPARENTH=')'
     COMMA=','
-    AND='and'
-    IN='in'
-    NOT='not'
-    OR='or'
-    XOR='xor'
-    NAND='nand'
     EQUAL='=='
     NEQUAL='!='
     LESS_OR_EQUAL='<='
@@ -44,14 +33,12 @@ tokens= [
     MORE='>'
     REGEXPEQUAL='=~'
     REGEXPNEQUAL='!~'
-    ELSE='else'
+    LOGICAL_NOT='!'
 ]
 
 }
 
 logstashConfig ::= element (element)*
-
-private ident ::= 'regexp:[a-zA-Z][a-zA-Z0-9_]*'
 
 private element ::= COMMENT | plugin_block
 
@@ -59,19 +46,17 @@ plugin_block ::= block_name '{' (branch_or_plugin)* '}' {pin=1}
 
 private branch_or_plugin ::= plugin | branch
 
-plugin ::= ident '{' attributes '}'
+plugin ::= IDENTIFIER '{' attributes '}'
 
 private block_name ::= ('input' | 'filter' | 'output')
 
 private attributes ::= (attribute (attribute)*)?
 
-attribute ::= ident "=>" value
+attribute ::= IDENTIFIER "=>" value
 
-private value ::= plugin | bareword | STRING | number | array | hash
+private value ::= plugin | bareword | STRING | NUMBER | array | hash
 
-private bareword ::= ident
-
-private number ::= 'regexp:-?[0-9]+(.[0-9]+)?'
+private bareword ::= IDENTIFIER
 
 private array ::= '[' value (',' value)* ']'
 
@@ -79,53 +64,48 @@ private hash ::= '{' hashentries? '}'
 
 private hashentries ::= hashentry (hashentry)*
 
-private hashentry ::= (number | bareword | STRING) '=>' value
+private hashentry ::= (NUMBER | bareword | STRING) '=>' value
 
 branch ::= if (else_if)* (else)?
 
-if ::= 'if' condition '{' (branch_or_plugin)* '}' {pin=1}
+// it's better to use most general 'expression' here. In future you may write an inspection that reports if-statements with non-boolean expressions
+if ::= 'if' expression '{' (branch_or_plugin)* '}' {pin=1} // it's necessary to quote 'if' token because there is a rule with the same name
 
 private else_if ::= 'else' if
 
 private else ::= 'else' '{' (branch_or_plugin)* '}'
 
-private condition ::= expression (boolean_operator expression)*
+;{
+  extends(".*_expression")=expression // !!! see https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#24-compact-expression-parsing-with-priorities
+}
 
-expression ::= '(' condition ')'
-   | negative_expression
-   | in_expression
-   | not_in_expression
+
+// todo: check operators priority
+expression ::=
+   in_expression
    | compare_expression
+   | logical_expression
    | regexp_expression
-   | rvalue
+   | unary_group
+   | primary_group
 
-private negative_expression ::= ('!' '(' condition ')')
-   | ('!' selector)
+compare_expression ::= expression ('==' | '!=' | '<=' | '>=' | '<' | '>') expression
 
-private in_expression ::= rvalue in_operator rvalue
+logical_expression ::= expression (and | or | xor | nand) expression
 
-private not_in_expression ::= rvalue not_in_operator rvalue
+private unary_group ::= unary_negation_expression
+unary_negation_expression ::= '!' expression
 
-private in_operator ::= 'in'
+in_expression ::= expression (in | not in) expression // it's better to inline tiny private rules that are used only ones
 
-private not_in_operator ::= 'not' 'in'
+private method_call ::= bareword '(' ( expression (',' expression)* )? ')'
 
-private rvalue ::= STRING | number | selector | array | method_call | REGEXP
-
-private method_call ::= method '(' ( rvalue (',' rvalue)* )? ')'
-
-private method ::= bareword
-
-private compare_expression ::= rvalue compare_operator rvalue
-
-private compare_operator ::= ('==' | '!=' | '<=' | '>=' | '<' | '>')
-
-private regexp_expression ::= rvalue regexp_operator (STRING | REGEXP)
-
-private regexp_operator ::= ('=~' | '!~')
-
-private boolean_operator ::= ('and' | 'or' | 'xor' | 'nand')
-
+private primary_group ::= paren_expression
+  | literal_expression
+paren_expression ::= '(' expression ')'
+literal_expression ::= STRING | NUMBER | selector | array | method_call | REGEXP
 private selector ::= selector_element+
+private selector_element ::= '[' 'regexp:[^\],]+' ']' // todo: move regexp to lexer
 
-private selector_element ::= '[' 'regexp:[^\],]+' ']'
+regexp_expression ::= expression ('=~' | '!~') (STRING | REGEXP)
+

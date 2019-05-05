@@ -45,7 +45,7 @@ REGEXP=\/.*\/
 "]"                                     { yybegin(YYINITIAL); return RBRACKET; }
 ","                                     { yybegin(YYINITIAL); return COMMA; }
 "=>"                                    { yybegin(YYINITIAL); return RIGHTARROW; }
-if                                      { yybegin(YYINITIAL); return IF; }
+if                                      { yybegin(YYINITIAL); return IF_TOK; }
 else                                    { yybegin(YYINITIAL); return ELSE; }
 and                                     { yybegin(YYINITIAL); return AND; }
 in                                      { yybegin(YYINITIAL); return IN; }
@@ -61,6 +61,7 @@ nand                                    { yybegin(YYINITIAL); return NAND; }
 ">"                                     { yybegin(YYINITIAL); return MORE; }
 "=~"                                    { yybegin(YYINITIAL); return REGEXPEQUAL; }
 "!~"                                    { yybegin(YYINITIAL); return REGEXPNEQUAL; }
+"!"                                     { yybegin(YYINITIAL); return LOGICAL_NOT; }
 {REGEXP}                                { yybegin(YYINITIAL); return REGEXP; }
 {STRING}                                { yybegin(YYINITIAL); return STRING; }
 {LOGSTASH_BLOCK_NAME}                   { yybegin(YYINITIAL); return PLUGIN_BLOCK; }
