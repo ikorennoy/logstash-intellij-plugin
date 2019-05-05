@@ -9,7 +9,7 @@
 2. Keywords completion
 3. Brace matching
 
-##Installation
+## Installation
 
 - Manually:
   - Download the [latest release](https://github.com/redfoos/logstash-intellij-plugin/releases/latest) and install it manually using <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Install plugin from disk...</kbd>
