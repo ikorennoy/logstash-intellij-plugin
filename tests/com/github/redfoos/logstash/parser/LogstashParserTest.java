@@ -1,11 +1,11 @@
 package com.github.redfoos.logstash.parser;
 
-import com.github.redfoos.logstash.LogstashPareserDefinition;
+import com.github.redfoos.logstash.LogstashParserDefinition;
 import com.intellij.testFramework.ParsingTestCase;
 
 public class LogstashParserTest extends ParsingTestCase {
     public LogstashParserTest() {
-        super("", "conf", new LogstashPareserDefinition());
+        super("", "conf", new LogstashParserDefinition());
     }
 
     @Override

@@ -31,7 +31,7 @@ public class LogstashBlock extends AbstractBlock {
         ASTNode child = myNode.getFirstChildNode();
         while (child != null) {
             if (child.getElementType() != TokenType.WHITE_SPACE) {
-                Block block = new LogstashBlock(child, Wrap.createWrap(WrapType.NONE, true), Alignment.createAlignment(),
+                Block block = new LogstashBlock(child, Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment(),
                         spacingBuilder);
                 blocks.add(block);
             }

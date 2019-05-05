@@ -15,11 +15,10 @@ import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.jetbrains.annotations.NotNull;
 
-public class LogstashPareserDefinition implements ParserDefinition {
-    public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
-    public static final TokenSet COMMENTS = TokenSet.create(LogstashTypes.COMMENT);
-
-    public static final IFileElementType FILE = new IFileElementType(LogstashLanguage.INSTANCE);
+public class LogstashParserDefinition implements ParserDefinition {
+    private static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
+    private static final TokenSet COMMENTS = TokenSet.create(LogstashTypes.COMMENT);
+    private static final IFileElementType FILE = new IFileElementType(LogstashLanguage.INSTANCE);
 
     @NotNull
     @Override
@@ -54,11 +53,6 @@ public class LogstashPareserDefinition implements ParserDefinition {
 
     public PsiFile createFile(FileViewProvider viewProvider) {
         return new LogstashFile(viewProvider);
-    }
-
-    @Override
-    public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right) {
-        return SpaceRequirements.MAY;
     }
 
     @NotNull
