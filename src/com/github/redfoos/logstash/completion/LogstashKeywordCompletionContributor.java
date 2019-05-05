@@ -17,6 +17,7 @@ public class LogstashKeywordCompletionContributor extends CompletionContributor 
     private final static PsiElementPattern.Capture<PsiElement> elsePattern = PlatformPatterns.psiElement(LogstashTypes.ELSE);
     private final static PsiElementPattern.Capture<PsiElement> andPattern = PlatformPatterns.psiElement(LogstashTypes.AND);
     private final static PsiElementPattern.Capture<PsiElement> pluginBlockPattern = PlatformPatterns.psiElement(LogstashTypes.PLUGIN_BLOCK);
+
     public LogstashKeywordCompletionContributor() {
 
         ElementPattern<PsiElement> patterns = PlatformPatterns.or(psiElementCapture, ifPattern, ifPattern, elsePattern, andPattern, pluginBlockPattern);
