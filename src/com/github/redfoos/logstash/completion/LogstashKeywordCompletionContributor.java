@@ -20,7 +20,7 @@ public class LogstashKeywordCompletionContributor extends CompletionContributor 
 
     public LogstashKeywordCompletionContributor() {
 
-        ElementPattern<PsiElement> patterns = PlatformPatterns.or(psiElementCapture, ifPattern, ifPattern, elsePattern, andPattern, pluginBlockPattern);
+        ElementPattern<PsiElement> patterns = PlatformPatterns.or(psiElementCapture, ifPattern, elsePattern, andPattern, pluginBlockPattern);
 
         CompletionProvider<CompletionParameters> provider = new provider("if", "else", "and", "input", "filter", "output");
 
