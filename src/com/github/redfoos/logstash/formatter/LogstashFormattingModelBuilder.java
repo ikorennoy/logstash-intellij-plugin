@@ -1,14 +1,12 @@
 package com.github.redfoos.logstash.formatter;
 
 import com.github.redfoos.logstash.LogstashLanguage;
-import com.github.redfoos.logstash.psi.LogstashTypes;
 import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
-import com.intellij.psi.tree.TokenSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,7 +17,7 @@ public class LogstashFormattingModelBuilder implements FormattingModelBuilder {
 
         return FormattingModelProvider
                 .createFormattingModelForPsiFile(element.getContainingFile(),
-                        new LogstashBlock(element.getNode(),
+                        new LogstashFileBlock(element.getNode(),
                                 Wrap.createWrap(WrapType.NONE, false),
                                 Alignment.createAlignment(),
                                 createSpaceBuilder(settings)),

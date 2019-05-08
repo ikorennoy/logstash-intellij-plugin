@@ -1,6 +1,6 @@
 package com.github.redfoos.logstash.formatter;
 
-import com.github.redfoos.logstash.psi.LogstashTypes;
+import com.github.redfoos.logstash.psi.impl.LogstashPluginImpl;
 import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.TokenType;
@@ -11,12 +11,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LogstashPluginBlock extends AbstractBlock {
-    private final SpacingBuilder spacingBuilder;
-    private final static Alignment alignment = Alignment.createAlignment();
-    protected LogstashPluginBlock(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment, SpacingBuilder spacingBuilder) {
-        super(node, wrap, alignment);
-        this.spacingBuilder = spacingBuilder;
+public class LogstashPluginBlockImplBlock extends AbstractBlock {
+    SpacingBuilder spacingBuilder;
+
+    public LogstashPluginBlockImplBlock(ASTNode child, Wrap wrap, Alignment alignment, SpacingBuilder spaceBuilder) {
+        super(child, wrap, alignment);
+        this.spacingBuilder = spaceBuilder;
     }
 
     @NotNull
@@ -31,12 +31,11 @@ public class LogstashPluginBlock extends AbstractBlock {
         ASTNode child = myNode.getFirstChildNode();
         while (child != null) {
             if (child.getElementType() != TokenType.WHITE_SPACE) {
-                if (child.getElementType() == LogstashTypes.PLUGIN_BLOCK || child.getElementType() == LogstashTypes.LBRACE
-                || child.getElementType() == LogstashTypes.RBRACE) {
-                    Block block = new LogstashPluginBlock(child, Wrap.createWrap(WrapType.NONE, false), alignment, spacingBuilder);
+                if (child.getPsi() instanceof LogstashPluginImpl) {
+                    Block block = new LogstashPluginImplBlock(child, Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment(), spacingBuilder);
                     blocks.add(block);
-                } else if (child.getElementType() == LogstashTypes.PLUGIN) {
-                    Block block = new LogstashPluginInsideBlock(child, Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment(), spacingBuilder);
+                } else {
+                    Block block = new LogstashPluginBlockImplBlock(child, Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment(), spacingBuilder);
                     blocks.add(block);
                 }
             }
@@ -45,6 +44,10 @@ public class LogstashPluginBlock extends AbstractBlock {
         return blocks;
     }
 
+    @Override
+    public Indent getIndent() {
+        return Indent.getAbsoluteNoneIndent();
+    }
 
     @Nullable
     @Override
@@ -55,10 +58,5 @@ public class LogstashPluginBlock extends AbstractBlock {
     @Override
     public boolean isLeaf() {
         return myNode.getFirstChildNode() == null;
-    }
-
-    @Override
-    public Indent getIndent() {
-        return Indent.getAbsoluteNoneIndent();
     }
 }

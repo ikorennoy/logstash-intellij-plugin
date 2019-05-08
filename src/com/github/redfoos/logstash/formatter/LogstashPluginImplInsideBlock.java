@@ -2,23 +2,32 @@ package com.github.redfoos.logstash.formatter;
 
 import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.TokenType;
 import com.intellij.psi.formatter.common.AbstractBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class LogstashConfigBlock extends AbstractBlock {
+public class LogstashPluginImplInsideBlock extends AbstractBlock {
     private SpacingBuilder spacingBuilder;
+    static Alignment alignment = Alignment.createAlignment();
 
-    protected LogstashConfigBlock(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment,
-                            SpacingBuilder spacingBuilder) {
-        super(node, wrap, alignment);
+    public LogstashPluginImplInsideBlock(ASTNode child, Wrap wrap, Alignment alignment, SpacingBuilder spacingBuilder) {
+        super(child, wrap, alignment);
         this.spacingBuilder = spacingBuilder;
     }
+
+    @Override
+    public Indent getIndent() {
+        return Indent.getSpaceIndent(4, false);
+    }
+
     @Override
     protected List<Block> buildChildren() {
-        return null;
+        List<Block> blocks = new ArrayList<>();
+        return blocks;
     }
 
     @Nullable
@@ -27,9 +36,8 @@ public class LogstashConfigBlock extends AbstractBlock {
         return spacingBuilder.getSpacing(this, child1, child2);
     }
 
-
     @Override
     public boolean isLeaf() {
-        return false;
+        return myNode.getFirstChildNode() == null;
     }
 }

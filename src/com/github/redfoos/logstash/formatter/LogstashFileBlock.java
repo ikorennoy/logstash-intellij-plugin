@@ -1,6 +1,5 @@
 package com.github.redfoos.logstash.formatter;
 
-import com.github.redfoos.logstash.psi.LogstashTypes;
 import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.TokenType;
@@ -11,19 +10,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LogstashBlock extends AbstractBlock {
-    private SpacingBuilder spacingBuilder;
-    static Alignment alignment = Alignment.createAlignment();
-    LogstashBlock(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment,
-                  SpacingBuilder spacingBuilder) {
-        super(node, wrap, alignment);
-        this.spacingBuilder = spacingBuilder;
-    }
+public class LogstashFileBlock extends AbstractBlock {
+    SpacingBuilder spacingBuilder;
 
-    @NotNull
-    @Override
-    public ChildAttributes getChildAttributes(int newChildIndex) {
-        return new ChildAttributes(Indent.getNoneIndent(), null);
+    public LogstashFileBlock(ASTNode node, Wrap wrap, Alignment alignment, SpacingBuilder spaceBuilder) {
+        super(node, wrap, alignment);
+        this.spacingBuilder = spaceBuilder;
     }
 
     @Override
@@ -32,25 +24,23 @@ public class LogstashBlock extends AbstractBlock {
         ASTNode child = myNode.getFirstChildNode();
         while (child != null) {
             if (child.getElementType() != TokenType.WHITE_SPACE) {
-                if (child.getElementType() == LogstashTypes.PLUGIN_BLOCK) {
-                    Block block = new LogstashPluginBlock(child, Wrap.createWrap(WrapType.NONE, false), alignment, spacingBuilder);
-                    blocks.add(block);
-                }
+                Block block = new LogstashPluginBlockImplBlock(child, Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment(), spacingBuilder);
+                blocks.add(block);
             }
             child = child.getTreeNext();
         }
         return blocks;
     }
 
-    @Override
-    public Indent getIndent() {
-        return Indent.getAbsoluteNoneIndent();
-    }
-
     @Nullable
     @Override
     public Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
         return spacingBuilder.getSpacing(this, child1, child2);
+    }
+
+    @Override
+    public Indent getIndent() {
+        return Indent.getAbsoluteNoneIndent();
     }
 
     @Override
