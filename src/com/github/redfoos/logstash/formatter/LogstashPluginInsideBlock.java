@@ -11,19 +11,24 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LogstashBlock extends AbstractBlock {
-    private SpacingBuilder spacingBuilder;
-    static Alignment alignment = Alignment.createAlignment();
-    LogstashBlock(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment,
-                  SpacingBuilder spacingBuilder) {
+public class LogstashPluginInsideBlock extends AbstractBlock {
+    private final SpacingBuilder spacingBuilder;
+    private final static Alignment alignment = Alignment.createAlignment();
+    protected LogstashPluginInsideBlock(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment, SpacingBuilder spacingBuilder) {
         super(node, wrap, alignment);
         this.spacingBuilder = spacingBuilder;
+    }
+
+    @Nullable
+    @Override
+    protected Indent getChildIndent() {
+        return Indent.getNoneIndent();
     }
 
     @NotNull
     @Override
     public ChildAttributes getChildAttributes(int newChildIndex) {
-        return new ChildAttributes(Indent.getNoneIndent(), null);
+        return new ChildAttributes(Indent.getSpaceIndent(4), null);
     }
 
     @Override
@@ -32,8 +37,8 @@ public class LogstashBlock extends AbstractBlock {
         ASTNode child = myNode.getFirstChildNode();
         while (child != null) {
             if (child.getElementType() != TokenType.WHITE_SPACE) {
-                if (child.getElementType() == LogstashTypes.PLUGIN_BLOCK) {
-                    Block block = new LogstashPluginBlock(child, Wrap.createWrap(WrapType.NONE, false), alignment, spacingBuilder);
+                if (child.getElementType() == LogstashTypes.IDENTIFIER || child.getElementType() == LogstashTypes.LBRACE || child.getElementType() == LogstashTypes.RBRACE) {
+                    Block block = new LogstashPluginInsideBlock(child, Wrap.createWrap(WrapType.NONE, true), Alignment.createAlignment(), spacingBuilder);
                     blocks.add(block);
                 }
             }
@@ -44,7 +49,7 @@ public class LogstashBlock extends AbstractBlock {
 
     @Override
     public Indent getIndent() {
-        return Indent.getAbsoluteNoneIndent();
+        return Indent.getSpaceIndent(4, false);
     }
 
     @Nullable
