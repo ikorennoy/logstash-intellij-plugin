@@ -2,7 +2,7 @@
     <id>com.github.redfoos.logstash-intellij-plugin</id>
     <name>logstash config support</name>
     <version>0.1</version>
-    <vendor email="korennoy.ilya@yandex.ru" url="https://github.com/redfoos"/>
+    <vendor email="korennoi.ilya@yandex.ru" url="https://github.com/redfoos"/>
 
     <description><![CDATA[
     <strong>Logstash config syntax highlighter for JetBrains IDEs.</strong><br>
