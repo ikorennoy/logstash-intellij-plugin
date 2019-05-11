@@ -1,6 +1,7 @@
 package com.github.redfoos.logstash.formatter;
 
 import com.github.redfoos.logstash.psi.LogstashTypes;
+import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.TokenSet;
 
 public interface LogstashElementTypeSets {
@@ -12,6 +13,17 @@ public interface LogstashElementTypeSets {
             LogstashTypes.RBRACKET,
             LogstashTypes.LPARENTH,
             LogstashTypes.RPARENTH
+    );
+
+    TokenSet AROUND_SPACES_TOKENS = TokenSet.create(
+            LogstashTypes.EQUAL,
+            LogstashTypes.LESS,
+            LogstashTypes.MORE,
+            LogstashTypes.MORE_OR_EQUAL,
+            LogstashTypes.LESS_OR_EQUAL,
+            LogstashTypes.REGEXPEQUAL,
+            LogstashTypes.REGEXPNEQUAL,
+            LogstashTypes.RIGHTARROW
     );
 
 }

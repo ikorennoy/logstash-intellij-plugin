@@ -15,21 +15,16 @@ import java.util.Map;
 
 public class LogstashFormattingContext {
     private final static Indent DIRECT_NORMAL_INDENT = Indent.getNormalIndent(true);
-    private final static Indent SAME_AS_PARENT_INDENT = Indent.getSpaceIndent(0, true);
-    private final static Indent SAME_AS_PARENT_PLUS_INDENT = Indent.getSpaceIndent(2, true);
     private final static Indent SAME_AS_INDENTED_ANCESTOR_INDENT = Indent.getSpaceIndent(0);
+    private final static Indent SAME_AS_PARENT_INDENT = Indent.getSpaceIndent(0, true);
 
     @NotNull
-    public final CodeStyleSettings mySettings;
+    private final CodeStyleSettings mySettings;
     @NotNull
     private final SpacingBuilder mySpacingBuilder;
 
     @NotNull
     private final Map<ASTNode, Alignment> myChildIndentAlignments = FactoryMap.create(node -> Alignment.createAlignment(true));
-
-    @NotNull
-    private final Map<ASTNode, Alignment> myChildValueAlignments = FactoryMap.create(node -> Alignment.createAlignment(true));
-
 
     LogstashFormattingContext(@NotNull CodeStyleSettings settings) {
         mySettings = settings;
@@ -47,24 +42,18 @@ public class LogstashFormattingContext {
 
         return mySpacingBuilder.before(LogstashTypes.LBRACE)
                 .spaces(1)
-                .around(LogstashTypes.RIGHTARROW)
+                .around(LogstashElementTypeSets.AROUND_SPACES_TOKENS)
                 .spaces(1).getSpacing(parent, child1, child2);
-
     }
 
     Alignment computeAlignment(ASTNode node) {
-        IElementType type = PsiUtilCore.getElementType(node);
         if (node.getPsi() instanceof LogstashPluginBlockImpl) {
             return myChildIndentAlignments.get(node.getTreeParent());
         } else if (node.getPsi() instanceof LogstashPluginImpl) {
             return myChildIndentAlignments.get(node.getTreeParent());
-        } else if (node.getPsi() instanceof LogstashIf) {
-            return myChildIndentAlignments.get(node.getTreeParent());
         } else if (node.getPsi() instanceof LogstashAttributeImpl) {
             return myChildIndentAlignments.get(node.getTreeParent());
-        } else if (node.getPsi() instanceof LogstashElse) {
-            return myChildIndentAlignments.get(node.getTreeParent());
-        } else if (node.getPsi() instanceof  LogstashElseIf) {
+        } else if (node.getPsi() instanceof LogstashBranchImpl) {
             return myChildIndentAlignments.get(node.getTreeParent());
         }
         return null;
@@ -72,25 +61,19 @@ public class LogstashFormattingContext {
 
     Indent computeBlockIndent(ASTNode node) {
         IElementType nodeType = PsiUtilCore.getElementType(node);
-        IElementType parentType = PsiUtilCore.getElementType(node.getTreeParent());
-        IElementType grandParentType = parentType == null ? null : PsiUtilCore.getElementType(node.getTreeParent().getTreeParent());
 
         if (LogstashElementTypeSets.LOGSTASH_BRACKETS.contains(nodeType)) {
             return SAME_AS_INDENTED_ANCESTOR_INDENT;
-        } else if (node.getPsi() instanceof LogstashPluginImpl
-                || node.getPsi() instanceof LogstashIfImpl
-                || node.getPsi() instanceof LogstashElseIf
-                || node.getPsi() instanceof LogstashElse
-                || node.getPsi() instanceof LogstashAttributeImpl) {
+        } else if (node.getPsi() instanceof LogstashPluginImpl ||
+                node.getPsi() instanceof LogstashAttributeImpl ||
+                node.getPsi() instanceof LogstashBranchImpl) {
             return DIRECT_NORMAL_INDENT;
-        } else  {
-            return SAME_AS_PARENT_INDENT;
+        } else {
+            return null;
         }
     }
 
     Indent computeChildIndent() {
         return DIRECT_NORMAL_INDENT;
     }
-
-
 }

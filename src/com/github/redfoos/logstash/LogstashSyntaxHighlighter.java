@@ -61,7 +61,7 @@ public class LogstashSyntaxHighlighter extends SyntaxHighlighterBase {
         } else if (tokenType.equals(LogstashTypes.REGEXP)) {
             return REGEXP_KEYS;
         } else if (tokenType.equals(LogstashTypes.IF_TOK)    ||
-                    tokenType.equals(LogstashTypes.ELSE) ||
+                    tokenType.equals(LogstashTypes.ELSE_TOK) ||
                     tokenType.equals(LogstashTypes.AND)  ||
                     tokenType.equals(LogstashTypes.IN)   ||
                     tokenType.equals(LogstashTypes.NOT)  ||

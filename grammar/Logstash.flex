@@ -46,7 +46,7 @@ REGEXP=\/.*\/
 ","                                     { yybegin(YYINITIAL); return COMMA; }
 "=>"                                    { yybegin(YYINITIAL); return RIGHTARROW; }
 if                                      { yybegin(YYINITIAL); return IF_TOK; }
-else                                    { yybegin(YYINITIAL); return ELSE; }
+else                                    { yybegin(YYINITIAL); return ELSE_TOK; }
 and                                     { yybegin(YYINITIAL); return AND; }
 in                                      { yybegin(YYINITIAL); return IN; }
 not                                     { yybegin(YYINITIAL); return NOT; }
