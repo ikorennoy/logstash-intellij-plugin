@@ -1,4 +1,4 @@
-package com.github.redfoos.logstash.formatter;
+package com.github.redfoos.logstash.formatting;
 
 import com.intellij.formatting.Block;
 import com.intellij.formatting.Indent;

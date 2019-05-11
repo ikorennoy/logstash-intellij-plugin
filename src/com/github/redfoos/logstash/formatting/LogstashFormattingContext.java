@@ -1,4 +1,4 @@
-package com.github.redfoos.logstash.formatter;
+package com.github.redfoos.logstash.formatting;
 
 import com.github.redfoos.logstash.LogstashLanguage;
 import com.github.redfoos.logstash.psi.*;
