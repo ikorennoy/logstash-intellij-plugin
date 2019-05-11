@@ -15,7 +15,6 @@
 
 tokens= [
     IF_TOK='if'
-    ELSE='else'
     SINGLE_QUOTE="'"
     LBRACE='{'
     RBRACE='}'
@@ -66,14 +65,14 @@ private hashentries ::= hashentry (hashentry)*
 
 private hashentry ::= (NUMBER | bareword | STRING) '=>' value
 
-branch ::= if (else_if)* (else)?
+private branch ::= if (else_if)* (else)?
 
 // it's better to use most general 'expression' here. In future you may write an inspection that reports if-statements with non-boolean expressions
 if ::= 'if' expression '{' (branch_or_plugin)* '}' {pin=1} // it's necessary to quote 'if' token because there is a rule with the same name
 
-private else_if ::= 'else' if
+else_if ::= 'else' if
 
-private else ::= 'else' '{' (branch_or_plugin)* '}'
+else ::= 'else' '{' (branch_or_plugin)* '}'
 
 ;{
   extends(".*_expression")=expression // !!! see https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#24-compact-expression-parsing-with-priorities
