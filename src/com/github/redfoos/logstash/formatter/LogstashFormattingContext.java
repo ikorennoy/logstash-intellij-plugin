@@ -16,7 +16,6 @@ import java.util.Map;
 public class LogstashFormattingContext {
     private final static Indent DIRECT_NORMAL_INDENT = Indent.getNormalIndent(true);
     private final static Indent SAME_AS_INDENTED_ANCESTOR_INDENT = Indent.getSpaceIndent(0);
-    private final static Indent SAME_AS_PARENT_INDENT = Indent.getSpaceIndent(0, true);
 
     @NotNull
     private final CodeStyleSettings mySettings;
