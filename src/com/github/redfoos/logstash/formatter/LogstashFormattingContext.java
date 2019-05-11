@@ -54,6 +54,8 @@ public class LogstashFormattingContext {
             return myChildIndentAlignments.get(node.getTreeParent());
         } else if (node.getPsi() instanceof LogstashBranchImpl) {
             return myChildIndentAlignments.get(node.getTreeParent());
+        } else if (node.getPsi() instanceof LogstashHashentryImpl) {
+            return myChildIndentAlignments.get(node.getTreeParent());
         }
         return null;
     }
@@ -65,7 +67,8 @@ public class LogstashFormattingContext {
             return SAME_AS_INDENTED_ANCESTOR_INDENT;
         } else if (node.getPsi() instanceof LogstashPluginImpl ||
                 node.getPsi() instanceof LogstashAttributeImpl ||
-                node.getPsi() instanceof LogstashBranchImpl) {
+                node.getPsi() instanceof LogstashBranchImpl ||
+                node.getPsi() instanceof LogstashHashentryImpl) {
             return DIRECT_NORMAL_INDENT;
         } else {
             return null;
