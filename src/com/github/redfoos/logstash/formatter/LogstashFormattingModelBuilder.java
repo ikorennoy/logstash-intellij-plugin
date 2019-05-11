@@ -24,12 +24,10 @@ public class LogstashFormattingModelBuilder implements FormattingModelBuilder {
         return new DocumentBasedFormattingModel(rootBlock, settings, file);
     }
 
-
-    public static Block createBlock(LogstashFormattingContext myContext, ASTNode subNode) {
+    static Block createBlock(LogstashFormattingContext myContext, ASTNode subNode) {
         IElementType nodeType = PsiUtilCore.getElementType(subNode);
         return new LogstashFormattingBlock(myContext, subNode);
     }
-
 
     @Nullable
     @Override

@@ -22,8 +22,7 @@ public class LogstashFormattingBlock extends AbstractBlock {
     private final Indent myNewChildIndent;
 
 
-
-    public LogstashFormattingBlock(LogstashFormattingContext context, ASTNode node) {
+    LogstashFormattingBlock(LogstashFormattingContext context, ASTNode node) {
         super(node, null, context.computeAlignment(node));
         myContext = context;
         myNewChildIndent = myContext.computeChildIndent();
