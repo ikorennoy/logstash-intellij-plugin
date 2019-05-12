@@ -89,6 +89,9 @@ clean.doFirst {
 
 patchPluginXml {
     version artifactVersion
+
+    pluginDescription(file(descriptionFile).text)
+    changeNotes(file(changesFile).text)
 }
 
 test {
