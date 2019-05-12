@@ -64,5 +64,4 @@ public class LogstashFormattingTest extends LightPlatformCodeInsightFixtureTestC
     private CommonCodeStyleSettings getCommonSettings() {
         return CodeStyle.getLanguageSettings(myFixture.getFile(), LogstashLanguage.INSTANCE);
     }
-
 }
