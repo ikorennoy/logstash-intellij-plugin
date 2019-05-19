@@ -68,7 +68,8 @@ public class LogstashFormattingContext {
         } else if (node.getPsi() instanceof LogstashPluginImpl ||
                 node.getPsi() instanceof LogstashAttributeImpl ||
                 node.getPsi() instanceof LogstashBranchImpl ||
-                node.getPsi() instanceof LogstashHashentryImpl) {
+                node.getPsi() instanceof LogstashHashentryImpl ||
+                node.getElementType() == LogstashTypes.COMMENT) {
             return DIRECT_NORMAL_INDENT;
         } else {
             return null;

@@ -104,7 +104,9 @@ private primary_group ::= paren_expression
   | literal_expression
 paren_expression ::= '(' expression ')'
 literal_expression ::= STRING | NUMBER | selector | array | method_call | REGEXP
-private selector ::= selector_element+
-private selector_element ::= '[' 'regexp:[^\],]+' ']' // todo: move regexp to lexer
+
+private selector ::= array (selector_element)*
+
+private selector_element ::= '[' NUMBER ']'
 
 regexp_expression ::= expression ('=~' | '!~') (STRING | REGEXP)
