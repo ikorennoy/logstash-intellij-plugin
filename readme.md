@@ -4,10 +4,11 @@
 [![codecov](https://codecov.io/gh/redfoos/logstash-intellij-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/redfoos/logstash-intellij-plugin)
 ## **Plugin for IntelliJ IDEs to support elastic [Logstash](https://www.elastic.co/products/logstash) configuration files**
 
-**Currently done:**
+**Features**
 1. Syntax highlight
 2. Keywords completion
 3. Brace matching
+4. Auto comment
 
 ## Installation
 

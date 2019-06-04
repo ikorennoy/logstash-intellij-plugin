@@ -18,6 +18,7 @@
         <lang.braceMatcher language="Logstash" implementationClass="com.github.redfoos.logstash.highlighting.LogstashPairedBraceMatcher"/>
         <lang.formatter language="Logstash" implementationClass="com.github.redfoos.logstash.formatting.LogstashFormattingModelBuilder"/>
         <annotator language="Logstash" implementationClass="com.github.redfoos.logstash.highlighting.LogstashAnnotator"/>
+        <lang.commenter language="Logstash" implementationClass="com.github.redfoos.logstash.LogstashCommenter"/>
     </extensions>
 
 </idea-plugin>
