@@ -34,6 +34,13 @@ tokens= [
     REGEXPEQUAL='=~'
     REGEXPNEQUAL='!~'
     LOGICAL_NOT='!'
+    AND='and'
+    IN='in'
+    XOR='xor'
+    NAND='nand'
+    OR='or'
+    NOT='not'
+
 ]
 
 }
@@ -52,61 +59,72 @@ private block_name ::= ('input' | 'filter' | 'output')
 
 private attributes ::= (attribute (attribute)*)?
 
-attribute ::= IDENTIFIER "=>" value
+attribute ::= IDENTIFIER '=>' value
 
 private value ::= plugin | bareword | STRING | NUMBER | array | hash
 
-private bareword ::= IDENTIFIER
+bareword ::= IDENTIFIER
 
-private array ::= '[' value (',' value)* ']'
+array ::= '[' (value (',' value)*)? ']'
 
-private hash ::= '{' hashentries? '}'
+hash ::= '{' hashentries? '}'
 
-private hashentries ::= hashentry (hashentry)*
+hashentries ::= hashentry (hashentry)*
 
 hashentry ::= (NUMBER | bareword | STRING) '=>' value
+
+// Conditions
 
 branch ::= if (else_if)* (else)?
 
 // it's better to use most general 'expression' here. In future you may write an inspection that reports if-statements with non-boolean expressions
-private if ::= 'if' expression '{' (branch_or_plugin)* '}' {pin=1} // it's necessary to quote 'if' token because there is a rule with the same name
+if ::= 'if' condition '{' (branch_or_plugin)* '}' {pin=1} // it's necessary to quote 'if' token because there is a rule with the same name
 
-private else_if ::= 'else' 'if' expression '{' (branch_or_plugin)* '}'
+else_if ::= 'else' 'if' condition '{' (branch_or_plugin)* '}'
 
-private else ::= 'else' '{' (branch_or_plugin)* '}'
+else ::= 'else' '{' (branch_or_plugin)* '}'
 
 ;{
   extends(".*_expression")=expression // !!! see https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#24-compact-expression-parsing-with-priorities
 }
 
+private condition ::= expression (boolean_operator expression)*
+
 
 // todo: check operators priority
 expression ::=
-   in_expression
+    "(" condition ")"
+   | negative_expression
+   | in_expression
+   | not_in_expression
    | compare_expression
-   | logical_expression
    | regexp_expression
-   | unary_group
-   | primary_group
+   | rvalue
 
-compare_expression ::= expression ('==' | '!=' | '<=' | '>=' | '<' | '>') expression
 
-logical_expression ::= expression (and | or | xor | nand) expression
+negative_expression ::= ('!' '(' condition ')') | ('!' selector)
 
-private unary_group ::= unary_negation_expression
-unary_negation_expression ::= '!' expression
+in_expression ::= rvalue in_operator rvalue // it's better to inline tiny private rules that are used only ones
+not_in_expression ::= rvalue not_in_operator rvalue
+private in_operator ::= 'in'
+private not_in_operator ::= 'not' 'in' {pin=1}
 
-in_expression ::= expression (in | not in) expression // it's better to inline tiny private rules that are used only ones
+private rvalue ::= STRING | NUMBER | selector | method_call | regexp
 
-private method_call ::= bareword '(' ( expression (',' expression)* )? ')'
+method_call ::= method '(' (rvalue (',' rvalue)* )? ')'
 
-private primary_group ::= paren_expression
-  | literal_expression
-paren_expression ::= '(' expression ')'
-literal_expression ::= STRING | NUMBER | selector | array | method_call | REGEXP
+private method ::= bareword
 
-private selector ::= array (selector_element)*
+compare_expression ::= rvalue compare_operator rvalue
 
-private selector_element ::= '[' NUMBER ']'
+private compare_operator ::= '==' | '!=' | '<=' | '>=' | '<' | '>'
 
-regexp_expression ::= expression ('=~' | '!~') (STRING | REGEXP)
+regexp_expression ::= rvalue regexp_operator (STRING | regexp)
+
+private regexp_operator ::= '=~' | '!~'
+
+private boolean_operator ::= 'and' | 'or' | 'xor' | 'nand'
+
+selector ::= selector_element+
+
+private selector_element ::= array

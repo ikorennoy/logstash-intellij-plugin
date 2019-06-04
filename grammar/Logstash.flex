@@ -22,7 +22,7 @@ import static com.github.redfoos.logstash.psi.LogstashTypes.*;
 NEWLINE=(\R( \t)*)
 WHITE_SPACE=[ \t\x0B\f]+
 END_OF_LINE_COMMENT=#.*
-IDENTIFIER=[:jletter:] [:jletterdigit:]*
+IDENTIFIER=@*[:jletter:] [:jletterdigit:]*
 NUMBER=-?[0-9]+(.[0-9]+)?
 
 STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")

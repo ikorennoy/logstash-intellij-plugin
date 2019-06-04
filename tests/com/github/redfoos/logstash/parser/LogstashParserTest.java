@@ -43,4 +43,6 @@ public class LogstashParserTest extends ParsingTestCase {
         doTest(true);
     }
 
+    public void testFieldAccess() { doTest(true);}
+
 }
