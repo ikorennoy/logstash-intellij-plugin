@@ -22,7 +22,7 @@ import static com.github.redfoos.logstash.psi.LogstashTypes.*;
 NEWLINE=(\R( \t)*)
 WHITE_SPACE=[ \t\x0B\f]+
 END_OF_LINE_COMMENT=#.*
-IDENTIFIER=(@ | [:jletter:]) ([:jletter:] | [:jletterdigit:] | -)*
+IDENTIFIER=@?([:jletterdigit:] | -)*
 NUMBER=-?[0-9]+(.[0-9]+)?
 
 STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
@@ -65,7 +65,7 @@ nand                                    { yybegin(YYINITIAL); return NAND; }
 {REGEXP}                                { yybegin(YYINITIAL); return REGEXP; }
 {STRING}                                { yybegin(YYINITIAL); return STRING; }
 {LOGSTASH_BLOCK_NAME}                   { yybegin(YYINITIAL); return PLUGIN_BLOCK; }
-{IDENTIFIER}                            { yybegin(YYINITIAL); return IDENTIFIER; }
 {NUMBER}                                { yybegin(YYINITIAL); return NUMBER; }
+{IDENTIFIER}                            { yybegin(YYINITIAL); return IDENTIFIER; }
 ({NEWLINE}|{WHITE_SPACE})+              { yybegin(YYINITIAL); return WHITE_SPACE; }
 [^]                                     { yybegin(YYINITIAL); return BAD_CHARACTER; }
