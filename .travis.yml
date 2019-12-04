@@ -2,7 +2,7 @@ language: java
 sudo: false
 
 jdk:
-  - oraclejdk8
+  - openjdk8
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -13,6 +13,7 @@ cache:
     - $HOME/.gradle/wrapper/
 
 env:
+  - IDEA_VERSION=LATEST-EAP-SNAPSHOT
   - IDEA_VERSION=2019.3
   - IDEA_VERSION=2019.2.4
   - IDEA_VERSION=2019.1.4
