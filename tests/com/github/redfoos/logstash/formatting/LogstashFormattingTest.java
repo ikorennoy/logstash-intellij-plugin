@@ -7,12 +7,12 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.LogicalPosition;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
-import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
+import com.intellij.testFramework.fixtures.BasePlatformTestCase;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
-public class LogstashFormattingTest extends LightPlatformCodeInsightFixtureTestCase {
+public class LogstashFormattingTest extends BasePlatformTestCase {
 
     @Override
     protected String getTestDataPath() {

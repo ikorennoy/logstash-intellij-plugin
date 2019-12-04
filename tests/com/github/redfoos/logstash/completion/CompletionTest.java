@@ -1,8 +1,8 @@
 package com.github.redfoos.logstash.completion;
 
-import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
+import com.intellij.testFramework.fixtures.BasePlatformTestCase;
 
-public class CompletionTest extends LightPlatformCodeInsightFixtureTestCase {
+public class CompletionTest extends BasePlatformTestCase {
     @Override
     protected String getTestDataPath() {
         return "testData/completion";
@@ -21,6 +21,6 @@ public class CompletionTest extends LightPlatformCodeInsightFixtureTestCase {
     }
 
     private String getTestFilePath() {
-        return getTestDataPath() + "/" + getTestName(true) + ".conf";
+        return getTestName(true) + ".conf";
     }
 }

@@ -53,7 +53,6 @@ intellij {
 
 task generateLogstashConfigParser(type: org.jetbrains.grammarkit.tasks.GenerateParser) {
     println "Generating Parser for GrammerKit: ${grammarKit.grammarKitRelease}"
-
     source "grammar/Logstash.bnf"
     targetRoot = "gen"
     pathToParser "com/github/redfoos/logstash/LogstashParser.java"

@@ -1,12 +1,12 @@
 package com.github.redfoos.logstash.highlighting;
 
-import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
+import com.intellij.testFramework.fixtures.BasePlatformTestCase;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-public class HighlightingTest extends LightPlatformCodeInsightFixtureTestCase {
+public class HighlightingTest extends BasePlatformTestCase {
 
     @Override
     protected String getTestDataPath() {
