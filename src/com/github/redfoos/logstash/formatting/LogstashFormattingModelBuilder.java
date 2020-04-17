@@ -16,17 +16,17 @@ import org.jetbrains.annotations.Nullable;
 
 public class LogstashFormattingModelBuilder implements FormattingModelBuilder {
 
+    static Block createBlock(LogstashFormattingContext myContext, ASTNode subNode) {
+        IElementType nodeType = PsiUtilCore.getElementType(subNode);
+        return new LogstashFormattingBlock(myContext, subNode);
+    }
+
     @NotNull
     @Override
     public FormattingModel createModel(PsiElement element, CodeStyleSettings settings) {
         PsiFile file = element.getContainingFile();
         Block rootBlock = createBlock(new LogstashFormattingContext(settings), element.getNode());
         return new DocumentBasedFormattingModel(rootBlock, settings, file);
-    }
-
-    static Block createBlock(LogstashFormattingContext myContext, ASTNode subNode) {
-        IElementType nodeType = PsiUtilCore.getElementType(subNode);
-        return new LogstashFormattingBlock(myContext, subNode);
     }
 
     @Nullable

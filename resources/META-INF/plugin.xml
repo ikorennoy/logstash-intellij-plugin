@@ -1,4 +1,4 @@
-<idea-plugin>
+<idea-plugin url="https://github.com/redfoos/logstash-intellij-plugin">
     <id>com.github.redfoos.logstash-intellij-plugin</id>
     <name>logstash config support</name>
     <version>XXX</version>

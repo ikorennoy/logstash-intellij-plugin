@@ -12,12 +12,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class LogstashAnnotator implements Annotator {
     private static final TextAttributesKey PLUGIN_DECLARATION = TextAttributesKey.createTextAttributesKey("LOGSTASH.PLUGIN_DECLARATION",
-            DefaultLanguageHighlighterColors.CONSTANT);
+        DefaultLanguageHighlighterColors.CONSTANT);
 
     @Override
     public void annotate(@NotNull PsiElement element, @NotNull AnnotationHolder holder) {
 
-        SyntaxTraverser.psiTraverser().withRoot(element).forEach( e1 -> {
+        SyntaxTraverser.psiTraverser().withRoot(element).forEach(e1 -> {
             if (e1.getNode().getElementType() == LogstashTypes.IDENTIFIER && e1.getParent() instanceof LogstashPlugin) {
                 holder.createInfoAnnotation(e1, null).setTextAttributes(PLUGIN_DECLARATION);
             }

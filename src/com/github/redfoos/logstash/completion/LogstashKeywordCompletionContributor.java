@@ -27,13 +27,15 @@ public class LogstashKeywordCompletionContributor extends CompletionContributor 
         extend(CompletionType.BASIC, patterns, provider);
     }
 
-    private class provider extends CompletionProvider<CompletionParameters> {
+    private static class provider extends CompletionProvider<CompletionParameters> {
         String[] keywords;
-        provider(String...keywords) {
+
+        provider(String... keywords) {
             this.keywords = keywords;
         }
+
         @Override
-        protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
+        protected void addCompletions(@NotNull CompletionParameters parameters, @NotNull ProcessingContext context, @NotNull CompletionResultSet result) {
             for (String keyword : keywords) {
                 result.addElement(LookupElementBuilder.create(keyword).bold());
             }

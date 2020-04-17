@@ -38,10 +38,10 @@ public class LogstashFormattingBlock extends AbstractBlock {
 
     @Override
     protected List<Block> buildChildren() {
-        return buldSubBlocks(myContext, myNode);
+        return buildSubBlocks(myContext, myNode);
     }
 
-    private List<Block> buldSubBlocks(LogstashFormattingContext myContext, ASTNode node) {
+    private List<Block> buildSubBlocks(LogstashFormattingContext myContext, ASTNode node) {
         List<Block> res = new ArrayList<>();
         for (ASTNode subNode = node.getFirstChildNode(); subNode != null; subNode = subNode.getTreeNext()) {
             IElementType subNodeType = PsiUtilCore.getElementType(subNode);

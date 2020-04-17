@@ -1,7 +1,10 @@
+import org.jetbrains.grammarkit.tasks.GenerateLexer
+import org.jetbrains.grammarkit.tasks.GenerateParser
+
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.14'
-    id "org.jetbrains.grammarkit" version "2019.3"
+    id 'org.jetbrains.intellij' version '0.4.18'
+    id 'org.jetbrains.grammarkit' version '2020.1.2'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -18,10 +21,11 @@ apply plugin: 'jacoco'
 apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'org.jetbrains.grammarkit'
 
-def ideaVersionExternDefinition = System.getenv("IDEA_VERSION")
+def isCI = System.getenv('CI')
+def ideaVersionExternDefinition = System.getenv('IDEA_VERSION')
 ideaVersion = ideaVersionExternDefinition ? ideaVersionExternDefinition : ideaVersion
-def isEAP = ideaVersion.contains("LATEST-EAP-SNAPSHOT") || ideaVersion.take(4).contains(".")
-def artifactVersion = pluginVersion + "-" + (isEAP ? "EAP" : ideaVersion)
+def isEAP = ideaVersion.contains('LATEST-EAP-SNAPSHOT') || ideaVersion.take(4).contains('.')
+def artifactVersion = pluginVersion + '-' + (isEAP ? 'EAP' : ideaVersion)
 
 version artifactVersion
 group pluginGroup
@@ -29,8 +33,12 @@ group pluginGroup
 println "IdeaVersion is : ${ideaVersion}"
 println "ArtifactVersion is : ${artifactVersion}"
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'junit', name: 'junit', version: '4.13'
 }
 
 sourceSets {
@@ -51,21 +59,21 @@ intellij {
     sandboxDirectory = "${rootProject.projectDir}/idea-sandbox/idea-${ideaVersion}"
 }
 
-task generateLogstashConfigParser(type: org.jetbrains.grammarkit.tasks.GenerateParser) {
+task generateLogstashConfigParser(type: GenerateParser) {
     println "Generating Parser for GrammerKit: ${grammarKit.grammarKitRelease}"
-    source "grammar/Logstash.bnf"
-    targetRoot = "gen"
-    pathToParser "com/github/redfoos/logstash/LogstashParser.java"
-    pathToPsiRoot "com/github/redfoos/logstash/psi"
+    source 'grammar/Logstash.bnf'
+    targetRoot = 'gen'
+    pathToParser 'com/github/redfoos/logstash/LogstashParser.java'
+    pathToPsiRoot 'com/github/redfoos/logstash/psi'
 }
 
-task generateLogstashConfigLexer(type: org.jetbrains.grammarkit.tasks.GenerateLexer) {
+task generateLogstashConfigLexer(type: GenerateLexer) {
     dependsOn generateLogstashConfigParser
     println "Generating Lexer for JFlexRelease: ${grammarKit.jflexRelease}"
 
-    source = "grammar/Logstash.flex"
-    targetDir = "gen/com/github/redfoos/logstash"
-    targetClass = "LogstashLexer"
+    source = 'grammar/Logstash.flex'
+    targetDir = 'gen/com/github/redfoos/logstash'
+    targetClass = 'LogstashLexer'
 }
 
 jacocoTestReport {
@@ -96,10 +104,21 @@ patchPluginXml {
 
 test {
     // show standard out and standard error of the test JVM(s) on the console
-    testLogging.showStandardStreams = true
+    testLogging {
+        exceptionFormat = 'full'
+        showStandardStreams = true
+    }
+    if (isCI) {
+        testLogging.events = ['passed', 'skipped', 'failed', 'standardOut', 'standardError']
+        testLogging.exceptionFormat 'full'
+    }
 
     // listen to events in the test execution lifecycle
     beforeTest { descriptor ->
-        logger.lifecycle("Running test: " + descriptor)
+        logger.lifecycle("Running test: ${descriptor}")
     }
+}
+
+wrapper {
+    gradleVersion = '6.3'
 }

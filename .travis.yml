@@ -1,20 +1,20 @@
+dist: bionic
+os: linux
 language: java
-sudo: false
-
 jdk:
   - openjdk8
 
 before_cache:
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-
+  - rm -rf $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
 cache:
+  timeout: 3600
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-
 env:
   - IDEA_VERSION=LATEST-EAP-SNAPSHOT
-  - IDEA_VERSION=2019.3
+  - IDEA_VERSION=2020.1
 
 before_install:
   - chmod +x gradlew
@@ -25,9 +25,9 @@ after_success:
 
 deploy:
   provider: releases
-  api_key:
+  token:
     secure: "${GIT_KEY}"
-  skip_cleanup: true
+  cleanup: false
   file_glob: true
   file: "build/distributions/logstash-intellij-plugin-*.zip"
   on:

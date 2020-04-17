@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class LogstashBraceMatcher implements PairedBraceMatcher {
-    private static BracePair[] pairs = new BracePair[3];
+    private static final BracePair[] pairs = new BracePair[3];
 
     static {
         pairs[0] = new BracePair(LogstashTypes.LBRACE, LogstashTypes.RBRACE, false);
