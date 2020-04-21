@@ -25,7 +25,7 @@ after_success:
 
 deploy:
   provider: releases
-  token:
+  api_key:
     secure: "${GIT_KEY}"
   cleanup: false
   edge: true
