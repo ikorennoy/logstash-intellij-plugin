@@ -1,1 +1,12 @@
-/gen/
+*.iml
+*.ipr
+*.iws
+.gradle/
+.idea/
+build/
+distro/
+gen/
+generated/
+idea-sandbox/
+out/
+target/

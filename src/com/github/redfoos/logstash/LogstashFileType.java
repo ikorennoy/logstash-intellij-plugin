@@ -10,8 +10,10 @@ import javax.swing.*;
 
 public class LogstashFileType extends LanguageFileType {
     public static final LanguageFileType INSTANCE = new LogstashFileType();
-    @NonNls public static final String DEFAULT_EXTENSION = "conf";
-    @NonNls public static final String DOT_DEFAULT_EXTENSION = "." + DEFAULT_EXTENSION;
+    @NonNls
+    public static final String DEFAULT_EXTENSION = "conf";
+    @NonNls
+    public static final String DOT_DEFAULT_EXTENSION = "." + DEFAULT_EXTENSION;
 
     private LogstashFileType() {
         super(LogstashLanguage.INSTANCE);

@@ -1,7 +1,7 @@
 package com.github.redfoos.logstash.formatting;
 
 import com.github.redfoos.logstash.LogstashLanguage;
-import com.github.redfoos.logstash.psi.*;
+import com.github.redfoos.logstash.psi.LogstashTypes;
 import com.github.redfoos.logstash.psi.impl.*;
 import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
@@ -40,9 +40,9 @@ public class LogstashFormattingContext {
         }
 
         return mySpacingBuilder.before(LogstashTypes.LBRACE)
-                .spaces(1)
-                .around(LogstashElementTypeSets.AROUND_SPACES_TOKENS)
-                .spaces(1).getSpacing(parent, child1, child2);
+            .spaces(1)
+            .around(LogstashElementTypeSets.AROUND_SPACES_TOKENS)
+            .spaces(1).getSpacing(parent, child1, child2);
     }
 
     Alignment computeAlignment(ASTNode node) {
@@ -66,10 +66,10 @@ public class LogstashFormattingContext {
         if (LogstashElementTypeSets.LOGSTASH_BRACKETS.contains(nodeType)) {
             return SAME_AS_INDENTED_ANCESTOR_INDENT;
         } else if (node.getPsi() instanceof LogstashPluginImpl ||
-                node.getPsi() instanceof LogstashAttributeImpl ||
-                node.getPsi() instanceof LogstashBranchImpl ||
-                node.getPsi() instanceof LogstashHashentryImpl ||
-                node.getElementType() == LogstashTypes.COMMENT) {
+            node.getPsi() instanceof LogstashAttributeImpl ||
+            node.getPsi() instanceof LogstashBranchImpl ||
+            node.getPsi() instanceof LogstashHashentryImpl ||
+            node.getElementType() == LogstashTypes.COMMENT) {
             return DIRECT_NORMAL_INDENT;
         } else {
             return null;

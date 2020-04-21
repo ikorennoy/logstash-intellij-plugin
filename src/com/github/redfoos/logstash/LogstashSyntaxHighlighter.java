@@ -14,19 +14,19 @@ import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAtt
 
 public class LogstashSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey IDENTIFIER =
-            createTextAttributesKey("LOGSTASH_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER);
+        createTextAttributesKey("LOGSTASH_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER);
     private static final TextAttributesKey NUM =
-            createTextAttributesKey("LOGSTASH_VALUE", DefaultLanguageHighlighterColors.NUMBER);
+        createTextAttributesKey("LOGSTASH_VALUE", DefaultLanguageHighlighterColors.NUMBER);
     private static final TextAttributesKey COMMENT =
-            createTextAttributesKey("LOGSTASH_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
+        createTextAttributesKey("LOGSTASH_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
     private static final TextAttributesKey BAD_CHARACTER =
-            createTextAttributesKey("LOGSTASH_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
+        createTextAttributesKey("LOGSTASH_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
     private static final TextAttributesKey KEYWORD =
-            createTextAttributesKey("LOGSTASH_DECLARATION", DefaultLanguageHighlighterColors.KEYWORD);
+        createTextAttributesKey("LOGSTASH_DECLARATION", DefaultLanguageHighlighterColors.KEYWORD);
     private static final TextAttributesKey STRING =
-            createTextAttributesKey("LOGSTASH_STATIC_FIELD", DefaultLanguageHighlighterColors.STRING);
+        createTextAttributesKey("LOGSTASH_STATIC_FIELD", DefaultLanguageHighlighterColors.STRING);
     private static final TextAttributesKey REGEXP =
-            createTextAttributesKey("LOGSTASH_REGEX", DefaultLanguageHighlighterColors.STRING);
+        createTextAttributesKey("LOGSTASH_REGEX", DefaultLanguageHighlighterColors.STRING);
 
     private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
     private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[]{IDENTIFIER};
@@ -60,14 +60,14 @@ public class LogstashSyntaxHighlighter extends SyntaxHighlighterBase {
             return NUM_KEYS;
         } else if (tokenType.equals(LogstashTypes.REGEXP)) {
             return REGEXP_KEYS;
-        } else if (tokenType.equals(LogstashTypes.IF_TOK)    ||
-                    tokenType.equals(LogstashTypes.ELSE_TOK) ||
-                    tokenType.equals(LogstashTypes.AND)  ||
-                    tokenType.equals(LogstashTypes.IN)   ||
-                    tokenType.equals(LogstashTypes.NOT)  ||
-                    tokenType.equals(LogstashTypes.OR)   ||
-                    tokenType.equals(LogstashTypes.XOR)  ||
-                    tokenType.equals(LogstashTypes.NAND)) {
+        } else if (tokenType.equals(LogstashTypes.IF_TOK) ||
+            tokenType.equals(LogstashTypes.ELSE_TOK) ||
+            tokenType.equals(LogstashTypes.AND) ||
+            tokenType.equals(LogstashTypes.IN) ||
+            tokenType.equals(LogstashTypes.NOT) ||
+            tokenType.equals(LogstashTypes.OR) ||
+            tokenType.equals(LogstashTypes.XOR) ||
+            tokenType.equals(LogstashTypes.NAND)) {
             return KEYWORD_KEYS;
         } else {
             return EMPTY_KEYS;
