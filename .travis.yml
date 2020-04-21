@@ -28,6 +28,7 @@ deploy:
   token:
     secure: "${GIT_KEY}"
   cleanup: false
+  edge: true
   file_glob: true
   file: "build/distributions/logstash-intellij-plugin-*.zip"
   on:
