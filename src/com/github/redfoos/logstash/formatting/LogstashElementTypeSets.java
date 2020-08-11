@@ -1,33 +1,35 @@
 package com.github.redfoos.logstash.formatting;
 
-import com.github.redfoos.logstash.psi.LogstashTypes;
 import com.intellij.psi.tree.TokenSet;
+
+import static com.github.redfoos.logstash.psi.LogstashTypes.*;
 
 public interface LogstashElementTypeSets {
 
     TokenSet LOGSTASH_BRACKETS = TokenSet.create(
-        LogstashTypes.LBRACE,
-        LogstashTypes.RBRACE,
-        LogstashTypes.LBRACKET,
-        LogstashTypes.RBRACKET,
-        LogstashTypes.LPARENTH,
-        LogstashTypes.RPARENTH
+        LBRACE,
+        RBRACE,
+        LBRACKET,
+        RBRACKET,
+        LPARENTH,
+        RPARENTH,
+        COMMENT
     );
 
     TokenSet AROUND_SPACES_TOKENS = TokenSet.create(
-        LogstashTypes.EQUAL,
-        LogstashTypes.LESS,
-        LogstashTypes.MORE,
-        LogstashTypes.MORE_OR_EQUAL,
-        LogstashTypes.LESS_OR_EQUAL,
-        LogstashTypes.REGEXPEQUAL,
-        LogstashTypes.REGEXPNEQUAL,
-        LogstashTypes.RIGHTARROW,
-        LogstashTypes.AND,
-        LogstashTypes.IN,
-        LogstashTypes.NAND,
-        LogstashTypes.AND,
-        LogstashTypes.OR,
-        LogstashTypes.XOR
+        EQUAL,
+        LESS,
+        MORE,
+        MORE_OR_EQUAL,
+        LESS_OR_EQUAL,
+        REGEXPEQUAL,
+        REGEXPNEQUAL,
+        RIGHTARROW,
+        AND,
+        IN,
+        NAND,
+        AND,
+        OR,
+        XOR
     );
 }
