@@ -6,7 +6,7 @@ import static com.github.redfoos.logstash.psi.LogstashTypes.*;
 
 public interface LogstashElementTypeSets {
 
-    TokenSet LOGSTASH_BRACKETS = TokenSet.create(
+    TokenSet LOGSTASH_SAME_INDENT = TokenSet.create(
         LBRACE,
         RBRACE,
         LBRACKET,

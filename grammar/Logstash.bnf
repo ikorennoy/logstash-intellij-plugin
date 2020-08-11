@@ -42,6 +42,8 @@ logstashConfig ::= element (element)*
 
 private element ::= COMMENT | plugin_block
 
+private NILVALUE ::= (COMMENT | WHITE_SPACE)*
+
 plugin_block ::= block_name '{' (branch_or_plugin)* '}' {pin=1}
 
 private branch_or_plugin ::= plugin | branch
@@ -58,7 +60,7 @@ private value ::= plugin | bareword | STRING | NUMBER | array | hash
 
 private bareword ::= IDENTIFIER
 
-private array ::= '[' value (',' value)* ']'
+array ::= '[' NILVALUE (value (NILVALUE ',' NILVALUE value)*)? NILVALUE ']'
 
 private hash ::= '{' hashentries? '}'
 

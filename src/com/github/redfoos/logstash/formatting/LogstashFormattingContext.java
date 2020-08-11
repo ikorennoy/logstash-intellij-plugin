@@ -1,6 +1,7 @@
 package com.github.redfoos.logstash.formatting;
 
 import com.github.redfoos.logstash.LogstashLanguage;
+import com.github.redfoos.logstash.psi.LogstashElementType;
 import com.github.redfoos.logstash.psi.LogstashTypes;
 import com.github.redfoos.logstash.psi.impl.*;
 import com.intellij.formatting.*;
@@ -12,9 +13,11 @@ import com.intellij.util.containers.FactoryMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class LogstashFormattingContext {
     private final static Indent DIRECT_NORMAL_INDENT = Indent.getNormalIndent(true);
+    private final static Indent UNDIRECT_NORMAL_INDENT = Indent.getNormalIndent(false);
     private final static Indent SAME_AS_INDENTED_ANCESTOR_INDENT = Indent.getSpaceIndent(0);
 
     @NotNull
@@ -62,14 +65,18 @@ public class LogstashFormattingContext {
 
     Indent computeBlockIndent(ASTNode node) {
         IElementType nodeType = PsiUtilCore.getElementType(node);
-
-        if (LogstashElementTypeSets.LOGSTASH_BRACKETS.contains(nodeType)) {
+        if (Objects.equals(PsiUtilCore.getElementType(node.getTreeParent()), LogstashTypes.ARRAY)) {
+            if (LogstashElementTypeSets.LOGSTASH_SAME_INDENT.contains(nodeType)) {
+                return SAME_AS_INDENTED_ANCESTOR_INDENT;
+            }
+            return UNDIRECT_NORMAL_INDENT;
+        }
+        if (LogstashElementTypeSets.LOGSTASH_SAME_INDENT.contains(nodeType)) {
             return SAME_AS_INDENTED_ANCESTOR_INDENT;
         } else if (node.getPsi() instanceof LogstashPluginImpl ||
             node.getPsi() instanceof LogstashAttributeImpl ||
             node.getPsi() instanceof LogstashBranchImpl ||
-            node.getPsi() instanceof LogstashHashentryImpl ||
-            node.getElementType() == LogstashTypes.COMMENT) {
+            node.getPsi() instanceof LogstashHashentryImpl) {
             return DIRECT_NORMAL_INDENT;
         } else {
             return null;
