@@ -16,7 +16,7 @@ public class LogstashFormattingTest extends BasePlatformTestCase {
 
     @Override
     protected String getTestDataPath() {
-        return "testData/formatting";
+        return "src/test/testData/formatting";
     }
 
     public void testEmptyPluginBlock_default() {

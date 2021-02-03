@@ -43,12 +43,18 @@ dependencies {
 
 sourceSets {
     main {
-        java.srcDirs 'src', 'gen'
-        resources.srcDirs 'resources'
+        java {
+            srcDirs += 'src/main/gen'
+        }
     }
     test {
-        java.srcDirs 'tests'
         resources.srcDirs 'testData'
+    }
+}
+
+idea {
+    module {
+        generatedSourceDirs += file('src/main/gen')
     }
 }
 
@@ -62,7 +68,7 @@ intellij {
 task generateLogstashConfigParser(type: GenerateParser) {
     println "Generating Parser for GrammerKit: ${grammarKit.grammarKitRelease}"
     source 'grammar/Logstash.bnf'
-    targetRoot = 'gen'
+    targetRoot = 'src/main/gen'
     pathToParser 'com/github/redfoos/logstash/LogstashParser.java'
     pathToPsiRoot 'com/github/redfoos/logstash/psi'
 }
@@ -72,7 +78,7 @@ task generateLogstashConfigLexer(type: GenerateLexer) {
     println "Generating Lexer for JFlexRelease: ${grammarKit.jflexRelease}"
 
     source = 'grammar/Logstash.flex'
-    targetDir = 'gen/com/github/redfoos/logstash'
+    targetDir = 'src/main/gen/com/github/redfoos/logstash'
     targetClass = 'LogstashLexer'
 }
 

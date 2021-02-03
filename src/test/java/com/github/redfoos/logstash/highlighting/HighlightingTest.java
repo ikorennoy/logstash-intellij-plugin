@@ -10,7 +10,7 @@ public class HighlightingTest extends BasePlatformTestCase {
 
     @Override
     protected String getTestDataPath() {
-        return "testData/highlighting";
+        return "src/test/testData/highlighting";
     }
 
     public void testPluginBlockDefinition() {
