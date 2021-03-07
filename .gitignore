@@ -5,7 +5,7 @@
 .idea/
 build/
 distro/
-gen/
+src/main/gen/
 generated/
 idea-sandbox/
 out/

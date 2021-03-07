@@ -5,7 +5,7 @@ import com.intellij.testFramework.fixtures.BasePlatformTestCase;
 public class CompletionTest extends BasePlatformTestCase {
     @Override
     protected String getTestDataPath() {
-        return "testData/completion";
+        return "src/test/testData/completion";
     }
 
     public void testI() {

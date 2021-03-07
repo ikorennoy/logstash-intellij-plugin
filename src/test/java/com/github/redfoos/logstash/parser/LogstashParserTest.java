@@ -10,7 +10,7 @@ public class LogstashParserTest extends ParsingTestCase {
 
     @Override
     protected String getTestDataPath() {
-        return "testData/parser";
+        return "src/test/testData/parser";
     }
 
     @Override
