@@ -62,6 +62,6 @@ public class LogstashFormattingTest extends BasePlatformTestCase {
 
     @NotNull
     private CommonCodeStyleSettings getCommonSettings() {
-        return CodeStyle.getLanguageSettings(myFixture.getFile(), LogstashLanguage.INSTANCE);
+        return CodeStyle.getLanguageSettings(myFixture.getFile(), LogstashLanguage.getINSTANCE());
     }
 }

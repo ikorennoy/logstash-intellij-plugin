@@ -3,7 +3,9 @@ package com.github.redfoos.logstash.lexer;
 import com.github.redfoos.logstash.LogstashLexerAdapter;
 import com.intellij.lexer.Lexer;
 import com.intellij.testFramework.LexerTestCase;
+import org.junit.Ignore;
 
+@Ignore
 public class LogstashLexerTest extends LexerTestCase {
     @Override
     protected Lexer createLexer() {

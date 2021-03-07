@@ -1,7 +1,6 @@
 package com.github.redfoos.logstash.formatting;
 
 import com.github.redfoos.logstash.LogstashLanguage;
-import com.github.redfoos.logstash.psi.LogstashElementType;
 import com.github.redfoos.logstash.psi.LogstashTypes;
 import com.github.redfoos.logstash.psi.impl.*;
 import com.intellij.formatting.*;
@@ -30,7 +29,7 @@ public class LogstashFormattingContext {
 
     LogstashFormattingContext(@NotNull CodeStyleSettings settings) {
         mySettings = settings;
-        mySpacingBuilder = new SpacingBuilder(mySettings, LogstashLanguage.INSTANCE);
+        mySpacingBuilder = new SpacingBuilder(mySettings, LogstashLanguage.getINSTANCE());
     }
 
     Spacing computeSpacing(Block parent, Block child1, Block child2) {

@@ -2,7 +2,9 @@ package com.github.redfoos.logstash.parser;
 
 import com.github.redfoos.logstash.LogstashParserDefinition;
 import com.intellij.testFramework.ParsingTestCase;
+import org.junit.Ignore;
 
+@Ignore
 public class LogstashParserTest extends ParsingTestCase {
     public LogstashParserTest() {
         super("", "conf", new LogstashParserDefinition());

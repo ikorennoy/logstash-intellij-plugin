@@ -16,7 +16,7 @@ public class LogstashFileType extends LanguageFileType {
     public static final String DOT_DEFAULT_EXTENSION = "." + DEFAULT_EXTENSION;
 
     private LogstashFileType() {
-        super(LogstashLanguage.INSTANCE);
+        super(LogstashLanguage.getINSTANCE());
     }
 
     @NotNull

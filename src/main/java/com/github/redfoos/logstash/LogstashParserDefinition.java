@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 public class LogstashParserDefinition implements ParserDefinition {
     private static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
     private static final TokenSet COMMENTS = TokenSet.create(LogstashTypes.COMMENT);
-    private static final IFileElementType FILE = new IFileElementType(LogstashLanguage.INSTANCE);
+    private static final IFileElementType FILE = new IFileElementType(LogstashLanguage.getINSTANCE());
 
     @NotNull
     @Override

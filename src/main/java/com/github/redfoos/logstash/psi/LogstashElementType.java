@@ -7,6 +7,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class LogstashElementType extends IElementType {
     public LogstashElementType(@NotNull @NonNls String debugName) {
-        super(debugName, LogstashLanguage.INSTANCE);
+        super(debugName, LogstashLanguage.getINSTANCE());
     }
 }

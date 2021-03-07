@@ -11,7 +11,7 @@ import javax.swing.*;
 
 public class LogstashFile extends PsiFileBase {
     public LogstashFile(@NotNull FileViewProvider viewProvider) {
-        super(viewProvider, LogstashLanguage.INSTANCE);
+        super(viewProvider, LogstashLanguage.getINSTANCE());
     }
 
     @NotNull

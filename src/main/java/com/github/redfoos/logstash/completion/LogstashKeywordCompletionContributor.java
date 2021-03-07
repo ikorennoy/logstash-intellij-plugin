@@ -12,7 +12,7 @@ import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
 
 public class LogstashKeywordCompletionContributor extends CompletionContributor {
-    private final static PsiElementPattern.Capture<PsiElement> psiElementCapture = PlatformPatterns.psiElement().withLanguage(LogstashLanguage.INSTANCE);
+    private final static PsiElementPattern.Capture<PsiElement> psiElementCapture = PlatformPatterns.psiElement().withLanguage(LogstashLanguage.getINSTANCE());
     private final static PsiElementPattern.Capture<PsiElement> ifPattern = PlatformPatterns.psiElement(LogstashTypes.IF_TOK);
     private final static PsiElementPattern.Capture<PsiElement> elsePattern = PlatformPatterns.psiElement(LogstashTypes.ELSE_TOK);
     private final static PsiElementPattern.Capture<PsiElement> andPattern = PlatformPatterns.psiElement(LogstashTypes.AND);
