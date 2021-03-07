@@ -1,6 +1,6 @@
 <idea-plugin url="https://github.com/redfoos/logstash-intellij-plugin">
     <id>com.github.redfoos.logstash-intellij-plugin</id>
-    <name>logstash config support</name>
+    <name>Logstash Config Files Support</name>
     <version>XXX</version>
     <vendor email="korennoi.ilya@yandex.ru" url="https://github.com/redfoos"/>
 
@@ -11,7 +11,8 @@
     <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileTypeFactory implementation="com.github.redfoos.logstash.LogstashFileTypeFactory"/>
+        <fileType name="Logstash" fieldName="INSTANCE" extensions="conf" language="Logstash"
+                  implementationClass="com.github.redfoos.logstash.LogstashFileType"/>
         <lang.parserDefinition language="Logstash" implementationClass="com.github.redfoos.logstash.LogstashParserDefinition"/>
         <lang.syntaxHighlighterFactory language="Logstash" implementationClass="com.github.redfoos.logstash.LogstashSyntaxHighlighterFactory"/>
         <completion.contributor language="Logstash" implementationClass="com.github.redfoos.logstash.completion.LogstashKeywordCompletionContributor"/>
