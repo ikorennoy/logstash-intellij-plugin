@@ -14,7 +14,7 @@ cache:
     - $HOME/.gradle/wrapper/
 env:
   - IDEA_VERSION=LATEST-EAP-SNAPSHOT
-  - IDEA_VERSION=2020.3
+  - IDEA_VERSION=2021.1
 
 before_install:
   - chmod +x gradlew
