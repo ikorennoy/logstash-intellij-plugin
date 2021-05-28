@@ -1,7 +1,7 @@
 # **Logstash config support for IntelliJ**
 
 [![Build Status](https://travis-ci.com/ikorennoy/logstash-intellij-plugin.svg?branch=master)](https://travis-ci.com/ikorennoy/logstash-intellij-plugin)
-[![codecov](https://codecov.io/gh/ikorennoy/logstash-intellij-plugin/branch/master/graph/badge.svg?token=FYTg8XNarA)](https://codecov.io/gh/ikorennoy/logstash-intellij-plugin)
+<!-- [![codecov](https://codecov.io/gh/ikorennoy/logstash-intellij-plugin/branch/master/graph/badge.svg?token=FYTg8XNarA)](https://codecov.io/gh/ikorennoy/logstash-intellij-plugin) -->
 ## **Plugin for IntelliJ IDEs to support elastic [Logstash](https://www.elastic.co/products/logstash) configuration files**
 
 **Features**
