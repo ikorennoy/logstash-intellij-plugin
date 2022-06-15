@@ -7,7 +7,6 @@ import com.intellij.openapi.ui.LabeledComponent
 import java.awt.BorderLayout
 import javax.swing.JComponent
 
-@Suppress("UnstableApiUsage")
 class LogstashConfigForm : CommonProgramParametersPanel() {
     private var starterPathComponent: LabeledComponent<JComponent>? = null
     private var starterPathField: MacroComboBoxWithBrowseButton? = null
@@ -23,12 +22,12 @@ class LogstashConfigForm : CommonProgramParametersPanel() {
 
         starterPathField = MacroComboBoxWithBrowseButton(chooseStarterDescriptor, project)
         starterPathComponent = LabeledComponent.create(starterPathField!!, "Starter path:")
-        starterPathComponent!!.labelLocation = BorderLayout.WEST
+        starterPathComponent?.labelLocation = BorderLayout.WEST
 
         val chooseScriptDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor()
         filePathField = MacroComboBoxWithBrowseButton(chooseScriptDescriptor, project)
         filePathComponent = LabeledComponent.create(filePathField!!, "File:")
-        filePathComponent!!.labelLocation = BorderLayout.WEST
+        filePathComponent?.labelLocation = BorderLayout.WEST
     }
 
     override fun addComponents() {
@@ -42,12 +41,12 @@ class LogstashConfigForm : CommonProgramParametersPanel() {
     }
 
     fun resetForm(configuration: LogstashRunConfiguration) {
-        starterPathField!!.text = configuration.getStarterPath()
-        filePathField!!.text = configuration.getFilePath()
+        starterPathField?.text = configuration.getStarterPath()
+        filePathField?.text = configuration.getFilePath()
     }
 
     fun applyToForm(configuration: LogstashRunConfiguration) {
-        configuration.setStarterPath(starterPathField!!.text)
-        configuration.setFilePath(filePathField!!.text)
+        configuration.setStarterPath(starterPathField?.text)
+        configuration.setFilePath(filePathField?.text)
     }
 }
