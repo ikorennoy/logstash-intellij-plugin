@@ -8,7 +8,4 @@ interface LogstashRunConfigurationParams : CommonProgramRunConfigurationParamete
 
     fun getFilePath(): String?
     fun setFilePath(path: String?)
-
-    fun getStarterOptions(): String?
-    fun setStarterOptions(options: String?)
 }

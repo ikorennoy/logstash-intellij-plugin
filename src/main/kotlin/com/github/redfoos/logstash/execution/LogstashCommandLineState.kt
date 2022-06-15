@@ -28,8 +28,8 @@ class LogstashCommandLineState(
         val starter = runConfiguration.getStarterPath()!!
         cmd.exePath = starter
 
-        if (!runConfiguration.getStarterOptions().isNullOrBlank()) {
-            cmd.addParameters(runConfiguration.getStarterOptions()!!.split(" "))
+        if (!runConfiguration.programParameters.isNullOrBlank()) {
+            cmd.addParameters(runConfiguration.programParameters!!.split(" "))
         }
 
         cmd.addParameters("-f", "${runConfiguration.getFilePath()}")

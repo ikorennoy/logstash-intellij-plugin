@@ -18,7 +18,6 @@ class LogstashRunConfiguration(project: Project, configurationFactory: Configura
     private var workingDir: String? = null
     private var starterParams: String? = null
     private var starterPath: String? = null
-    private var starterOptions: String? = null
     private var filePath: String? = null
 
 
@@ -39,11 +38,6 @@ class LogstashRunConfiguration(project: Project, configurationFactory: Configura
     override fun getFilePath(): String? = filePath
     override fun setFilePath(path: String?) {
         filePath = path
-    }
-
-    override fun getStarterOptions(): String? = starterOptions
-    override fun setStarterOptions(options: String?) {
-        starterOptions = options
     }
 
     override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration> = LogstashSettingsEditor()
@@ -77,7 +71,6 @@ class LogstashRunConfiguration(project: Project, configurationFactory: Configura
         JDOMExternalizerUtil.writeField(element, "WORKING_DIRECTORY", workingDirectory)
         JDOMExternalizerUtil.writeField(element, "PARENT_ENVS", isPassParentEnvs.toString())
         JDOMExternalizerUtil.writeField(element, "PARAMETERS", starterParams)
-        JDOMExternalizerUtil.writeField(element, "STARTER_PARAMETERS", starterOptions)
         EnvironmentVariablesComponent.writeExternal(element, myEnvs)
     }
 
@@ -93,10 +86,6 @@ class LogstashRunConfiguration(project: Project, configurationFactory: Configura
         starterPath = JDOMExternalizerUtil.readField(element, "STARTER_PATH")
         if (starterPath.isNullOrBlank()) {
             starterPath = null
-        }
-        starterOptions = JDOMExternalizerUtil.readField(element, "STARTER_PARAMETERS")
-        if (starterOptions.isNullOrBlank()) {
-            starterOptions = null
         }
         workingDir = JDOMExternalizerUtil.readField(element, "WORKING_DIRECTORY")
         programParameters = JDOMExternalizerUtil.readField(element, "PARAMETERS")
