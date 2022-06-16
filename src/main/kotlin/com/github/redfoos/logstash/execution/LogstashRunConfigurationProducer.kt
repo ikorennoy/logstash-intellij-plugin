@@ -4,7 +4,6 @@ import com.github.redfoos.logstash.psi.LogstashFile
 import com.intellij.execution.actions.ConfigurationContext
 import com.intellij.execution.actions.LazyRunConfigurationProducer
 import com.intellij.execution.configurations.ConfigurationFactory
-import com.intellij.execution.configurations.ConfigurationTypeUtil
 import com.intellij.openapi.util.Ref
 import com.intellij.psi.PsiElement
 
@@ -33,6 +32,6 @@ class LogstashRunConfigurationProducer : LazyRunConfigurationProducer<LogstashRu
     }
 
     override fun getConfigurationFactory(): ConfigurationFactory {
-        return ConfigurationTypeUtil.findConfigurationType(LogstashConfigurationType::class.java)
+        return LogstashConfigurationFactory(LogstashConfigurationType.instance)
     }
 }

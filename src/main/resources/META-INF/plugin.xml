@@ -27,9 +27,8 @@
                    implementationClass="com.github.redfoos.logstash.highlighting.LogstashAnnotator"/>
         <lang.commenter language="Logstash" implementationClass="com.github.redfoos.logstash.LogstashCommenter"/>
         <configurationType implementation="com.github.redfoos.logstash.execution.LogstashConfigurationType"/>
-        <programRunner implementation="com.github.redfoos.logstash.execution.LogstashProgramRunner"/>
         <runConfigurationProducer
             implementation="com.github.redfoos.logstash.execution.LogstashRunConfigurationProducer"/>
+        <runLineMarkerContributor language="Logstash" implementationClass="com.github.redfoos.logstash.execution.LogstashRunLineMarkerContributor"/>
     </extensions>
-
 </idea-plugin>

@@ -11,8 +11,10 @@ import com.intellij.openapi.util.JDOMExternalizerUtil
 import org.jdom.Element
 import java.lang.Boolean.parseBoolean
 
-class LogstashRunConfiguration(project: Project, configurationFactory: ConfigurationFactory) :
-    LocatableConfigurationBase<RunConfigurationOptions>(project, configurationFactory, "Logstash run configuration"),
+class LogstashRunConfiguration(
+    project: Project,
+    configurationFactory: ConfigurationFactory
+) : LocatableConfigurationBase<LogstashCommandLineState>(project, configurationFactory, "Logstash run configuration"),
     LogstashRunConfigurationParams {
 
     private var workingDir: String? = null

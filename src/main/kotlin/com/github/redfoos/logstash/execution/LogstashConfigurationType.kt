@@ -1,33 +1,25 @@
 package com.github.redfoos.logstash.execution
 
 import com.github.redfoos.logstash.Icons
-import com.intellij.execution.configurations.RunConfiguration
-import com.intellij.execution.configurations.SimpleConfigurationType
-import com.intellij.ide.util.PropertiesComponent
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.util.NotNullLazyValue
+import com.intellij.execution.configurations.ConfigurationFactory
+import com.intellij.execution.configurations.ConfigurationType
+import com.intellij.execution.configurations.runConfigurationType
+import javax.swing.Icon
 
-class LogstashConfigurationType : SimpleConfigurationType(
-    "LogstashApplication", "Logstash", null, NotNullLazyValue.createConstantValue(
-        Icons.logstash
-    )
-) {
-    override fun createConfiguration(name: String?, template: RunConfiguration): RunConfiguration {
-        val runConfiguration = super.createConfiguration(name, template)
-        if (runConfiguration is LogstashRunConfiguration) {
-            var path = PropertiesComponent.getInstance(runConfiguration.project)
-                .getValue(LogstashRunConfiguration.LOGSTASH_STARTER)
-            if (path == null) {
-                path = PropertiesComponent.getInstance().getValue(LogstashRunConfiguration.LOGSTASH_STARTER)
-            }
-            if (path != null) {
-                runConfiguration.setStarterPath(path)
-            }
-        }
-        return runConfiguration
+class LogstashConfigurationType : ConfigurationType {
+
+    companion object {
+        val instance: LogstashConfigurationType
+            get() = runConfigurationType()
     }
 
-    override fun createTemplateConfiguration(project: Project): RunConfiguration {
-        return LogstashRunConfiguration(project, this)
-    }
+    override fun getDisplayName(): String = "Logstash"
+
+    override fun getConfigurationTypeDescription(): String = "Run Logstash configuration"
+
+    override fun getIcon(): Icon = Icons.logstash
+
+    override fun getId(): String = "LOGSTASH_RUN_CONFIGURATION"
+
+    override fun getConfigurationFactories(): Array<ConfigurationFactory> = arrayOf(LogstashConfigurationFactory(this))
 }
