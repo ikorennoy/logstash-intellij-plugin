@@ -8,45 +8,44 @@ import java.awt.BorderLayout
 import javax.swing.JComponent
 
 class LogstashConfigForm : CommonProgramParametersPanel() {
-    private var starterPathComponent: LabeledComponent<JComponent>? = null
-    private var starterPathField: MacroComboBoxWithBrowseButton? = null
+    private var logstashStarterPathComponent: LabeledComponent<JComponent>? = null
+    private var logstashStarterPathField: MacroComboBoxWithBrowseButton? = null
 
-    private var filePathComponent: LabeledComponent<JComponent>? = null
-    private var filePathField: MacroComboBoxWithBrowseButton? = null
-
+    private var configurationPathComponent: LabeledComponent<JComponent>? = null
+    private var configurationPathField: MacroComboBoxWithBrowseButton? = null
 
     private fun initOwnComponents() {
 
         val chooseStarterDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor()
         chooseStarterDescriptor.title = "Choose Starter..."
 
-        starterPathField = MacroComboBoxWithBrowseButton(chooseStarterDescriptor, project)
-        starterPathComponent = LabeledComponent.create(starterPathField!!, "Starter path:")
-        starterPathComponent?.labelLocation = BorderLayout.WEST
+        logstashStarterPathField = MacroComboBoxWithBrowseButton(chooseStarterDescriptor, project)
+        logstashStarterPathComponent = LabeledComponent.create(logstashStarterPathField!!, "Logstash starter:")
+        logstashStarterPathComponent?.labelLocation = BorderLayout.WEST
 
         val chooseScriptDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor()
-        filePathField = MacroComboBoxWithBrowseButton(chooseScriptDescriptor, project)
-        filePathComponent = LabeledComponent.create(filePathField!!, "File:")
-        filePathComponent?.labelLocation = BorderLayout.WEST
+        configurationPathField = MacroComboBoxWithBrowseButton(chooseScriptDescriptor, project)
+        configurationPathComponent = LabeledComponent.create(configurationPathField!!, "Configuration:")
+        configurationPathComponent?.labelLocation = BorderLayout.WEST
     }
 
     override fun addComponents() {
         initOwnComponents()
 
-        add(filePathComponent)
-        add(starterPathComponent)
+        add(configurationPathComponent)
+        add(logstashStarterPathComponent)
         add(programParametersComponent)
 
         super.addComponents()
     }
 
     fun resetForm(configuration: LogstashRunConfiguration) {
-        starterPathField?.text = configuration.getStarterPath()
-        filePathField?.text = configuration.getFilePath()
+        logstashStarterPathField?.text = configuration.getStarterScriptPath()
+        configurationPathField?.text = configuration.getConfigurationPath()
     }
 
     fun applyToForm(configuration: LogstashRunConfiguration) {
-        configuration.setStarterPath(starterPathField?.text)
-        configuration.setFilePath(filePathField?.text)
+        configuration.setStarterScriptPath(logstashStarterPathField?.text)
+        configuration.setConfigurationPath(configurationPathField?.text)
     }
 }

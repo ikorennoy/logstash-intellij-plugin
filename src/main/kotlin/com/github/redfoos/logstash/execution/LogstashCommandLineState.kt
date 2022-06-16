@@ -25,14 +25,14 @@ class LogstashCommandLineState(
 
     private fun createCommandLine(workingDir: String, runConfiguration: LogstashRunConfiguration): GeneralCommandLine {
         val cmd = GeneralCommandLine()
-        val starter = runConfiguration.getStarterPath()!!
+        val starter = runConfiguration.getStarterScriptPath()!!
         cmd.exePath = starter
 
         if (!runConfiguration.programParameters.isNullOrBlank()) {
             cmd.addParameters(runConfiguration.programParameters!!.split(" "))
         }
 
-        cmd.addParameters("-f", "${runConfiguration.getFilePath()}")
+        cmd.addParameters("-f", "${runConfiguration.getConfigurationPath()}")
         cmd.withWorkDirectory(workingDir)
         cmd.withParentEnvironmentType(if (runConfiguration.isPassParentEnvs) GeneralCommandLine.ParentEnvironmentType.CONSOLE else GeneralCommandLine.ParentEnvironmentType.NONE)
         cmd.withEnvironment(runConfiguration.envs)

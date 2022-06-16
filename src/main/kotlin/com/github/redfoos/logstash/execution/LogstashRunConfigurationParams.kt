@@ -3,9 +3,9 @@ package com.github.redfoos.logstash.execution
 import com.intellij.execution.CommonProgramRunConfigurationParameters
 
 interface LogstashRunConfigurationParams : CommonProgramRunConfigurationParameters {
-    fun getStarterPath(): String?
-    fun setStarterPath(path: String?)
+    fun getStarterScriptPath(): String?
+    fun setStarterScriptPath(path: String?)
 
-    fun getFilePath(): String?
-    fun setFilePath(path: String?)
+    fun getConfigurationPath(): String?
+    fun setConfigurationPath(path: String?)
 }

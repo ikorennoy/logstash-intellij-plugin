@@ -14,7 +14,7 @@ class LogstashRunConfigurationProducer : LazyRunConfigurationProducer<LogstashRu
         configuration: LogstashRunConfiguration,
         context: ConfigurationContext
     ): Boolean {
-        val configuredFile = configuration.getFilePath()
+        val configuredFile = configuration.getConfigurationPath()
         val psiFile = context.dataContext.getData(PlatformDataKeys.PSI_FILE) ?: return false
         val currentFile = psiFile.virtualFile ?: return false
         return configuredFile == currentFile.canonicalPath
@@ -30,11 +30,11 @@ class LogstashRunConfigurationProducer : LazyRunConfigurationProducer<LogstashRu
         val logstashFile = container.virtualFile ?: return false
 
         val path = logstashFile.canonicalPath ?: return false
-        configuration.setFilePath(path)
+        configuration.setConfigurationPath(path)
         configuration.name = logstashFile.name
         val logstashStarterPath: String? =
             PropertiesComponent.getInstance(context.project).getValue(LogstashRunConfiguration.LOGSTASH_STARTER)
-        configuration.setStarterPath(logstashStarterPath)
+        configuration.setStarterScriptPath(logstashStarterPath)
         return true
     }
 

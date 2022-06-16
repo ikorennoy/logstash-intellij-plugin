@@ -29,8 +29,8 @@ class RunConfigurationTest : BasePlatformTestCase() {
         val configuration = createConfiguration(file)
 
         TestCase.assertNotNull(configuration)
-        TestCase.assertNull(configuration?.getStarterPath())
-        TestCase.assertEquals(file.virtualFile.canonicalPath, configuration?.getFilePath())
+        TestCase.assertNull(configuration?.getStarterScriptPath())
+        TestCase.assertEquals(file.virtualFile.canonicalPath, configuration?.getConfigurationPath())
     }
 
     fun testSetStarterPath() {
@@ -38,9 +38,9 @@ class RunConfigurationTest : BasePlatformTestCase() {
         val configuration = createConfiguration(file)
 
         TestCase.assertNotNull(configuration)
-        TestCase.assertNull(configuration!!.getStarterPath())
+        TestCase.assertNull(configuration!!.getStarterScriptPath())
 
-        configuration.setStarterPath(starterPath)
+        configuration.setStarterScriptPath(starterPath)
         assertStarterPath(createConfiguration(file), starterPath)
 
         PropertiesComponent.getInstance().setValue(LogstashRunConfiguration.LOGSTASH_STARTER, null)
@@ -54,12 +54,12 @@ class RunConfigurationTest : BasePlatformTestCase() {
             RuntimeConfigurationError::class.java
         ) { configuration!!.checkConfiguration() }
 
-        configuration?.setStarterPath(starterPath)
+        configuration?.setStarterScriptPath(starterPath)
     }
 
     protected fun assertStarterPath(configuration: LogstashRunConfiguration?, starterPath: String) {
         TestCase.assertNotNull(configuration)
-        TestCase.assertEquals(starterPath, configuration!!.getStarterPath())
+        TestCase.assertEquals(starterPath, configuration!!.getStarterScriptPath())
     }
 
     protected fun createConfiguration(psiElement: PsiElement): LogstashRunConfiguration? {

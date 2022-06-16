@@ -19,27 +19,27 @@ class LogstashRunConfiguration(
 
     private var workingDir: String? = null
     private var starterParams: String? = null
-    private var starterPath: String? = null
-    private var filePath: String? = null
+    private var starterScriptPath: String? = null
+    private var configurationPath: String? = null
 
 
     private val myEnvs = LinkedHashMap<String, String>()
     private var myPassParentEnvs = true
 
-    override fun getStarterPath(): String? = starterPath
-    override fun setStarterPath(path: String?) {
+    override fun getStarterScriptPath(): String? = starterScriptPath
+    override fun setStarterScriptPath(path: String?) {
         if (path.isNullOrBlank()) {
-            starterPath = null
+            starterScriptPath = null
         } else {
-            starterPath = path
+            starterScriptPath = path
             PropertiesComponent.getInstance(project).setValue(LOGSTASH_STARTER, path)
             PropertiesComponent.getInstance().setValue(LOGSTASH_STARTER, path)
         }
     }
 
-    override fun getFilePath(): String? = filePath
-    override fun setFilePath(path: String?) {
-        filePath = path
+    override fun getConfigurationPath(): String? = configurationPath
+    override fun setConfigurationPath(path: String?) {
+        configurationPath = path
     }
 
     override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration> = LogstashSettingsEditor()
@@ -49,11 +49,11 @@ class LogstashRunConfiguration(
     }
 
     override fun checkConfiguration() {
-        if (starterPath == null) {
+        if (starterScriptPath == null) {
             throw RuntimeConfigurationError("Run configuration is invalid: no starter selected")
         }
 
-        if (filePath == null) {
+        if (configurationPath == null) {
             throw RuntimeConfigurationError("Run configuration is invalid: no logstash configuration selected")
         }
     }
@@ -72,8 +72,8 @@ class LogstashRunConfiguration(
 
     override fun writeExternal(element: Element) {
         super.writeExternal(element)
-        JDOMExternalizerUtil.writeField(element, "FILE_PATH", filePath)
-        JDOMExternalizerUtil.writeField(element, "STARTER_PATH", starterPath)
+        JDOMExternalizerUtil.writeField(element, "FILE_PATH", configurationPath)
+        JDOMExternalizerUtil.writeField(element, "STARTER_PATH", starterScriptPath)
         JDOMExternalizerUtil.writeField(element, "WORKING_DIRECTORY", workingDirectory)
         JDOMExternalizerUtil.writeField(element, "PARENT_ENVS", isPassParentEnvs.toString())
         JDOMExternalizerUtil.writeField(element, "PARAMETERS", starterParams)
@@ -85,13 +85,13 @@ class LogstashRunConfiguration(
         super.readExternal(element)
         EnvironmentVariablesComponent.readExternal(element, myEnvs)
 
-        filePath = JDOMExternalizerUtil.readField(element, "FILE_PATH")
-        if (filePath.isNullOrBlank()) {
-            filePath = null
+        configurationPath = JDOMExternalizerUtil.readField(element, "FILE_PATH")
+        if (configurationPath.isNullOrBlank()) {
+            configurationPath = null
         }
-        starterPath = JDOMExternalizerUtil.readField(element, "STARTER_PATH")
-        if (starterPath.isNullOrBlank()) {
-            starterPath = null
+        starterScriptPath = JDOMExternalizerUtil.readField(element, "STARTER_PATH")
+        if (starterScriptPath.isNullOrBlank()) {
+            starterScriptPath = null
         }
         workingDir = JDOMExternalizerUtil.readField(element, "WORKING_DIRECTORY")
         programParameters = JDOMExternalizerUtil.readField(element, "PARAMETERS")

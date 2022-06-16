@@ -7,7 +7,6 @@ import com.intellij.execution.configurations.runConfigurationType
 import javax.swing.Icon
 
 class LogstashConfigurationType : ConfigurationType {
-
     companion object {
         val instance: LogstashConfigurationType
             get() = runConfigurationType()

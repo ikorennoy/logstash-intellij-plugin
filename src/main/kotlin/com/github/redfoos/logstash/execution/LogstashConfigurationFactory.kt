@@ -14,7 +14,6 @@ class LogstashConfigurationFactory(type: ConfigurationType) : ConfigurationFacto
         return LogstashRunConfiguration(project, this)
     }
 
-
     override fun getName(): String = factoryName
 
     override fun getId(): String = factoryName
