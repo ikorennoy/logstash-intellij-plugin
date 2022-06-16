@@ -6,15 +6,15 @@ import static com.github.redfoos.logstash.psi.LogstashTypes.*;
 
 public interface LogstashElementTypeSets {
 
-    TokenSet LOGSTASH_SAME_INDENT = TokenSet.create(
-        LBRACE,
-        RBRACE,
-        LBRACKET,
-        RBRACKET,
-        LPARENTH,
-        RPARENTH,
-        COMMENT
-    );
+//    TokenSet LOGSTASH_SAME_INDENT = TokenSet.create(
+//        LBRACE,
+//        RBRACE,
+//        LBRACKET,
+//        RBRACKET,
+//        LPARENTH,
+//        RPARENTH,
+//        COMMENT
+//    );
 
     TokenSet AROUND_SPACES_TOKENS = TokenSet.create(
         EQUALS,

@@ -46,31 +46,31 @@ public class LogstashSyntaxHighlighter extends SyntaxHighlighterBase {
     @NotNull
     @Override
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
-        if (tokenType.equals(LogstashTypes.COMMENT)) {
-            return COMMENT_KEYS;
-        } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
-            return BAD_CHAR_KEYS;
-        } else if (tokenType.equals(LogstashTypes.NAME_TOKEN)) {
-            return IDENTIFIER_KEYS;
-        } else if (tokenType.equals(LogstashTypes.PLUGIN_SECTION)) {
-            return KEYWORD_KEYS;
-        } else if (tokenType.equals(LogstashTypes.STRING)) {
-            return STRING_KEYS;
-        } else if (tokenType.equals(LogstashTypes.NUMBER)) {
-            return NUM_KEYS;
-        } else if (tokenType.equals(LogstashTypes.REGEXP)) {
-            return REGEXP_KEYS;
-        } else if (tokenType.equals(LogstashTypes.IF_OPERATOR) ||
-            tokenType.equals(LogstashTypes.ELSE_OPERATOR) ||
-            tokenType.equals(LogstashTypes.AND_OPERATOR) ||
-            tokenType.equals(LogstashTypes.IN_EXPRESSION) ||
-            tokenType.equals(LogstashTypes.NOT_OPERATOR) ||
-            tokenType.equals(LogstashTypes.OR_OPERATOR) ||
-            tokenType.equals(LogstashTypes.XOR_OPERATOR) ||
-            tokenType.equals(LogstashTypes.NAND_OPERATOR)) {
-            return KEYWORD_KEYS;
-        } else {
+//        if (tokenType.equals(LogstashTypes.COMMENT)) {
+//            return COMMENT_KEYS;
+//        } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
+//            return BAD_CHAR_KEYS;
+//        } else if (tokenType.equals(LogstashTypes.NAME_TOKEN)) {
+//            return IDENTIFIER_KEYS;
+//        } else if (tokenType.equals(LogstashTypes.PLUGIN_SECTION)) {
+//            return KEYWORD_KEYS;
+//        } else if (tokenType.equals(LogstashTypes.STRING)) {
+//            return STRING_KEYS;
+//        } else if (tokenType.equals(LogstashTypes.NUMBER)) {
+//            return NUM_KEYS;
+//        } else if (tokenType.equals(LogstashTypes.REGEXP)) {
+//            return REGEXP_KEYS;
+//        } else if (tokenType.equals(LogstashTypes.IF_OPERATOR) ||
+//            tokenType.equals(LogstashTypes.ELSE_OPERATOR) ||
+//            tokenType.equals(LogstashTypes.AND_OPERATOR) ||
+//            tokenType.equals(LogstashTypes.IN_EXPRESSION) ||
+//            tokenType.equals(LogstashTypes.NOT_OPERATOR) ||
+//            tokenType.equals(LogstashTypes.OR_OPERATOR) ||
+//            tokenType.equals(LogstashTypes.XOR_OPERATOR) ||
+//            tokenType.equals(LogstashTypes.NAND_OPERATOR)) {
+//            return KEYWORD_KEYS;
+//        } else {
             return EMPTY_KEYS;
-        }
+//        }
     }
 }

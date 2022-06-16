@@ -48,38 +48,39 @@ public class LogstashFormattingContext {
     }
 
     Alignment computeAlignment(ASTNode node) {
-        if (node.getPsi() instanceof LogstashPluginImpl) {
-            return myChildIndentAlignments.get(node.getTreeParent());
-        } else if (node.getPsi() instanceof LogstashPluginImpl) {
-            return myChildIndentAlignments.get(node.getTreeParent());
-        } else if (node.getPsi() instanceof LogstashAttributeImpl) {
-            return myChildIndentAlignments.get(node.getTreeParent());
-        } else if (node.getPsi() instanceof LogstashBranchImpl) {
-            return myChildIndentAlignments.get(node.getTreeParent());
-        } else if (node.getPsi() instanceof LogstashHashEntryImpl) {
-            return myChildIndentAlignments.get(node.getTreeParent());
-        }
+//        if (node.getPsi() instanceof LogstashPluginImpl) {
+//            return myChildIndentAlignments.get(node.getTreeParent());
+//        } else if (node.getPsi() instanceof LogstashPluginImpl) {
+//            return myChildIndentAlignments.get(node.getTreeParent());
+//        } else if (node.getPsi() instanceof LogstashAttributeImpl) {
+//            return myChildIndentAlignments.get(node.getTreeParent());
+//        } else if (node.getPsi() instanceof LogstashBranchImpl) {
+//            return myChildIndentAlignments.get(node.getTreeParent());
+//        } else if (node.getPsi() instanceof LogstashHashEntryImpl) {
+//            return myChildIndentAlignments.get(node.getTreeParent());
+//        }
         return null;
     }
 
     Indent computeBlockIndent(ASTNode node) {
-        IElementType nodeType = PsiUtilCore.getElementType(node);
-        if (Objects.equals(PsiUtilCore.getElementType(node.getTreeParent()), LogstashTypes.ARRAY)) {
-            if (LogstashElementTypeSets.LOGSTASH_SAME_INDENT.contains(nodeType)) {
-                return SAME_AS_INDENTED_ANCESTOR_INDENT;
-            }
-            return UNDIRECT_NORMAL_INDENT;
-        }
-        if (LogstashElementTypeSets.LOGSTASH_SAME_INDENT.contains(nodeType)) {
-            return SAME_AS_INDENTED_ANCESTOR_INDENT;
-        } else if (node.getPsi() instanceof LogstashPluginImpl ||
-            node.getPsi() instanceof LogstashAttributeImpl ||
-            node.getPsi() instanceof LogstashBranchImpl ||
-            node.getPsi() instanceof LogstashHashEntryImpl) {
-            return DIRECT_NORMAL_INDENT;
-        } else {
-            return null;
-        }
+//        IElementType nodeType = PsiUtilCore.getElementType(node);
+//        if (Objects.equals(PsiUtilCore.getElementType(node.getTreeParent()), LogstashTypes.ARRAY)) {
+//            if (LogstashElementTypeSets.LOGSTASH_SAME_INDENT.contains(nodeType)) {
+//                return SAME_AS_INDENTED_ANCESTOR_INDENT;
+//            }
+//            return UNDIRECT_NORMAL_INDENT;
+//        }
+//        if (LogstashElementTypeSets.LOGSTASH_SAME_INDENT.contains(nodeType)) {
+//            return SAME_AS_INDENTED_ANCESTOR_INDENT;
+//        } else if (node.getPsi() instanceof LogstashPluginImpl ||
+//            node.getPsi() instanceof LogstashAttributeImpl ||
+//            node.getPsi() instanceof LogstashBranchImpl ||
+//            node.getPsi() instanceof LogstashHashEntryImpl) {
+////            return DIRECT_NORMAL_INDENT;
+//        } else {
+//            return null;
+//        }
+        return null;
     }
 
     Indent computeChildIndent() {

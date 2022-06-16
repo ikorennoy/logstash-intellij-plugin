@@ -12,10 +12,10 @@ class LogstashKeywordCompletionContributor : CompletionContributor() {
     private val ifPattern = PlatformPatterns.psiElement(LogstashTypes.IF_OPERATOR)
     private val elsePattern = PlatformPatterns.psiElement(LogstashTypes.ELSE_OPERATOR)
     private val andPattern = PlatformPatterns.psiElement(LogstashTypes.AND_OPERATOR)
-    private val pluginBlockPattern = PlatformPatterns.psiElement(LogstashTypes.PLUGIN_SECTION)
+//    private val pluginBlockPattern = PlatformPatterns.psiElement(LogstashTypes.PLUGIN_SECTION)
 
     init {
-        val patterns = PlatformPatterns.or(psiElementCapture, ifPattern, elsePattern, andPattern, pluginBlockPattern)
+        val patterns = PlatformPatterns.or(psiElementCapture, ifPattern, elsePattern, andPattern)
         val provider = LogstashCompletionProvider(listOf("if", "else", "and", "input", "filter", "output"))
         extend(CompletionType.BASIC, patterns, provider)
     }

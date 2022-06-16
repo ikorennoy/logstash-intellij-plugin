@@ -24,10 +24,8 @@ import static com.github.redfoos.logstash.psi.LogstashTypes.*;
 
 EOL=\R
 
-END_OF_LINE_COMMENT=([^\r\n]*\r?\n)
 WHITE_SPACE=([ \t\r\n]+)
-NAME_REGEXP=([A-Za-z0-9_-]+)
-BAREWORD=([A-Za-z_] [A-Za-z0-9_]+)
+NAME_REGEXP=@?([:jletterdigit:] | -)*
 DOUBLE_QUOTED_STRING=(\"([^\\\"]|\\.)*\")
 SINGLE_QUOTED_STRING=('([^\\']|\\.)*')
 REGEXP=(\/([^\\/]|\\.)*\/)
@@ -36,45 +34,47 @@ SELECTOR_ELEMENT_REGEXP=([^\\]|,+)
 
 %%
 <YYINITIAL> {
+  {WHITE_SPACE}               { return WHITE_SPACE; }
 
-  "input"                        { return INPUT_PLUGIN_TYPE; }
-  "filter"                       { return FILTER_PLUGIN_TYPE; }
-  "output"                       { return OUTPUT_PLUGIN_TYPE; }
-  "if"                           { return IF_OPERATOR; }
-  "else"                         { return ELSE_OPERATOR; }
-  "in"                           { return IN_OPERATOR; }
-  "not"                          { return NOT_OPERATOR; }
-  "("                            { return LPARENTH; }
-  ")"                            { return RPARENTH; }
-  "["                            { return LBRACKET; }
-  "]"                            { return RBRACKET; }
-  "{"                            { return LBRACE; }
-  "}"                            { return RBRACE; }
-  "#"                            { return SHARP; }
-  "=>"                           { return RIGHT_ARROW; }
-  ","                            { return COMMA; }
-  "=="                           { return EQUALS; }
-  "!="                           { return NOT_EQUALS; }
-  "<="                           { return LESS_THAN_OR_EQUAL; }
-  ">="                           { return GREATER_THAN_OR_EQUAL; }
-  "<"                            { return LESS_THAN; }
-  ">"                            { return GREATER_THAN; }
-  "=~"                           { return REGEXP_EQUAL; }
-  "!~"                           { return REGEXP_NOT_EQUAL; }
-  "and"                          { return AND_OPERATOR; }
-  "or"                           { return OR_OPERATOR; }
-  "xor"                          { return XOR_OPERATOR; }
-  "nand"                         { return NAND_OPERATOR; }
-  "!"                            { return EXCLAMATION_MARK; }
+  "input"                     { return INPUT_PLUGIN_TYPE; }
+  "filter"                    { return FILTER_PLUGIN_TYPE; }
+  "output"                    { return OUTPUT_PLUGIN_TYPE; }
+  "if"                        { return IF_OPERATOR; }
+  "else"                      { return ELSE_OPERATOR; }
+  "in"                        { return IN_OPERATOR; }
+  "not"                       { return NOT_OPERATOR; }
+  "("                         { return LPARENTH; }
+  ")"                         { return RPARENTH; }
+  "["                         { return LBRACKET; }
+  "]"                         { return RBRACKET; }
+  "{"                         { return LBRACE; }
+  "}"                         { return RBRACE; }
+  "=>"                        { return RIGHT_ARROW; }
+  ","                         { return COMMA; }
+  "=="                        { return EQUALS; }
+  "!="                        { return NOT_EQUALS; }
+  "<="                        { return LESS_THAN_OR_EQUAL; }
+  ">="                        { return GREATER_THAN_OR_EQUAL; }
+  "<"                         { return LESS_THAN; }
+  ">"                         { return GREATER_THAN; }
+  "=~"                        { return REGEXP_EQUAL; }
+  "!~"                        { return REGEXP_NOT_EQUAL; }
+  "and"                       { return AND_OPERATOR; }
+  "or"                        { return OR_OPERATOR; }
+  "xor"                       { return XOR_OPERATOR; }
+  "nand"                      { return NAND_OPERATOR; }
+  "!"                         { return EXCLAMATION_MARK; }
+  "branch"                    { return BRANCH; }
+  "array"                     { return ARRAY; }
+  "hash"                      { return HASH; }
 
-  {END_OF_LINE_COMMENT}          { return END_OF_LINE_COMMENT; }
-  {NAME_REGEXP}                  { return NAME_REGEXP; }
-  {BAREWORD}                     { return BAREWORD; }
-  {DOUBLE_QUOTED_STRING}         { return DOUBLE_QUOTED_STRING; }
-  {SINGLE_QUOTED_STRING}         { return SINGLE_QUOTED_STRING; }
-  {REGEXP}                       { return REGEXP; }
-  {NUMBER}                       { return NUMBER; }
-  {SELECTOR_ELEMENT_REGEXP}      { return SELECTOR_ELEMENT_REGEXP; }
+  {WHITE_SPACE}               { return WHITE_SPACE; }
+  {DOUBLE_QUOTED_STRING}      { return DOUBLE_QUOTED_STRING; }
+  {SINGLE_QUOTED_STRING}      { return SINGLE_QUOTED_STRING; }
+  {NAME_REGEXP}               { return NAME_REGEXP; }
+  {BAREWORD}                  { return BAREWORD; }
+  {REGEXP}                    { return REGEXP; }
+  {NUMBER}                    { return NUMBER; }
 
 }
 
