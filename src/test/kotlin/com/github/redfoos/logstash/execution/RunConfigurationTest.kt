@@ -1,7 +1,6 @@
 package com.github.redfoos.logstash.execution
 
-import com.intellij.execution.executors.DefaultRunExecutor
-import com.intellij.execution.runners.ExecutionEnvironment
+import com.intellij.execution.configurations.RuntimeConfigurationError
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.testFramework.UsefulTestCase
 import junit.framework.TestCase
@@ -41,12 +40,9 @@ class RunConfigurationTest : RunConfigurationTestCase() {
         val file = myFixture.configureByText("simple.conf", simpleConfig)
         val configuration = createConfiguration(file)
 
-        val executor = DefaultRunExecutor.getRunExecutorInstance()
-        val executorEnv = ExecutionEnvironment()
-
         UsefulTestCase.assertThrows(
-            LogstashCannotRunException::class.java
-        ) { configuration!!.getState(executor, executorEnv) }
+            RuntimeConfigurationError::class.java
+        ) { configuration!!.checkConfiguration() }
 
         configuration?.setStarterPath(starterPath)
     }

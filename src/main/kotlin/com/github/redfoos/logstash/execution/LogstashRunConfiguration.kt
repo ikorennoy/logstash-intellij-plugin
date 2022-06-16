@@ -45,13 +45,17 @@ class LogstashRunConfiguration(
     override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration> = LogstashSettingsEditor()
 
     override fun getState(executor: Executor, environment: ExecutionEnvironment): RunProfileState {
-        if (starterPath == null) {
-            throw LogstashCannotRunException.logstashStarterNotFound()
-        }
-        if (filePath == null) {
-            throw LogstashCannotRunException.fileNotSetUp()
-        }
         return LogstashCommandLineState(this, environment)
+    }
+
+    override fun checkConfiguration() {
+        if (starterPath == null) {
+            throw RuntimeConfigurationError("Run configuration is invalid: no starter selected")
+        }
+
+        if (filePath == null) {
+            throw RuntimeConfigurationError("Run configuration is invalid: no logstash configuration selected")
+        }
     }
 
     override fun getWorkingDirectory(): String? = workingDir

@@ -1,9 +1,10 @@
 package com.github.redfoos.logstash.execution
 
-import com.github.redfoos.logstash.psi.LogstashFile
 import com.intellij.execution.actions.ConfigurationContext
 import com.intellij.execution.actions.LazyRunConfigurationProducer
 import com.intellij.execution.configurations.ConfigurationFactory
+import com.intellij.ide.util.PropertiesComponent
+import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.util.Ref
 import com.intellij.psi.PsiElement
 
@@ -13,9 +14,10 @@ class LogstashRunConfigurationProducer : LazyRunConfigurationProducer<LogstashRu
         configuration: LogstashRunConfiguration,
         context: ConfigurationContext
     ): Boolean {
-        val logstashFile = context.location?.psiElement
-        if (logstashFile !is LogstashFile) return false
-        return configuration.getFilePath() == logstashFile.virtualFile.canonicalPath
+        val configuredFile = configuration.getFilePath()
+        val psiFile = context.dataContext.getData(PlatformDataKeys.PSI_FILE) ?: return false
+        val currentFile = psiFile.virtualFile ?: return false
+        return configuredFile == currentFile.canonicalPath
     }
 
     override fun setupConfigurationFromContext(
@@ -23,11 +25,16 @@ class LogstashRunConfigurationProducer : LazyRunConfigurationProducer<LogstashRu
         context: ConfigurationContext,
         sourceElement: Ref<PsiElement>
     ): Boolean {
-        val logstashFile = sourceElement.get()
-        if (logstashFile !is LogstashFile) return false
-        val path = logstashFile.virtualFile.canonicalPath ?: return false
+        val location = context.location ?: return false
+        val container = location.psiElement.containingFile ?: return false
+        val logstashFile = container.virtualFile ?: return false
+
+        val path = logstashFile.canonicalPath ?: return false
         configuration.setFilePath(path)
-        configuration.name = logstashFile.virtualFile.name
+        configuration.name = logstashFile.name
+        val logstashStarterPath: String? =
+            PropertiesComponent.getInstance(context.project).getValue(LogstashRunConfiguration.LOGSTASH_STARTER)
+        configuration.setStarterPath(logstashStarterPath)
         return true
     }
 
