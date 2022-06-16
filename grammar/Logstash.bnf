@@ -14,101 +14,79 @@
  tokenTypeClass="com.github.redfoos.logstash.psi.LogstashTokenType"
 
 tokens= [
-    IF_TOK='if'
-    ELSE_TOK='else'
-    SINGLE_QUOTE="'"
-    LBRACE='{'
-    RBRACE='}'
-    RIGHTARROW='=>'
-    LBRACKET='['
-    RBRACKET=']'
+    END_OF_LINE_COMMENT='regexp:([^\r\n]*\r?\n)'
+    WHITESPACE='regexp:([ \t\r\n]+)'
+    NAME='regexp:([A-Za-z0-9_-]+)'
+    BAREWORD='regexp:([A-Za-z_] [A-Za-z0-9_]+)'
+    DOUBLE_QUOTED_STRING='regexp:(\"([^\\\"]|\\.)*\")'
+    SINGLE_QUOTED_STRING="regexp:('([^\\']|\\.)*')"
+    REGEXP='regexp:(/([^\\/]|\\.)*/)'
+    NUMBER='regexp:(-?[0-9]+(\.[0-9]*)?)'
+    SELECTOR_ELEMENT='regexp:([^\\]|,+)'
+
+    INPUT_PLUGIN_TYPE='input'
+    FILTER_PLUGIN_TYPE='filter'
+    OUTPUT_PLUGIN_TYPE='output'
+    IF='if'
+    ELSE='else'
+    IN_OPERATOR='in'
+    NOT_OPERATOR='not'
     LPARENTH='('
     RPARENTH=')'
+    LBRACKET='['
+    RBRACKET=']'
+    LBRACE='{'
+    RBRACE='}'
+    SHARP='#'
+    RIGHT_ARROW='=>'
     COMMA=','
-    EQUAL='=='
-    NEQUAL='!='
-    LESS_OR_EQUAL='<='
-    MORE_OR_EQUAL='>='
-    LESS='<'
-    MORE='>'
-    REGEXPEQUAL='=~'
-    REGEXPNEQUAL='!~'
-    LOGICAL_NOT='!'
+    EQUALS='=='
+    NOT_EQUALS='!='
+    LESS_THAN_OR_EQUAL='<='
+    GREATER_THAN_OR_EQUAL='>='
+    LESS_THAN='<'
+    GREATER_THAN='>'
+    REGEXP_EQUAL='=~'
+    REGEXP_NOT_EQUAL='!~'
+    AND_OPERATOR='and'
+    OR_OPERATOR='or'
+    XOR_OPERATOR='xor'
+    NAND_OPERATOR='nand'
 ]
 
 }
 
-logstashConfig ::= element (element)*
-
-private element ::= COMMENT | plugin_block
-
-private NILVALUE ::= (COMMENT | WHITE_SPACE)*
-
-plugin_block ::= block_name '{' (branch_or_plugin)* '}' {pin=1}
-
-private branch_or_plugin ::= plugin | branch
-
-plugin ::= IDENTIFIER '{' attributes '}'
-
-private block_name ::= ('input' | 'filter' | 'output')
-
-private attributes ::= (attribute (attribute)*)?
-
-attribute ::= IDENTIFIER "=>" value
-
-private value ::= plugin | bareword | STRING | NUMBER | array | hash
-
-private bareword ::= IDENTIFIER
-
-array ::= '[' NILVALUE (value (NILVALUE ',' NILVALUE value)*)? NILVALUE ']'
-
-private hash ::= '{' hashentries? '}'
-
-private hashentries ::= hashentry (hashentry)*
-
-hashentry ::= (NUMBER | bareword | STRING) '=>' value
-
-// Conditions
-
-branch ::= if (else_if)* (else)?
-
-// it's better to use most general 'expression' here. In future you may write an inspection that reports if-statements with non-boolean expressions
-private if ::= 'if' expression '{' (branch_or_plugin)* '}' {pin=1} // it's necessary to quote 'if' token because there is a rule with the same name
-
-private else_if ::= 'else' 'if' expression '{' (branch_or_plugin)* '}'
-
-private else ::= 'else' '{' (branch_or_plugin)* '}'
-
-;{
-  extends(".*_expression")=expression // !!! see https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#24-compact-expression-parsing-with-priorities
-}
-
-
-// todo: check operators priority
-expression ::=
-   in_expression
-   | compare_expression
-   | logical_expression
-   | regexp_expression
-   | unary_group
-   | primary_group
-
-compare_expression ::= expression ('==' | '!=' | '<=' | '>=' | '<' | '>') expression
-
-logical_expression ::= expression (and | or | xor | nand) expression
-
-private unary_group ::= unary_negation_expression
-unary_negation_expression ::= '!' expression
-
-in_expression ::= expression (in | not in) expression // it's better to inline tiny private rules that are used only ones
-
-private method_call ::= bareword '(' ( expression (',' expression)* )? ')'
-
-private primary_group ::= paren_expression
-  | literal_expression
-paren_expression ::= '(' expression ')'
-literal_expression ::= STRING | NUMBER | selector | array | method_call | REGEXP
-
-private selector ::= array+
-
-regexp_expression ::= expression ('=~' | '!~') (STRING | REGEXP)
+config ::= nilValue pluginSection nilValue (nilValue pluginSection)* nilValue
+comment ::= (WHITESPACE? '#' END_OF_LINE_COMMENT)+
+nilValue ::= (comment | WHITESPACE)*
+pluginSection ::= pluginType nilValue '{' nilValue (branchOrPlugin nilValue)* '}'
+branchOrPlugin ::= branch | plugin
+pluginType ::= (INPUT_PLUGIN_TYPE | FILTER_PLUGIN_TYPE | OUTPUT_PLUGIN_TYPE)
+plugin ::= name nilValue '{' nilValue (attribute (WHITESPACE nilValue attribute)*)? nilValue '}'
+name ::= NAME | string
+attribute ::= name nilValue '=>' nilValue value
+value ::= plugin | BAREWORD | string | NUMBER | array | hash
+string ::= DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING
+array ::= '[' nilValue (value (nilValue ',' nilValue value)*)? nilValue ']'
+hash ::= '{' nilValue hashEntries? nilValue '}'
+hashEntries ::= hashEntry (WHITESPACE hashEntry)*
+hashEntry ::= (NUMBER | BAREWORD | string) nilValue '=>' nilValue value
+branch ::= if (nilValue elseIf)* (nilValue else)?
+if ::= 'if' nilValue condition nilValue '{' nilValue (branchOrPlugin nilValue)* '}'
+elseIf ::= 'else' nilValue 'if' nilValue condition nilValue '{' nilValue (branchOrPlugin nilValue)* '}'
+else ::= 'else' nilValue '{' nilValue (branchOrPlugin nilValue)* '}'
+condition ::= expression (nilValue booleanOperator nilValue expression)*
+expression ::= ('(' nilValue condition nilValue ')') | negativeExpression | inExpression | notInExpression | compareExpression | regexpExpression | rValue
+negativeExpression ::= ('!' nilValue '(' condition nilValue ')') | ('!' nilValue selector)
+inExpression ::= rValue nilValue 'in' nilValue rValue
+notInExpression ::= rValue nilValue notInOperator nilValue rValue
+notInOperator ::= 'not' nilValue 'in'
+rValue ::= string | NUMBER | selector | array | methodCall | REGEXP
+methodCall ::= method nilValue '(' nilValue (rValue (nilValue ',' nilValue rValue)*)? nilValue ')'
+method ::= BAREWORD
+compareExpression ::= ('==' | '!=' | '<=' | '>=' | '<' | '>')
+regexpExpression ::= rValue nilValue regexpOperator nilValue (string | REGEXP)
+regexpOperator ::= ('=~' | '!~')
+booleanOperator ::= ('and' | 'or' | 'xor' | 'nand')
+selector ::= selectorElement+
+selectorElement ::= '[' SELECTOR_ELEMENT ']'
