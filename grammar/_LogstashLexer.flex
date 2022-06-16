@@ -23,10 +23,9 @@ import static com.github.redfoos.logstash.psi.LogstashTypes.*;
 %unicode
 
 EOL=\R
-WHITE_SPACE=\s+
 
 END_OF_LINE_COMMENT=([^\r\n]*\r?\n)
-WHITESPACE=([ \t\r\n]+)
+WHITE_SPACE=([ \t\r\n]+)
 NAME_REGEXP=([A-Za-z0-9_-]+)
 BAREWORD=([A-Za-z_] [A-Za-z0-9_]+)
 DOUBLE_QUOTED_STRING=(\"([^\\\"]|\\.)*\")
@@ -66,9 +65,9 @@ SELECTOR_ELEMENT_REGEXP=([^\\]|,+)
   "or"                           { return OR_OPERATOR; }
   "xor"                          { return XOR_OPERATOR; }
   "nand"                         { return NAND_OPERATOR; }
+  "!"                            { return EXCLAMATION_MARK; }
 
   {END_OF_LINE_COMMENT}          { return END_OF_LINE_COMMENT; }
-  {WHITESPACE}                   { return WHITESPACE; }
   {NAME_REGEXP}                  { return NAME_REGEXP; }
   {BAREWORD}                     { return BAREWORD; }
   {DOUBLE_QUOTED_STRING}         { return DOUBLE_QUOTED_STRING; }

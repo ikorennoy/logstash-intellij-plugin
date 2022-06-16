@@ -15,7 +15,7 @@
 
 tokens= [
     END_OF_LINE_COMMENT='regexp:([^\r\n]*\r?\n)'
-    WHITESPACE='regexp:([ \t\r\n]+)'
+    WHITE_SPACE='regexp:([ \t\r\n]+)'
     NAME_REGEXP='regexp:([A-Za-z0-9_-]+)'
     BAREWORD='regexp:([A-Za-z_] [A-Za-z0-9_]+)'
     DOUBLE_QUOTED_STRING='regexp:(\"([^\\\"]|\\.)*\")'
@@ -52,30 +52,31 @@ tokens= [
     OR_OPERATOR='or'
     XOR_OPERATOR='xor'
     NAND_OPERATOR='nand'
+    EXCLAMATION_MARK='!'
 ]
 
 }
 
 config ::= nilValue pluginSection nilValue ( nilValue pluginSection )* nilValue
-comment ::= ( WHITESPACE? '#' END_OF_LINE_COMMENT )+
-nilValue ::= ( comment | WHITESPACE )*
-pluginSection ::= pluginType nilValue '{' nilValue (branchOrPlugin nilValue)* '}'
+comment ::= ( WHITE_SPACE? '#' END_OF_LINE_COMMENT )+
+nilValue ::= ( comment | WHITE_SPACE )*
+pluginSection ::= pluginType nilValue '{' nilValue (branchOrPlugin nilValue)* '}' { pin=1 }
 branchOrPlugin ::= branch | plugin
 pluginType ::= 'input' | 'filter' | 'output'
-plugin ::= nameToken nilValue '{' nilValue (attribute (WHITESPACE nilValue attribute)*)? nilValue '}'
+plugin ::= nameToken nilValue '{' nilValue (attribute (WHITE_SPACE nilValue attribute)*)? nilValue '}'
 nameToken ::= NAME_REGEXP | string
 attribute ::= nameToken nilValue '=>' nilValue value
 value ::= plugin | BAREWORD | string | NUMBER | array | hash
 string ::= DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING
 array ::= '[' nilValue (value (nilValue ',' nilValue value)*)? nilValue ']' { pin=1 }
 hash ::= '{' nilValue hashEntries? nilValue '}' { pin=1 }
-hashEntries ::= hashEntry (WHITESPACE hashEntry)*
-hashEntry ::= (NUMBER | BAREWORD | string) nilValue '=>' nilValue value
-branch ::= if (nilValue elseIf)* (nilValue else)?
-if ::= 'if' nilValue condition nilValue '{' nilValue (branchOrPlugin nilValue)* '}' { pin=1 }
-elseIf ::= 'else' nilValue 'if' nilValue condition nilValue '{' nilValue (branchOrPlugin nilValue)* '}' { pin=1 }
-else ::= 'else' nilValue '{' nilValue (branchOrPlugin nilValue)* '}'
-condition ::= expression (nilValue booleanOperator nilValue expression)*
+hashEntries ::= hashEntry ( WHITE_SPACE hashEntry )*
+hashEntry ::= ( NUMBER | BAREWORD | string) nilValue '=>' nilValue value
+branch ::= if (nilValue elseIf )* ( nilValue else )?
+if ::= 'if' nilValue condition nilValue '{' nilValue ( branchOrPlugin nilValue )* '}' { pin=1 }
+elseIf ::= 'else' nilValue 'if' nilValue condition nilValue '{' nilValue ( branchOrPlugin nilValue )* '}' { pin=1 }
+else ::= 'else' nilValue '{' nilValue ( branchOrPlugin nilValue )* '}'
+condition ::= expression ( nilValue booleanOperator nilValue expression )*
 expression ::= ('(' nilValue condition nilValue ')') | negativeExpression | inExpression | notInExpression | compareExpression | regexpExpression | rValue
 negativeExpression ::= ('!' nilValue '(' condition nilValue ')') | ('!' nilValue selector)
 inExpression ::= rValue nilValue 'in' nilValue rValue
