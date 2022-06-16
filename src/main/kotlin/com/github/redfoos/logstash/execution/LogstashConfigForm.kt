@@ -17,14 +17,15 @@ class LogstashConfigForm : CommonProgramParametersPanel() {
     private fun initOwnComponents() {
 
         val chooseStarterDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor()
-        chooseStarterDescriptor.title = "Choose Starter..."
+        chooseStarterDescriptor.title = "Choose Starter"
 
         logstashStarterPathField = MacroComboBoxWithBrowseButton(chooseStarterDescriptor, project)
         logstashStarterPathComponent = LabeledComponent.create(logstashStarterPathField!!, "Logstash starter:")
         logstashStarterPathComponent?.labelLocation = BorderLayout.WEST
 
-        val chooseScriptDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor()
-        configurationPathField = MacroComboBoxWithBrowseButton(chooseScriptDescriptor, project)
+        val chooseConfigurationDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor()
+        chooseConfigurationDescriptor.title = "Choose Logstash Configuration"
+        configurationPathField = MacroComboBoxWithBrowseButton(chooseConfigurationDescriptor, project)
         configurationPathComponent = LabeledComponent.create(configurationPathField!!, "Configuration:")
         configurationPathComponent?.labelLocation = BorderLayout.WEST
     }
