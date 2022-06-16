@@ -40,6 +40,6 @@ public class LogstashFileType extends LanguageFileType {
     @Nullable
     @Override
     public Icon getIcon() {
-        return IconLoader.getIcon("/icons/logstash.png", LogstashFileType.class);
+        return Icons.getLogstash();
     }
 }
