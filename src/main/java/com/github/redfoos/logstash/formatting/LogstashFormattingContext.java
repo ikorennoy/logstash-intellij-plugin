@@ -48,7 +48,7 @@ public class LogstashFormattingContext {
     }
 
     Alignment computeAlignment(ASTNode node) {
-        if (node.getPsi() instanceof LogstashPluginBlockImpl) {
+        if (node.getPsi() instanceof LogstashPluginImpl) {
             return myChildIndentAlignments.get(node.getTreeParent());
         } else if (node.getPsi() instanceof LogstashPluginImpl) {
             return myChildIndentAlignments.get(node.getTreeParent());
@@ -56,7 +56,7 @@ public class LogstashFormattingContext {
             return myChildIndentAlignments.get(node.getTreeParent());
         } else if (node.getPsi() instanceof LogstashBranchImpl) {
             return myChildIndentAlignments.get(node.getTreeParent());
-        } else if (node.getPsi() instanceof LogstashHashentryImpl) {
+        } else if (node.getPsi() instanceof LogstashHashEntryImpl) {
             return myChildIndentAlignments.get(node.getTreeParent());
         }
         return null;
@@ -75,7 +75,7 @@ public class LogstashFormattingContext {
         } else if (node.getPsi() instanceof LogstashPluginImpl ||
             node.getPsi() instanceof LogstashAttributeImpl ||
             node.getPsi() instanceof LogstashBranchImpl ||
-            node.getPsi() instanceof LogstashHashentryImpl) {
+            node.getPsi() instanceof LogstashHashEntryImpl) {
             return DIRECT_NORMAL_INDENT;
         } else {
             return null;

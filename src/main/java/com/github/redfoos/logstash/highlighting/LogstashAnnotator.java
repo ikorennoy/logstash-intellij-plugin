@@ -17,10 +17,10 @@ public class LogstashAnnotator implements Annotator {
     @Override
     public void annotate(@NotNull PsiElement element, @NotNull AnnotationHolder holder) {
 
-        SyntaxTraverser.psiTraverser().withRoot(element).forEach(e1 -> {
-            if (e1.getNode().getElementType() == LogstashTypes.IDENTIFIER && e1.getParent() instanceof LogstashPlugin) {
-                holder.createInfoAnnotation(e1, null).setTextAttributes(PLUGIN_DECLARATION);
-            }
-        });
+//        SyntaxTraverser.psiTraverser().withRoot(element).forEach(e1 -> {
+//            if (e1.getNode().getElementType() == LogstashTypes.IDENTIFIER && e1.getParent() instanceof LogstashPlugin) {
+//                holder.createInfoAnnotation(e1, null).setTextAttributes(PLUGIN_DECLARATION);
+//            }
+//        });
     }
 }

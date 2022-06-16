@@ -4,6 +4,6 @@ import com.intellij.lexer.FlexAdapter;
 
 public class LogstashLexerAdapter extends FlexAdapter {
     public LogstashLexerAdapter() {
-        super(new LogstashLexer(null));
+        super(new _LogstashLexer());
     }
 }

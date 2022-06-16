@@ -9,10 +9,10 @@ import com.intellij.util.ProcessingContext
 
 class LogstashKeywordCompletionContributor : CompletionContributor() {
     private val psiElementCapture = PlatformPatterns.psiElement().withLanguage(LogstashLanguage.INSTANCE)
-    private val ifPattern = PlatformPatterns.psiElement(LogstashTypes.IF_TOK)
-    private val elsePattern = PlatformPatterns.psiElement(LogstashTypes.ELSE_TOK)
-    private val andPattern = PlatformPatterns.psiElement(LogstashTypes.AND)
-    private val pluginBlockPattern = PlatformPatterns.psiElement(LogstashTypes.PLUGIN_BLOCK)
+    private val ifPattern = PlatformPatterns.psiElement(LogstashTypes.IF_OPERATOR)
+    private val elsePattern = PlatformPatterns.psiElement(LogstashTypes.ELSE_OPERATOR)
+    private val andPattern = PlatformPatterns.psiElement(LogstashTypes.AND_OPERATOR)
+    private val pluginBlockPattern = PlatformPatterns.psiElement(LogstashTypes.PLUGIN_SECTION)
 
     init {
         val patterns = PlatformPatterns.or(psiElementCapture, ifPattern, elsePattern, andPattern, pluginBlockPattern)
