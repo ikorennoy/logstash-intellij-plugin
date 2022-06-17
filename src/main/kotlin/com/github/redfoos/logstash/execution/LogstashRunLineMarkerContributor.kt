@@ -1,6 +1,6 @@
 package com.github.redfoos.logstash.execution
 
-import com.github.redfoos.logstash.psi.LogstashFile
+import com.github.redfoos.logstash.psi.impl.LogstashPluginSectionImpl
 import com.intellij.execution.lineMarker.ExecutorAction
 import com.intellij.execution.lineMarker.RunLineMarkerContributor
 import com.intellij.icons.AllIcons
@@ -12,7 +12,7 @@ class LogstashRunLineMarkerContributor : RunLineMarkerContributor() {
 
     override fun getInfo(element: PsiElement): Info? {
 
-        if (element is LogstashFile) {
+        if (element is LogstashPluginSectionImpl) {
             val actions: Array<AnAction> = ExecutorAction.getActions(0)
             val editConfigs = ActionManager.getInstance().getAction("editRunConfigurations")
             return Info(

@@ -57,7 +57,7 @@ tokens= [
 
 config ::= plugin_section* { recoverWhile=config_recover }
 private config_recover ::= !(<<eof>>)
-private plugin_section ::= !<<eof>> plugin_type '{' branch_or_plugin* '}' { pin=2 recoverWhile=plugin_section_recover }
+plugin_section ::= !<<eof>> plugin_type '{' branch_or_plugin* '}' { pin=2 recoverWhile=plugin_section_recover }
 private plugin_section_recover ::= !(plugin_type | <<eof>>)
 plugin_type ::= 'input' | 'filter' | 'output'
 private branch_or_plugin ::= branch | plugin
