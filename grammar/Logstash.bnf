@@ -14,101 +14,84 @@
  tokenTypeClass="com.github.redfoos.logstash.psi.LogstashTokenType"
 
 tokens= [
-    IF_TOK='if'
-    ELSE_TOK='else'
-    SINGLE_QUOTE="'"
-    LBRACE='{'
-    RBRACE='}'
-    RIGHTARROW='=>'
-    LBRACKET='['
-    RBRACKET=']'
+    INPUT_PLUGIN_TYPE='input'
+    FILTER_PLUGIN_TYPE='filter'
+    OUTPUT_PLUGIN_TYPE='output'
+    IF_OPERATOR='if'
+    ELSE_OPERATOR='else'
+    IN_OPERATOR='in'
+    NOT_OPERATOR='not'
     LPARENTH='('
     RPARENTH=')'
+    LBRACKET='['
+    RBRACKET=']'
+    LBRACE='{'
+    RBRACE='}'
+    RIGHT_ARROW='=>'
     COMMA=','
-    EQUAL='=='
-    NEQUAL='!='
-    LESS_OR_EQUAL='<='
-    MORE_OR_EQUAL='>='
-    LESS='<'
-    MORE='>'
-    REGEXPEQUAL='=~'
-    REGEXPNEQUAL='!~'
-    LOGICAL_NOT='!'
+    EQUALS='=='
+    NOT_EQUALS='!='
+    LESS_THAN_OR_EQUAL='<='
+    GREATER_THAN_OR_EQUAL='>='
+    LESS_THAN='<'
+    GREATER_THAN='>'
+    REGEXP_EQUAL='=~'
+    REGEXP_NOT_EQUAL='!~'
+    AND_OPERATOR='and'
+    OR_OPERATOR='or'
+    XOR_OPERATOR='xor'
+    NAND_OPERATOR='nand'
+    EXCLAMATION_MARK='!'
+    WHITE_SPACE='regexp:[ \t\r\n]+'
+    DOUBLE_QUOTED_STRING='regexp:\"([^\\\"]|\\.)*\"'
+    SINGLE_QUOTED_STRING="regexp:'([^\\']|\\.)*'"
+    BAREWORD='regexp:[A-Za-z_@][A-Za-z0-9_-]*'
+    REGEXP='regexp:/([^\\/]|\\.)*/'
+    NUMBER='regexp:-?[0-9]+(\.[0-9]*)?'
+    COMMENT='regexp:(\s?#[^\r\n]*\r?\n)+'
 ]
 
 }
 
-logstashConfig ::= element (element)*
 
-private element ::= COMMENT | plugin_block
+config ::= plugin_section* { recoverWhile=config_recover }
+private config_recover ::= !(<<eof>>)
+plugin_section ::= !<<eof>> plugin_type '{' branch_or_plugin* '}' { pin=2 recoverWhile=plugin_section_recover }
+private plugin_section_recover ::= !(plugin_type | <<eof>>)
+plugin_type ::= 'input' | 'filter' | 'output'
+private branch_or_plugin ::= branch | plugin
+plugin ::= name_token '{' attributes '}' { pin=2 }
+private attributes ::= (attribute (attribute)*)? { pin(".*")=1 recoverWhile=values_recover}
+private name_token ::= BAREWORD | string
+attribute ::= name_token '=>' value { pin=2 }
+value ::= plugin | BAREWORD | string | NUMBER | array | hash
+string ::= DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING
+array ::= '[' values ']' ('[' values ']')* { pin=1 }
+private values ::= (value (',' value)*)? { pin(".*")=1 recoverWhile=values_recover }
+private values_recover ::= !( compare_operator | regexp_operator | boolean_operator | plugin_type | string | ')' | ',' | ']' | 'else' | 'if' | 'in' | 'not' | '{' | '}' | <<eof>> | BAREWORD | NUMBER)
+hash ::= '{' hash_entries? '}' { pin=1 }
+private hash_entries ::= hash_entry ( hash_entry )* { pin=1 recoverWhile=values_recover}
+hash_entry ::= hash_key '=>' value { pin=2 }
+private hash_key ::= ( NUMBER | BAREWORD | string )
 
-private NILVALUE ::= (COMMENT | WHITE_SPACE)*
-
-plugin_block ::= block_name '{' (branch_or_plugin)* '}' {pin=1}
-
-private branch_or_plugin ::= plugin | branch
-
-plugin ::= IDENTIFIER '{' attributes '}'
-
-private block_name ::= ('input' | 'filter' | 'output')
-
-private attributes ::= (attribute (attribute)*)?
-
-attribute ::= IDENTIFIER "=>" value
-
-private value ::= plugin | bareword | STRING | NUMBER | array | hash
-
-private bareword ::= IDENTIFIER
-
-array ::= '[' NILVALUE (value (NILVALUE ',' NILVALUE value)*)? NILVALUE ']'
-
-private hash ::= '{' hashentries? '}'
-
-private hashentries ::= hashentry (hashentry)*
-
-hashentry ::= (NUMBER | bareword | STRING) '=>' value
-
-// Conditions
-
-branch ::= if (else_if)* (else)?
-
-// it's better to use most general 'expression' here. In future you may write an inspection that reports if-statements with non-boolean expressions
-private if ::= 'if' expression '{' (branch_or_plugin)* '}' {pin=1} // it's necessary to quote 'if' token because there is a rule with the same name
-
-private else_if ::= 'else' 'if' expression '{' (branch_or_plugin)* '}'
-
-private else ::= 'else' '{' (branch_or_plugin)* '}'
-
-;{
-  extends(".*_expression")=expression // !!! see https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#24-compact-expression-parsing-with-priorities
-}
-
-
-// todo: check operators priority
-expression ::=
-   in_expression
-   | compare_expression
-   | logical_expression
-   | regexp_expression
-   | unary_group
-   | primary_group
-
-compare_expression ::= expression ('==' | '!=' | '<=' | '>=' | '<' | '>') expression
-
-logical_expression ::= expression (and | or | xor | nand) expression
-
-private unary_group ::= unary_negation_expression
-unary_negation_expression ::= '!' expression
-
-in_expression ::= expression (in | not in) expression // it's better to inline tiny private rules that are used only ones
-
-private method_call ::= bareword '(' ( expression (',' expression)* )? ')'
-
-private primary_group ::= paren_expression
-  | literal_expression
-paren_expression ::= '(' expression ')'
-literal_expression ::= STRING | NUMBER | selector | array | method_call | REGEXP
-
-private selector ::= array+
-
-regexp_expression ::= expression ('=~' | '!~') (STRING | REGEXP)
+branch ::= if ( else_if )* ( else )? { recoverWhile=branch_recover }
+private branch_recover ::= !(plugin_type | string | 'else' | 'if' | '}' | <<eof>> | BAREWORD)
+if ::= 'if' condition '{' ( branch_or_plugin )* '}' { pin=1 recoverWhile=branch_recover}
+else_if ::= 'else' 'if' condition '{' ( branch_or_plugin )* '}' { pin=2 recoverWhile=branch_recover}
+else ::= 'else' '{' ( branch_or_plugin )* '}' { pin=1 recoverWhile=branch_recover}
+condition ::= expression ( boolean_operator expression )* { recoverWhile=condition_recover }
+private condition_recover ::= !( string | plugin_type | boolean_operator | ')' | 'else' | 'if' | '{' | '}' | <<eof>> | BAREWORD )
+expression ::= ('(' condition ')') | negative_expression | in_expression | not_in_expression | compare_expression | regexp_expression | rvalue { pin(".*")=1 }
+negative_expression ::= ('!' '(' condition ')') | ('!' array) { pin(".*")=1 }
+in_expression ::= rvalue 'in' rvalue { pin=2 }
+not_in_expression ::= rvalue not_in_operator rvalue { pin=2 }
+private not_in_operator ::= 'not' 'in' { pin=1 }
+rvalue ::= string | NUMBER | array | REGEXP | method_call
+method_call ::= method '(' ( rvalue (',' rvalue)*)? ')' { pin=2 recoverWhile=method_call_recover}
+private method_call_recover ::= !( regexp_operator | ')' | ',' | compare_operator | 'else' | 'if' | 'in' | 'not' | plugin_type | boolean_operator | '{' | '}' | <<eof>> | BAREWORD | string)
+private method ::= BAREWORD
+compare_expression ::= rvalue compare_operator rvalue  { pin=2 }
+private compare_operator ::= ('==' | '!=' | '<=' | '>=' | '<' | '>')
+private regexp_expression ::= rvalue regexp_operator (string | REGEXP) { pin=2 }
+private regexp_operator ::= ('=~' | '!~')
+private boolean_operator ::= ('and' | 'or' | 'xor' | 'nand')

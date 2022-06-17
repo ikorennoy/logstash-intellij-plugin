@@ -48,7 +48,7 @@ tasks {
 
     generateLexer {
         dependsOn.add(generateParser)
-        source.set("grammar/Logstash.flex")
+        source.set("grammar/_LogstashLexer.flex")
         targetDir.set("src/main/gen/com/github/redfoos/logstash")
         targetClass.set("LogstashLexer")
     }

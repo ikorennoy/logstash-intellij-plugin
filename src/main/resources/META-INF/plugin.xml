@@ -16,15 +16,11 @@
         <lang.parserDefinition language="Logstash"
                                implementationClass="com.github.redfoos.logstash.LogstashParserDefinition"/>
         <lang.syntaxHighlighterFactory language="Logstash"
-                                       implementationClass="com.github.redfoos.logstash.LogstashSyntaxHighlighterFactory"/>
+                                       implementationClass="com.github.redfoos.logstash.highlighting.LogstashSyntaxHighlighterFactory"/>
         <completion.contributor language="Logstash"
                                 implementationClass="com.github.redfoos.logstash.completion.LogstashKeywordCompletionContributor"/>
         <lang.braceMatcher language="Logstash"
-                           implementationClass="com.github.redfoos.logstash.highlighting.LogstashPairedBraceMatcher"/>
-        <lang.formatter language="Logstash"
-                        implementationClass="com.github.redfoos.logstash.formatting.LogstashFormattingModelBuilder"/>
-        <annotator language="Logstash"
-                   implementationClass="com.github.redfoos.logstash.highlighting.LogstashAnnotator"/>
+                           implementationClass="com.github.redfoos.logstash.LogstashPairedBraceMatcherAdapter"/>
         <lang.commenter language="Logstash" implementationClass="com.github.redfoos.logstash.LogstashCommenter"/>
         <configurationType implementation="com.github.redfoos.logstash.execution.LogstashConfigurationType"/>
         <runConfigurationProducer
