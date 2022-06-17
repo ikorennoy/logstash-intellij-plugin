@@ -1,6 +1,5 @@
 package com.github.redfoos.logstash.execution
 
-import com.github.redfoos.logstash.psi.impl.LogstashPluginSectionImpl
 import com.github.redfoos.logstash.psi.impl.LogstashPluginTypeImpl
 import com.intellij.execution.lineMarker.ExecutorAction
 import com.intellij.execution.lineMarker.RunLineMarkerContributor
@@ -9,7 +8,6 @@ import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.intellij.psi.util.PsiUtilCore
 
 class LogstashRunLineMarkerContributor : RunLineMarkerContributor() {
 

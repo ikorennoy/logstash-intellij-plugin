@@ -45,7 +45,7 @@ tokens= [
     WHITE_SPACE='regexp:[ \t\r\n]+'
     DOUBLE_QUOTED_STRING='regexp:\"([^\\\"]|\\.)*\"'
     SINGLE_QUOTED_STRING="regexp:'([^\\']|\\.)*'"
-    BAREWORD='regexp:[A-Za-z_][A-Za-z0-9_-]*'
+    BAREWORD='regexp:[A-Za-z_@][A-Za-z0-9_-]*'
     REGEXP='regexp:/([^\\/]|\\.)*/'
     NUMBER='regexp:-?[0-9]+(\.[0-9]*)?'
     COMMENT='regexp:(\s?#[^\r\n]*\r?\n)+'
@@ -66,7 +66,7 @@ private name_token ::= BAREWORD | string
 attribute ::= name_token '=>' value { pin=2 }
 value ::= plugin | BAREWORD | string | NUMBER | array | hash
 string ::= DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING
-array ::= '[' values ']' ('[' values ']')* { pin=1 recoverWhile=values_recover}
+array ::= '[' values ']' ('[' values ']')* { pin=1 }
 private values ::= (value (',' value)*)? { pin(".*")=1 recoverWhile=values_recover }
 private values_recover ::= !( compare_operator | regexp_operator | boolean_operator | plugin_type | string | ')' | ',' | ']' | 'else' | 'if' | 'in' | 'not' | '{' | '}' | <<eof>> | BAREWORD | NUMBER)
 hash ::= '{' hash_entries? '}' { pin=1 }
@@ -77,7 +77,7 @@ private hash_key ::= ( NUMBER | BAREWORD | string )
 branch ::= if ( else_if )* ( else )? { recoverWhile=branch_recover }
 private branch_recover ::= !(plugin_type | string | 'else' | 'if' | '}' | <<eof>> | BAREWORD)
 if ::= 'if' condition '{' ( branch_or_plugin )* '}' { pin=1 recoverWhile=branch_recover}
-else_if ::= 'else' 'if' condition '{' ( branch_or_plugin )* '}' { pin=1 recoverWhile=branch_recover}
+else_if ::= 'else' 'if' condition '{' ( branch_or_plugin )* '}' { pin=2 recoverWhile=branch_recover}
 else ::= 'else' '{' ( branch_or_plugin )* '}' { pin=1 recoverWhile=branch_recover}
 condition ::= expression ( boolean_operator expression )* { recoverWhile=condition_recover }
 private condition_recover ::= !( string | plugin_type | boolean_operator | ')' | 'else' | 'if' | '{' | '}' | <<eof>> | BAREWORD )
