@@ -49,6 +49,7 @@ tokens= [
     REGEXP='regexp:/([^\\/]|\\.)*/'
     NUMBER='regexp:-?[0-9]+(\.[0-9]*)?'
     SELECTOR_ELEMENT_REGEXP='regexp:[^\\]|,+'
+    COMMENT='regexp:(\s?#[^\r\n]*\r?\n)+'
 ]
 
 }
