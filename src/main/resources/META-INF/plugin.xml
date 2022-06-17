@@ -21,8 +21,6 @@
                                 implementationClass="com.github.redfoos.logstash.completion.LogstashKeywordCompletionContributor"/>
         <lang.braceMatcher language="Logstash"
                            implementationClass="com.github.redfoos.logstash.LogstashPairedBraceMatcherAdapter"/>
-<!--        <lang.formatter language="Logstash" implementationClass="com.github.redfoos.logstash.formatting.LogstashFormattingModelBuilder"/>-->
-<!--        <annotator language="Logstash" implementationClass="com.github.redfoos.logstash.highlighting.LogstashAnnotator"/>-->
         <lang.commenter language="Logstash" implementationClass="com.github.redfoos.logstash.LogstashCommenter"/>
         <configurationType implementation="com.github.redfoos.logstash.execution.LogstashConfigurationType"/>
         <runConfigurationProducer
