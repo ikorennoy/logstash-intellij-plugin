@@ -30,49 +30,47 @@ SINGLE_QUOTED_STRING=('([^\\']|\\.)*')
 BAREWORD=[A-Za-z_][A-Za-z0-9_-]*
 REGEXP=(\/([^\\/]|\\.)*\/)
 NUMBER=(-?[0-9]+(\.[0-9]*)?)
-SELECTOR_ELEMENT_REGEXP=([^\\]|,+)
 COMMENT=([ \t\n\x0B\f\r]?#[^\r\n]*\r?\n?)+
 
 %%
 <YYINITIAL> {
-  {WHITE_SPACE}                  { return WHITE_SPACE; }
+  {WHITE_SPACE}               { return WHITE_SPACE; }
 
-  "input"                        { return INPUT_PLUGIN_TYPE; }
-  "filter"                       { return FILTER_PLUGIN_TYPE; }
-  "output"                       { return OUTPUT_PLUGIN_TYPE; }
-  "if"                           { return IF_OPERATOR; }
-  "else"                         { return ELSE_OPERATOR; }
-  "in"                           { return IN_OPERATOR; }
-  "not"                          { return NOT_OPERATOR; }
-  "("                            { return LPARENTH; }
-  ")"                            { return RPARENTH; }
-  "["                            { return LBRACKET; }
-  "]"                            { return RBRACKET; }
-  "{"                            { return LBRACE; }
-  "}"                            { return RBRACE; }
-  "=>"                           { return RIGHT_ARROW; }
-  ","                            { return COMMA; }
-  "=="                           { return EQUALS; }
-  "!="                           { return NOT_EQUALS; }
-  "<="                           { return LESS_THAN_OR_EQUAL; }
-  ">="                           { return GREATER_THAN_OR_EQUAL; }
-  "<"                            { return LESS_THAN; }
-  ">"                            { return GREATER_THAN; }
-  "=~"                           { return REGEXP_EQUAL; }
-  "!~"                           { return REGEXP_NOT_EQUAL; }
-  "and"                          { return AND_OPERATOR; }
-  "or"                           { return OR_OPERATOR; }
-  "xor"                          { return XOR_OPERATOR; }
-  "nand"                         { return NAND_OPERATOR; }
-  "!"                            { return EXCLAMATION_MARK; }
+  "input"                     { return INPUT_PLUGIN_TYPE; }
+  "filter"                    { return FILTER_PLUGIN_TYPE; }
+  "output"                    { return OUTPUT_PLUGIN_TYPE; }
+  "if"                        { return IF_OPERATOR; }
+  "else"                      { return ELSE_OPERATOR; }
+  "in"                        { return IN_OPERATOR; }
+  "not"                       { return NOT_OPERATOR; }
+  "("                         { return LPARENTH; }
+  ")"                         { return RPARENTH; }
+  "["                         { return LBRACKET; }
+  "]"                         { return RBRACKET; }
+  "{"                         { return LBRACE; }
+  "}"                         { return RBRACE; }
+  "=>"                        { return RIGHT_ARROW; }
+  ","                         { return COMMA; }
+  "=="                        { return EQUALS; }
+  "!="                        { return NOT_EQUALS; }
+  "<="                        { return LESS_THAN_OR_EQUAL; }
+  ">="                        { return GREATER_THAN_OR_EQUAL; }
+  "<"                         { return LESS_THAN; }
+  ">"                         { return GREATER_THAN; }
+  "=~"                        { return REGEXP_EQUAL; }
+  "!~"                        { return REGEXP_NOT_EQUAL; }
+  "and"                       { return AND_OPERATOR; }
+  "or"                        { return OR_OPERATOR; }
+  "xor"                       { return XOR_OPERATOR; }
+  "nand"                      { return NAND_OPERATOR; }
+  "!"                         { return EXCLAMATION_MARK; }
 
-  {DOUBLE_QUOTED_STRING}         { return DOUBLE_QUOTED_STRING; }
-  {SINGLE_QUOTED_STRING}         { return SINGLE_QUOTED_STRING; }
-  {BAREWORD}                     { return BAREWORD; }
-  {REGEXP}                       { return REGEXP; }
-  {NUMBER}                       { return NUMBER; }
-  {SELECTOR_ELEMENT_REGEXP}      { return SELECTOR_ELEMENT_REGEXP; }
-  {COMMENT}                      { return COMMENT; }
+  {DOUBLE_QUOTED_STRING}      { return DOUBLE_QUOTED_STRING; }
+  {SINGLE_QUOTED_STRING}      { return SINGLE_QUOTED_STRING; }
+  {BAREWORD}                  { return BAREWORD; }
+  {REGEXP}                    { return REGEXP; }
+  {NUMBER}                    { return NUMBER; }
+  {COMMENT}                   { return COMMENT; }
 
 }
 

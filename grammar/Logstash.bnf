@@ -48,7 +48,6 @@ tokens= [
     BAREWORD='regexp:[A-Za-z_][A-Za-z0-9_-]*'
     REGEXP='regexp:/([^\\/]|\\.)*/'
     NUMBER='regexp:-?[0-9]+(\.[0-9]*)?'
-    SELECTOR_ELEMENT_REGEXP='regexp:[^\\]|,+'
     COMMENT='regexp:(\s?#[^\r\n]*\r?\n)+'
 ]
 
@@ -67,13 +66,14 @@ private name_token ::= BAREWORD | string
 attribute ::= name_token '=>' value { pin=2 }
 value ::= plugin | BAREWORD | string | NUMBER | array | hash
 string ::= DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING
-array ::= '[' values ']' { pin=1 }
-private values ::= (value (',' value)*)? { pin(".*")=1 recoverWhile=values_recover}
+array ::= '[' values ']' ('[' values ']')* { pin=1 recoverWhile=values_recover}
+private values ::= (value (',' value)*)? { pin(".*")=1 recoverWhile=values_recover }
 private values_recover ::= !( compare_operator | regexp_operator | boolean_operator | plugin_type | string | ')' | ',' | ']' | 'else' | 'if' | 'in' | 'not' | '{' | '}' | <<eof>> | BAREWORD | NUMBER)
 hash ::= '{' hash_entries? '}' { pin=1 }
 private hash_entries ::= hash_entry ( hash_entry )* { pin=1 recoverWhile=values_recover}
 hash_entry ::= hash_key '=>' value { pin=2 }
 private hash_key ::= ( NUMBER | BAREWORD | string )
+
 branch ::= if ( else_if )* ( else )? { recoverWhile=branch_recover }
 private branch_recover ::= !(plugin_type | string | 'else' | 'if' | '}' | <<eof>> | BAREWORD)
 if ::= 'if' condition '{' ( branch_or_plugin )* '}' { pin=1 recoverWhile=branch_recover}
@@ -81,13 +81,13 @@ else_if ::= 'else' 'if' condition '{' ( branch_or_plugin )* '}' { pin=1 recoverW
 else ::= 'else' '{' ( branch_or_plugin )* '}' { pin=1 recoverWhile=branch_recover}
 condition ::= expression ( boolean_operator expression )* { recoverWhile=condition_recover }
 private condition_recover ::= !( string | plugin_type | boolean_operator | ')' | 'else' | 'if' | '{' | '}' | <<eof>> | BAREWORD )
-expression ::= ('(' condition ')') | negative_expression | in_expression | not_in_expression | compare_expression | regexp_expression | rvalue
-negative_expression ::= ('!' '(' condition ')') | ('!' selector) { pin(".*")=1 }
+expression ::= ('(' condition ')') | negative_expression | in_expression | not_in_expression | compare_expression | regexp_expression | rvalue { pin(".*")=1 }
+negative_expression ::= ('!' '(' condition ')') | ('!' array) { pin(".*")=1 }
 in_expression ::= rvalue 'in' rvalue { pin=2 }
 not_in_expression ::= rvalue not_in_operator rvalue { pin=2 }
 private not_in_operator ::= 'not' 'in' { pin=1 }
-rvalue ::= string | NUMBER | selector | array | method_call | REGEXP
-method_call ::= method '(' (rvalue (',' rvalue)*)? ')' { pin=2 recoverWhile=method_call_recover}
+rvalue ::= string | NUMBER | array | REGEXP | method_call
+method_call ::= method '(' ( rvalue (',' rvalue)*)? ')' { pin=2 recoverWhile=method_call_recover}
 private method_call_recover ::= !( regexp_operator | ')' | ',' | compare_operator | 'else' | 'if' | 'in' | 'not' | plugin_type | boolean_operator | '{' | '}' | <<eof>> | BAREWORD | string)
 private method ::= BAREWORD
 compare_expression ::= rvalue compare_operator rvalue  { pin=2 }
@@ -95,6 +95,3 @@ private compare_operator ::= ('==' | '!=' | '<=' | '>=' | '<' | '>')
 private regexp_expression ::= rvalue regexp_operator (string | REGEXP) { pin=2 }
 private regexp_operator ::= ('=~' | '!~')
 private boolean_operator ::= ('and' | 'or' | 'xor' | 'nand')
-selector ::= selector_element+ { recoverWhile=selector_recover }
-private selector_recover ::= !( compare_operator | regexp_operator | boolean_operator | plugin_type | string | ')' | ',' | ']' | 'else' | 'if' | 'in' | 'not' | '{' | '}' | <<eof>> | BAREWORD)
-private selector_element ::= '[' SELECTOR_ELEMENT_REGEXP ']' { pin=1 }
