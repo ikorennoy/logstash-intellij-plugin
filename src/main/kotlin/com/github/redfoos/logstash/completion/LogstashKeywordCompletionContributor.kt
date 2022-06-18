@@ -56,7 +56,7 @@ class LogstashKeywordCompletionContributor : CompletionContributor() {
                 )
             )
         )
-        val pluginConfig = LogstashKeywordCompletionContributor::class.java.getResourceAsStream("/plugins/output_plugins.json")
+        val pluginConfig = javaClass.getResourceAsStream("/plugins/output_plugins.json")
         val objectMapper = jacksonObjectMapper()
         val config: List<Config> = pluginConfig.use {
             objectMapper.readValue(it)
@@ -74,7 +74,7 @@ class LogstashKeywordCompletionContributor : CompletionContributor() {
                 )
             )
         )
-        val pluginConfig = LogstashKeywordCompletionContributor::class.java.getResourceAsStream("/plugins/filter_plugins.json")
+        val pluginConfig = javaClass.getResourceAsStream("/plugins/filter_plugins.json")
         val objectMapper = jacksonObjectMapper()
         val config: List<Config> = pluginConfig.use {
             objectMapper.readValue(it)
@@ -93,7 +93,7 @@ class LogstashKeywordCompletionContributor : CompletionContributor() {
                 )
             )
         )
-        val pluginConfig = LogstashKeywordCompletionContributor::class.java.getResourceAsStream("/plugins/input_plugins.json")
+        val pluginConfig = javaClass.getResourceAsStream("/plugins/input_plugins.json")
         val objectMapper = jacksonObjectMapper()
         val config: List<Config> = pluginConfig.use {
             objectMapper.readValue(it)

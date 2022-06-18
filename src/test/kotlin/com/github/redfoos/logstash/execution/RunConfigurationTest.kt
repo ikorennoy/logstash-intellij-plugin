@@ -14,6 +14,8 @@ import com.intellij.testFramework.MapDataContext
 import com.intellij.testFramework.UsefulTestCase
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import junit.framework.TestCase
+import org.junit.Ignore
+
 
 class RunConfigurationTest : BasePlatformTestCase() {
 
