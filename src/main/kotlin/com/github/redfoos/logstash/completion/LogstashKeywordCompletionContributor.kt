@@ -20,12 +20,14 @@ class LogstashKeywordCompletionContributor : CompletionContributor() {
     companion object {
         private val LANG = psiElement().withLanguage(LogstashLanguage.INSTANCE)
         private val BAREWORD = psiElement(LogstashTypes.BAREWORD)
+        private val PLUGIN = psiElement(LogstashTypes.PLUGIN)
     }
 
     init {
         registerTopLevelCompletion()
         registerInputPluginCompletions()
-
+        registerFilterPluginCompletions()
+        registerOutputPluginCompletions()
     }
 
     private fun registerTopLevelCompletion() {
@@ -46,6 +48,43 @@ class LogstashKeywordCompletionContributor : CompletionContributor() {
         )
     }
 
+    private fun registerOutputPluginCompletions() {
+        val outputPluginPattern = and(
+            LANG, BAREWORD.withParent(
+                psiElement(LogstashTypes.PLUGIN_SECTION).withFirstChild(
+                    psiElement(LogstashTypes.OUTPUT_PLUGIN)
+                )
+            )
+        )
+        val pluginConfig = LogstashKeywordCompletionContributor::class.java.getResourceAsStream("/plugins/output_plugins.json")
+        val objectMapper = jacksonObjectMapper()
+        val config: List<Config> = pluginConfig.use {
+            objectMapper.readValue(it)
+        }
+
+        val inputPlugins = config.map(::parsePlugin)
+        registerPluginCompletions(outputPluginPattern, inputPlugins)
+    }
+
+    private fun registerFilterPluginCompletions() {
+        val filterPluginPattern = and(
+            LANG, BAREWORD.withParent(
+                psiElement(LogstashTypes.PLUGIN_SECTION).withFirstChild(
+                    psiElement(LogstashTypes.FILTER_PLUGIN)
+                )
+            )
+        )
+        val pluginConfig = LogstashKeywordCompletionContributor::class.java.getResourceAsStream("/plugins/filter_plugins.json")
+        val objectMapper = jacksonObjectMapper()
+        val config: List<Config> = pluginConfig.use {
+            objectMapper.readValue(it)
+        }
+
+        val inputPlugins = config.map(::parsePlugin)
+        registerPluginCompletions(filterPluginPattern, inputPlugins)
+    }
+
+
     private fun registerInputPluginCompletions() {
         val inputPluginPattern = and(
             LANG, BAREWORD.withParent(
@@ -54,9 +93,9 @@ class LogstashKeywordCompletionContributor : CompletionContributor() {
                 )
             )
         )
-        val stream = LogstashKeywordCompletionContributor::class.java.getResourceAsStream("/plugins/input_plugins.json")
+        val pluginConfig = LogstashKeywordCompletionContributor::class.java.getResourceAsStream("/plugins/input_plugins.json")
         val objectMapper = jacksonObjectMapper()
-        val config: List<Config> = stream.use {
+        val config: List<Config> = pluginConfig.use {
             objectMapper.readValue(it)
         }
 
@@ -85,13 +124,12 @@ class LogstashKeywordCompletionContributor : CompletionContributor() {
 
 
     private fun parsePlugin(pluginConfig: Config): Pair<LookupElementBuilder, Pair<ElementPattern<PsiElement>, List<LookupElementBuilder>>> {
-
         val insidePluginPattern = and(
             LANG,
             BAREWORD.withSuperParent(
                 2,
-                psiElement(LogstashTypes.PLUGIN).with(firstChileTextCondition(pluginConfig.pluginName))
-            ),
+                PLUGIN.with(firstChileTextCondition(pluginConfig.pluginName))
+            )
         )
 
         val insidePluginCompletions = pluginConfig.pluginParameters.map {
@@ -126,6 +164,7 @@ data class Config(
     val pluginParameters: List<PluginParameter>
 
 )
+
 data class PluginParameter(
     val parameterName: String,
     val parameterType: String,

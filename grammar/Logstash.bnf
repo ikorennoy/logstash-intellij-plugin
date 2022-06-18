@@ -67,7 +67,7 @@ plugin ::= name_token '{' attributes '}' { pin=2 }
 private attributes ::= (attribute (attribute)*)? { pin(".*")=1 }
 private name_token ::= BAREWORD | string
 attribute ::= name_token '=>' value { pin=1 }
-value ::= plugin | BAREWORD | string | NUMBER | array | hash
+value ::= plugin | NUMBER | string | BAREWORD | array | hash
 string ::= DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING
 array ::= '[' values ']' ('[' values ']')* { pin=1 }
 private values ::= (value (',' value)*)? { pin(".*")=1 recoverWhile=values_recover }
