@@ -1,0 +1,21 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version"
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses:  actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Publish
+        run: ./gradlew publishPlugin -P ${{ github.event.inputs.version }}
+        env:
+          IJ_REPO_TOKEN: ${{ secrets.IJ_REPO_TOKEN }}
