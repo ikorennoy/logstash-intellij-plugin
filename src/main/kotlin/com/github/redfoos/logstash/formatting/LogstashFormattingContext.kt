@@ -28,13 +28,9 @@ class LogstashFormattingContext(private val codeStyleSettings: CodeStyleSettings
     private val SAME_AS_ANCESTOR_INDENT = Indent.getSpaceIndent(0)
 
 
-    private val mySpacingBuilder: SpacingBuilder
+    private val mySpacingBuilder: SpacingBuilder = SpacingBuilder(codeStyleSettings, LogstashLanguage.INSTANCE)
     private val myChildIndentAlignments: Map<ASTNode, Alignment> =
-        FactoryMap.create { node -> Alignment.createAlignment(true) }
-
-    init {
-        mySpacingBuilder = SpacingBuilder(codeStyleSettings, LogstashLanguage.INSTANCE)
-    }
+        FactoryMap.create { _ -> Alignment.createAlignment(true) }
 
     fun computeSpacing(parent: Block, child1: Block?, child2: Block): Spacing? {
         val spacing = mySpacingBuilder.getSpacing(parent, child1, child2)

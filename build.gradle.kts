@@ -3,9 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
-    java
-    id("org.jetbrains.kotlin.jvm") version "1.7.0"
-    id("org.jetbrains.intellij") version "1.6.0"
+    id("org.jetbrains.intellij") version "1.4.0"
+    kotlin("jvm") version "1.6.20"
     id("org.jetbrains.grammarkit") version "2021.2.2"
 }
 
@@ -16,23 +15,28 @@ repositories {
     mavenCentral()
 }
 
+sourceSets["main"].java.srcDirs("src/main/gen")
+sourceSets["test"].resources.srcDir("testData")
+
+java.sourceCompatibility = JavaVersion.VERSION_11
+
+intellij {
+    pluginName.set(properties("pluginName"))
+    version.set(properties("platformVersion"))
+    type.set(properties("platformType"))
+    updateSinceUntilBuild.set(false)
+    sameSinceUntilBuild.set(true)
+}
+
+idea {
+    module {
+        generatedSourceDirs.add(file("src/main/gen"))
+    }
+}
+
+
+
 tasks {
-    wrapper {
-        version = properties("gradleVersion")
-    }
-
-    intellij {
-        pluginName.set(properties("pluginName"))
-        version.set(properties("platformVersion"))
-        type.set(properties("platformType"))
-    }
-
-    idea {
-        module {
-            generatedSourceDirs.add(file("src/main/gen"))
-        }
-    }
-
     patchPluginXml {
         version.set(properties("pluginVersion"))
         pluginDescription.set(file(properties("descriptionFile")).readText())
@@ -64,10 +68,6 @@ tasks.withType<KotlinCompile> {
     dependsOn.add(tasks.getByName("generateLexer"))
     kotlinOptions.jvmTarget = properties("javaVersion")
 }
-
-sourceSets["main"].java.srcDirs("src/main/gen")
-sourceSets["test"].resources.srcDir("testData")
-
 
 tasks.clean {
     doFirst {
