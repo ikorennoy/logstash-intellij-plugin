@@ -5,7 +5,6 @@ import com.intellij.lang.Language
 class LogstashLanguage private constructor() : Language("Logstash") {
 
     companion object {
-        @JvmStatic
         val INSTANCE = LogstashLanguage()
     }
 

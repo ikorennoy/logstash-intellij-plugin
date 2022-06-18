@@ -58,13 +58,16 @@ config ::= plugin_section* { recoverWhile=config_recover }
 private config_recover ::= !(<<eof>>)
 plugin_section ::= !<<eof>> plugin_type '{' branch_or_plugin* '}' { pin=2 recoverWhile=plugin_section_recover }
 private plugin_section_recover ::= !(plugin_type | <<eof>>)
-plugin_type ::= 'input' | 'filter' | 'output'
+private plugin_type ::= input_plugin | filter_plugin | output_plugin
+input_plugin ::= 'input'
+filter_plugin ::= 'filter'
+output_plugin ::= 'output'
 private branch_or_plugin ::= branch | plugin
 plugin ::= name_token '{' attributes '}' { pin=2 }
-private attributes ::= (attribute (attribute)*)? { pin(".*")=1 recoverWhile=values_recover}
+private attributes ::= (attribute (attribute)*)? { pin(".*")=1 }
 private name_token ::= BAREWORD | string
-attribute ::= name_token '=>' value { pin=2 }
-value ::= plugin | BAREWORD | string | NUMBER | array | hash
+attribute ::= name_token '=>' value { pin=1 }
+value ::= plugin | NUMBER | string | BAREWORD | array | hash
 string ::= DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING
 array ::= '[' values ']' ('[' values ']')* { pin=1 }
 private values ::= (value (',' value)*)? { pin(".*")=1 recoverWhile=values_recover }
