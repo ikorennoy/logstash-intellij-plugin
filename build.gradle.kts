@@ -10,7 +10,7 @@ plugins {
 }
 
 group = properties("pluginGroup")
-version = properties("pluginVersion")
+version = properties("version")
 
 repositories {
     mavenCentral()
@@ -37,7 +37,7 @@ idea {
 
 tasks {
     patchPluginXml {
-        version.set(properties("pluginVersion"))
+        version.set(properties("version"))
         pluginDescription.set(file(properties("descriptionFile")).readText())
         changeNotes.set(file(properties("changesFile")).readText())
     }
@@ -54,6 +54,10 @@ tasks {
         source.set("grammar/_LogstashLexer.flex")
         targetDir.set("src/main/gen/com/github/redfoos/logstash")
         targetClass.set("LogstashLexer")
+    }
+
+    publishPlugin {
+        token.set(System.getenv("IJ_REPO_TOKEN"))
     }
 }
 
