@@ -9,8 +9,7 @@ plugins {
     id("org.jetbrains.grammarkit") version "2021.2.2"
 }
 
-group = properties("pluginGroup")
-version = properties("version")
+group = properties("com.github.redfoos")
 
 repositories {
     mavenCentral()
@@ -38,8 +37,8 @@ idea {
 tasks {
     patchPluginXml {
         version.set(properties("version"))
-        pluginDescription.set(file(properties("descriptionFile")).readText())
-        changeNotes.set(file(properties("changesFile")).readText())
+        pluginDescription.set(file("parts/pluginDescription.html").readText())
+        changeNotes.set(file("parts/pluginChanges.html").readText())
     }
 
     generateParser {
