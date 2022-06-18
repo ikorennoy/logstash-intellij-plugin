@@ -1,0 +1,68 @@
+[
+    {
+        "pluginName": "azure_event_hubs",
+        "pluginDescription": "Receives events from Azure Event Hubs",
+        "pluginParameters": [
+            {
+                "parameterName": "config_mode",
+                "parameterType": "(string)",
+                "required": "No"
+            },
+            {
+                "parameterName": "event_hubs",
+                "parameterType": "(array)",
+                "required": "Yes, when config_mode => advanced"
+            },
+            {
+                "parameterName": "event_hub_connections",
+                "parameterType": "(array)",
+                "required": "Yes, when config_mode => basic"
+            },
+            {
+                "parameterName": "event_hub_connection",
+                "parameterType": "(string)",
+                "required": "Yes, when config_mode => advanced"
+            },
+            {
+                "parameterName": "checkpoint_interval",
+                "parameterType": "(number)",
+                "required": "No"
+            },
+            {
+                "parameterName": "consumer_group",
+                "parameterType": "(string)",
+                "required": "No"
+            },
+            {
+                "parameterName": "decorate_events",
+                "parameterType": "(boolean)",
+                "required": "No"
+            },
+            {
+                "parameterName": "initial_position",
+                "parameterType": "(string)",
+                "required": "No"
+            },
+            {
+                "parameterName": "max_batch_size",
+                "parameterType": "(number)",
+                "required": "No"
+            },
+            {
+                "parameterName": "storage_connection",
+                "parameterType": "(string)",
+                "required": "No"
+            },
+            {
+                "parameterName": "storage_container",
+                "parameterType": "(string)",
+                "required": "No"
+            },
+            {
+                "parameterName": "threads",
+                "parameterType": "(number)",
+                "required": "No"
+            }
+        ]
+    }
+]
