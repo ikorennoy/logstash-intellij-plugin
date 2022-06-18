@@ -1,6 +1,6 @@
 Logstash File(0,10)
   LogstashPluginSectionImpl(PLUGIN_SECTION)(0,10)
-    LogstashPluginTypeImpl(PLUGIN_TYPE)(0,6)
+    LogstashFilterPluginImpl(FILTER_PLUGIN)(0,6)
       PsiElement(Logstash token type.filter)('filter')(0,6)
     PsiWhiteSpace(' ')(6,7)
     PsiElement(Logstash token type.{)('{')(7,8)
