@@ -16,6 +16,6 @@ jobs:
         with:
           java-version: '11'
       - name: Publish
-        run: ./gradlew publishPlugin -P ${{ github.event.inputs.version }}
+        run: ./gradlew publishPlugin -Pversion=${{ github.event.inputs.version }}
         env:
           IJ_REPO_TOKEN: ${{ secrets.IJ_REPO_TOKEN }}
