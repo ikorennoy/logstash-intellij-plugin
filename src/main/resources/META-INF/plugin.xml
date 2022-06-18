@@ -3,6 +3,7 @@
     <name>Logstash Config Files Support</name>
     <version>XXX</version>
     <vendor email="korennoy.ilya@gmail.com" url="https://github.com/ikorennoy"/>
+    <idea-version since-build="213"/>
 
     <description><![CDATA[
     <strong>Logstash config syntax highlighter for JetBrains IDEs.</strong><br>
