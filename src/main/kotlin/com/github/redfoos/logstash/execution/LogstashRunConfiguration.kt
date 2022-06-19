@@ -49,12 +49,12 @@ class LogstashRunConfiguration(
     }
 
     override fun checkConfiguration() {
-        if (starterScriptPath == null) {
-            throw RuntimeConfigurationError("Run configuration is invalid: no starter selected")
+        if (starterScriptPath.isNullOrBlank()) {
+            throw RuntimeConfigurationError("Run configuration is invalid: no Logstash starter selected")
         }
 
-        if (configurationPath == null) {
-            throw RuntimeConfigurationError("Run configuration is invalid: no logstash configuration selected")
+        if (configurationPath.isNullOrBlank()) {
+            throw RuntimeConfigurationError("Run configuration is invalid: no Logstash configuration selected")
         }
     }
 
