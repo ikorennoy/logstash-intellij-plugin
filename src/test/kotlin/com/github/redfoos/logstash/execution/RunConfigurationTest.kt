@@ -14,7 +14,7 @@ import com.intellij.testFramework.MapDataContext
 import com.intellij.testFramework.UsefulTestCase
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import junit.framework.TestCase
-import org.junit.Ignore
+import org.junit.Test
 
 
 class RunConfigurationTest : BasePlatformTestCase() {
@@ -26,6 +26,8 @@ class RunConfigurationTest : BasePlatformTestCase() {
 
     private val starterPath = "/usr/local/bin/logstash"
 
+
+    @Test
     fun testRunConfigurationFromFile() {
         val file = myFixture.configureByText("simple.conf", simpleConfig)
         val configuration = createConfiguration(file)
@@ -35,6 +37,7 @@ class RunConfigurationTest : BasePlatformTestCase() {
         TestCase.assertEquals(file.virtualFile.canonicalPath, configuration?.getConfigurationPath())
     }
 
+    @Test
     fun testSetStarterPath() {
         val file = myFixture.configureByText("simple.conf", simpleConfig)
         val configuration = createConfiguration(file)
@@ -48,23 +51,39 @@ class RunConfigurationTest : BasePlatformTestCase() {
         PropertiesComponent.getInstance().setValue(LogstashRunConfiguration.LOGSTASH_STARTER, null)
     }
 
-    fun testStarterException() {
+    @Test
+    fun testStarterNotFoundException() {
         val file = myFixture.configureByText("simple.conf", simpleConfig)
-        val configuration = createConfiguration(file)
+        val configuration = createConfiguration(file)!!
 
         UsefulTestCase.assertThrows(
             RuntimeConfigurationError::class.java
-        ) { configuration!!.checkConfiguration() }
+        ) { configuration.checkConfiguration() }
 
-        configuration?.setStarterScriptPath(starterPath)
+        configuration.setStarterScriptPath(starterPath)
+        configuration.checkConfiguration()
     }
 
-    protected fun assertStarterPath(configuration: LogstashRunConfiguration?, starterPath: String) {
+    @Test
+    fun testConfigurationNotFound() {
+        val file = myFixture.configureByText("simple.conf", simpleConfig)
+        val configuration = createConfiguration(file)
+        configuration!!.setStarterScriptPath("/starter/path")
+        configuration.setConfigurationPath("")
+        UsefulTestCase.assertThrows(
+            RuntimeConfigurationError::class.java
+        ) { configuration.checkConfiguration() }
+
+        configuration.setConfigurationPath(file.virtualFile.canonicalPath)
+        configuration.checkConfiguration()
+    }
+
+    private fun assertStarterPath(configuration: LogstashRunConfiguration?, starterPath: String) {
         TestCase.assertNotNull(configuration)
         TestCase.assertEquals(starterPath, configuration!!.getStarterScriptPath())
     }
 
-    protected fun createConfiguration(psiElement: PsiElement): LogstashRunConfiguration? {
+    private fun createConfiguration(psiElement: PsiElement): LogstashRunConfiguration? {
         return createConfiguration(psiElement, MapDataContext())
     }
 

@@ -5,6 +5,7 @@ import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.util.Computable
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
+import org.junit.Test
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files
@@ -14,14 +15,17 @@ class ParenthHighlightingTest : BasePlatformTestCase() {
         return "src/test/testData/highlighting"
     }
 
+    @Test
     fun testParenth() {
         doTest()
     }
 
+    @Test
     fun testBraces() {
         doTest()
     }
 
+    @Test
     fun testBrackets() {
         doTest()
     }
