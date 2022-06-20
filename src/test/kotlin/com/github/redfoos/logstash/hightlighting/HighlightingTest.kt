@@ -1,6 +1,7 @@
 package com.github.redfoos.logstash.hightlighting
 
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
+import org.junit.Test
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files
@@ -10,10 +11,12 @@ class HighlightingTest : BasePlatformTestCase() {
         return "src/test/testData/highlighting"
     }
 
+    @Test
     fun testPluginBlockDefinition() {
         doTest()
     }
 
+    @Test
     fun testFunctionalElement() {
         doTest()
     }
