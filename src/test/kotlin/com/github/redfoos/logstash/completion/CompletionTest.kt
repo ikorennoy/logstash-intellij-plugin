@@ -17,11 +17,6 @@ class CompletionTest : BasePlatformTestCase() {
         doTest("filter")
     }
 
-    @Test
-    @Ignore
-    fun testO() {
-        doTest("output")
-    }
     private fun doTest(vararg completionVariants: String) {
         myFixture.testCompletionVariants(getTestFilePath(), *completionVariants)
     }
