@@ -13,6 +13,7 @@ import com.intellij.testFramework.LightProjectDescriptor
 import com.intellij.testFramework.MapDataContext
 import com.intellij.testFramework.UsefulTestCase
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
+import com.intellij.util.PathUtil
 import junit.framework.TestCase
 import org.junit.Test
 
@@ -34,7 +35,7 @@ class RunConfigurationTest : BasePlatformTestCase() {
 
         TestCase.assertNotNull(configuration)
         TestCase.assertNull(configuration?.getStarterScriptPath())
-        TestCase.assertEquals(file.virtualFile.canonicalPath, configuration?.getConfigurationPath())
+        TestCase.assertEquals(PathUtil.getLocalPath(file.virtualFile), configuration?.getConfigurationPath())
     }
 
     @Test
