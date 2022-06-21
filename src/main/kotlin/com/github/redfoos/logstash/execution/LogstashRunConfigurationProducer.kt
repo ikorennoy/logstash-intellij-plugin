@@ -7,6 +7,7 @@ import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.util.Ref
 import com.intellij.psi.PsiElement
+import com.intellij.util.PathUtil
 
 class LogstashRunConfigurationProducer : LazyRunConfigurationProducer<LogstashRunConfiguration>() {
 
@@ -16,8 +17,8 @@ class LogstashRunConfigurationProducer : LazyRunConfigurationProducer<LogstashRu
     ): Boolean {
         val configuredFile = configuration.getConfigurationPath()
         val psiFile = context.dataContext.getData(PlatformDataKeys.PSI_FILE) ?: return false
-        val currentFile = psiFile.virtualFile ?: return false
-        return configuredFile == currentFile.canonicalPath
+        val currentFile = PathUtil.getLocalPath(psiFile.virtualFile) ?: return false
+        return configuredFile == currentFile
     }
 
     override fun setupConfigurationFromContext(
@@ -29,8 +30,8 @@ class LogstashRunConfigurationProducer : LazyRunConfigurationProducer<LogstashRu
         val container = location.psiElement.containingFile ?: return false
         val logstashFile = container.virtualFile ?: return false
 
-        val path = logstashFile.canonicalPath ?: return false
-        configuration.setConfigurationPath(path)
+        val configurationPath = PathUtil.getLocalPath(logstashFile) ?: return false
+        configuration.setConfigurationPath(configurationPath)
         configuration.name = logstashFile.name
         val logstashStarterPath: String? =
             PropertiesComponent.getInstance(context.project).getValue(LogstashRunConfiguration.LOGSTASH_STARTER)
