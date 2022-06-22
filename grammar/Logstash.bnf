@@ -84,8 +84,8 @@ else_if ::= 'else' 'if' condition '{' ( branch_or_plugin )* '}' { pin=2 recoverW
 else ::= 'else' '{' ( branch_or_plugin )* '}' { pin=1 recoverWhile=branch_recover}
 condition ::= expression ( boolean_operator expression )* { recoverWhile=condition_recover }
 private condition_recover ::= !( string | plugin_type | boolean_operator | ')' | 'else' | 'if' | '{' | '}' | <<eof>> | BAREWORD )
-expression ::= ('(' condition ')') | negative_expression | in_expression | not_in_expression | compare_expression | regexp_expression | rvalue { pin(".*")=1 }
-negative_expression ::= ('!' '(' condition ')') | ('!' array) { pin(".*")=1 }
+expression ::= ('(' condition ')') | negative_expression | in_expression | not_in_expression | compare_expression | regexp_expression | rvalue
+negative_expression ::= ('!' '(' condition ')') | ('!' array)
 in_expression ::= rvalue 'in' rvalue { pin=2 }
 not_in_expression ::= rvalue not_in_operator rvalue { pin=2 }
 private not_in_operator ::= 'not' 'in' { pin=1 }
