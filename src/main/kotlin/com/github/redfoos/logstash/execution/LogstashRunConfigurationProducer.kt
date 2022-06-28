@@ -1,5 +1,6 @@
 package com.github.redfoos.logstash.execution
 
+import com.github.redfoos.logstash.psi.LogstashFile
 import com.intellij.execution.actions.ConfigurationContext
 import com.intellij.execution.actions.LazyRunConfigurationProducer
 import com.intellij.execution.configurations.ConfigurationFactory
@@ -28,6 +29,7 @@ class LogstashRunConfigurationProducer : LazyRunConfigurationProducer<LogstashRu
     ): Boolean {
         val location = context.location ?: return false
         val container = location.psiElement.containingFile ?: return false
+        if (container !is LogstashFile) return false
         val logstashFile = container.virtualFile ?: return false
 
         val configurationPath = PathUtil.getLocalPath(logstashFile) ?: return false
