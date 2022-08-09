@@ -8,7 +8,7 @@ import com.intellij.psi.tree.IElementType
 
 class LogstashBraceMatcher : PairedBraceMatcher {
     companion object {
-        val bracePairs = arrayOf(
+        private val bracePairs = arrayOf(
             BracePair(LogstashTypes.LBRACE, LogstashTypes.RBRACE, false),
             BracePair(LogstashTypes.LBRACKET, LogstashTypes.RBRACKET, false),
             BracePair(LogstashTypes.LPARENTH, LogstashTypes.RPARENTH, false),
