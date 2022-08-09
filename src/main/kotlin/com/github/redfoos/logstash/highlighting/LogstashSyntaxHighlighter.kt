@@ -13,31 +13,31 @@ import com.intellij.psi.tree.IElementType
 
 class LogstashSyntaxHighlighter : SyntaxHighlighterBase() {
     companion object {
-        val IDENTIFIER = createTextAttributesKey(
+        private val IDENTIFIER = createTextAttributesKey(
             "LOGSTASH_IDENTIFIER",
             DefaultLanguageHighlighterColors.IDENTIFIER
         )
-        val NUMBER = createTextAttributesKey(
+        private val NUMBER = createTextAttributesKey(
             "LOGSTASH_NUMBER",
             DefaultLanguageHighlighterColors.NUMBER
         )
-        val COMMENT = createTextAttributesKey(
+        private val COMMENT = createTextAttributesKey(
             "LOGSTASH_COMMENT",
             DefaultLanguageHighlighterColors.LINE_COMMENT
         )
-        val BAD_CHARACTER = createTextAttributesKey(
+        private val BAD_CHARACTER = createTextAttributesKey(
             "LOGSTASH_BAD_CHARACTER",
             HighlighterColors.BAD_CHARACTER
         )
-        val KEYWORD = createTextAttributesKey(
+        private val KEYWORD = createTextAttributesKey(
             "LOGSTASH_KEYWORD",
             DefaultLanguageHighlighterColors.KEYWORD
         )
-        val STRING = createTextAttributesKey(
+        private val STRING = createTextAttributesKey(
             "LOGSTASH_STRING_FIELD",
             DefaultLanguageHighlighterColors.STRING
         )
-        val REGEXP = createTextAttributesKey(
+        private val REGEXP = createTextAttributesKey(
             "LOGSTASH_REGEXP",
             DefaultLanguageHighlighterColors.STRING
         )
