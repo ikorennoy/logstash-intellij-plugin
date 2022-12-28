@@ -4,9 +4,9 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     java
-    kotlin("jvm") version "1.7.0"
-    id("org.jetbrains.intellij") version "1.8.0"
-    id("org.jetbrains.grammarkit") version "2021.2.2"
+    kotlin("jvm") version "1.7.21"
+    id("org.jetbrains.intellij") version "1.11.0"
+    id("org.jetbrains.grammarkit") version "2022.3"
 }
 
 group = properties("com.github.redfoos")
