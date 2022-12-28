@@ -6,7 +6,7 @@ plugins {
     java
     kotlin("jvm") version "1.7.21"
     id("org.jetbrains.intellij") version "1.11.0"
-    id("org.jetbrains.grammarkit") version "2022.3"
+    id("org.jetbrains.grammarkit") version "2021.2.2"
 }
 
 group = properties("com.github.redfoos")
