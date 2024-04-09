@@ -41,7 +41,7 @@ tasks {
 
     generateParser {
         sourceFile.set(file("grammar/Logstash.bnf"))
-        targetRoot.set("src/main/gen")
+        targetRootOutputDir.set(File("src/main/gen"))
         pathToParser.set("com/github/redfoos/logstash/LogstashParser.java")
         pathToPsiRoot.set("com/github/redfoos/logstash/psi")
     }
