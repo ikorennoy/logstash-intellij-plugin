@@ -50,7 +50,6 @@ tasks {
         dependsOn.add(generateParser)
         sourceFile.set(file("grammar/_LogstashLexer.flex"))
         targetOutputDir.set(File("src/main/gen/com/github/redfoos/logstash"))
-        targetClass.set("LogstashLexer")
     }
 
     publishPlugin {
