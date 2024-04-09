@@ -49,7 +49,7 @@ tasks {
     generateLexer {
         dependsOn.add(generateParser)
         sourceFile.set(file("grammar/_LogstashLexer.flex"))
-        targetDir.set("src/main/gen/com/github/redfoos/logstash")
+        targetOutputDir.set(File("src/main/gen/com/github/redfoos/logstash"))
         targetClass.set("LogstashLexer")
     }
 
