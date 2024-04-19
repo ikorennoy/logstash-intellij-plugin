@@ -4,9 +4,9 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     java
-    kotlin("jvm") version "1.9.0"
-    id("org.jetbrains.intellij") version "1.15.0"
-    id("org.jetbrains.grammarkit") version "2022.3.1"
+    kotlin("jvm") version "1.9.23"
+    id("org.jetbrains.intellij") version "1.17.3"
+    id("org.jetbrains.grammarkit") version "2022.3.2.2"
 }
 
 group = properties("com.github.redfoos")
@@ -41,7 +41,7 @@ tasks {
 
     generateParser {
         sourceFile.set(file("grammar/Logstash.bnf"))
-        targetRoot.set("src/main/gen")
+        targetRootOutputDir.set(File("src/main/gen"))
         pathToParser.set("com/github/redfoos/logstash/LogstashParser.java")
         pathToPsiRoot.set("com/github/redfoos/logstash/psi")
     }
@@ -49,8 +49,7 @@ tasks {
     generateLexer {
         dependsOn.add(generateParser)
         sourceFile.set(file("grammar/_LogstashLexer.flex"))
-        targetDir.set("src/main/gen/com/github/redfoos/logstash")
-        targetClass.set("LogstashLexer")
+        targetOutputDir.set(File("src/main/gen/com/github/redfoos/logstash"))
     }
 
     publishPlugin {
