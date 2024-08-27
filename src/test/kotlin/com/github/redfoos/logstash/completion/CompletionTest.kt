@@ -1,7 +1,6 @@
 package com.github.redfoos.logstash.completion
 
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
-import org.junit.Ignore
 import org.junit.Test
 
 class CompletionTest : BasePlatformTestCase() {
